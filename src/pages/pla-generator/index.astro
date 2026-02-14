@@ -1,0 +1,19 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Markdown from '../../components/Markdown.astro';
+import PlaGenerator from './_components/PlaGenerator.tsx';
+
+const explainer = `
+[Josep Pla](https://ca.wikipedia.org/wiki/Josep_Pla_i_Casadevall) (Palafrugell, 1897 – Llofriu, 1981) és considerat un dels escriptors més importants de la literatura catalana contemporània. La seva prosa es caracteritza per la precisió, la claredat, l'observació directa de la realitat i un estil aparentment senzill que amaga una gran profunditat.
+
+Autor d'una obra immensa — *El quadern gris*, *El pagès i el seu món*, *Costa Brava* — Pla va construir un univers literari al voltant de l'Empordà, la Mediterrània, la gastronomia i la gent del país.
+
+**Seleccioneu un tema i genereu fragments de text inspirats en el seu estil inconfusible.**
+`;
+---
+
+<Layout title="Generador Josep Pla">
+    <h1 class="mb-10">Generador de text a l'estil de Josep Pla</h1>
+    <Markdown content={explainer} class="mb-12" />
+    <PlaGenerator client:load />
+</Layout>
