@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de text a l'estil de Josep Pla</title>
+    <title>Generador de text amb IA</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -26,6 +29,12 @@
             font-size: 2.25rem;
             font-weight: 700;
             letter-spacing: -0.025em;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #c8d6e5;
             margin-bottom: 2rem;
         }
 
@@ -34,29 +43,245 @@
             .container { padding: 3rem; }
         }
 
-        .intro {
-            font-size: 1.05rem;
-            line-height: 1.8;
-            margin-bottom: 2.5rem;
-            max-width: 48rem;
-        }
-
-        .intro a {
-            color: #f67280;
-            text-decoration: underline;
-            transition: opacity 0.15s;
-        }
-
-        .intro a:hover { opacity: 0.8; }
-
-        .intro em { font-style: italic; }
-        .intro strong { font-weight: 600; }
-
         .panel {
             background: rgba(17, 24, 39, 0.5);
-            border-radius: 0.5rem;
+            border-radius: 0.75rem;
             padding: 1.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .panel-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .panel-desc {
+            font-size: 0.85rem;
+            color: #9ca3af;
+            margin-bottom: 1rem;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.75rem;
+            height: 1.75rem;
+            border-radius: 50%;
+            background: #f67280;
+            color: #101828;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.25rem;
+        }
+
+        /* Drop zone */
+        .drop-zone {
+            border: 2px dashed rgba(246, 114, 128, 0.4);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: rgba(246, 114, 128, 0.05);
+        }
+
+        .drop-zone:hover, .drop-zone.drag-over {
+            border-color: #f67280;
+            background: rgba(246, 114, 128, 0.1);
+        }
+
+        .drop-zone-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.7;
+        }
+
+        .drop-zone-text {
+            font-size: 0.95rem;
+            color: #d1d5db;
+        }
+
+        .drop-zone-formats {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+
+        .file-input { display: none; }
+
+        /* File list */
+        .file-list {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(31, 41, 55, 0.7);
+            padding: 0.6rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+
+        .file-item-left {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 0;
+        }
+
+        .file-item-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-item-badge {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding: 0.15rem 0.4rem;
+            border-radius: 0.2rem;
+            background: rgba(246, 114, 128, 0.2);
+            color: #f67280;
+            flex-shrink: 0;
+        }
+
+        .file-item-status {
+            font-size: 0.75rem;
+            color: #6b7280;
+            flex-shrink: 0;
+        }
+
+        .file-item-status.success { color: #34d399; }
+        .file-item-status.error { color: #f87171; }
+
+        .file-item-remove {
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 0 0.25rem;
+            transition: color 0.15s;
+        }
+
+        .file-item-remove:hover { color: #f87171; }
+
+        /* Text preview */
+        .text-preview {
+            margin-top: 1rem;
+            background: rgba(31, 41, 55, 0.5);
+            border-radius: 0.375rem;
+            padding: 1rem;
+            max-height: 10rem;
+            overflow-y: auto;
+            font-size: 0.8rem;
+            color: #9ca3af;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .text-preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .text-preview-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+        }
+
+        .text-stats {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        /* API key */
+        .api-key-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: stretch;
+        }
+
+        .api-key-input {
+            flex: 1;
+            padding: 0.6rem 0.75rem;
+            border-radius: 0.375rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(31, 41, 55, 0.7);
+            color: #f3f4f6;
+            font-size: 0.875rem;
+            font-family: monospace;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .api-key-input:focus { border-color: #f67280; }
+
+        .btn-toggle-key {
+            padding: 0.6rem 0.75rem;
+            border-radius: 0.375rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(31, 41, 55, 0.7);
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            transition: background 0.15s;
+        }
+
+        .btn-toggle-key:hover { background: rgba(55, 65, 81, 0.9); }
+
+        .api-key-note {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 0.4rem;
+        }
+
+        /* Topic input */
+        .topic-input {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(31, 41, 55, 0.7);
+            color: #f3f4f6;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 5rem;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .topic-input:focus { border-color: #f67280; }
+
+        .topic-input::placeholder { color: #4b5563; }
+
+        /* Slider */
+        .slider-group {
+            margin-top: 1rem;
         }
 
         .section-label {
@@ -65,36 +290,8 @@
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: #9ca3af;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.35rem;
         }
-
-        .tema-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .tema-btn {
-            padding: 0.5rem 1rem;
-            border-radius: 0.25rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.15s, color 0.15s;
-            background: #1f2937;
-            color: #d1d5db;
-        }
-
-        .tema-btn:hover { background: #374151; }
-
-        .tema-btn.active {
-            background: #f67280;
-            color: #101828;
-        }
-
-        .slider-group { margin-bottom: 1.5rem; }
 
         input[type="range"] {
             width: 100%;
@@ -103,27 +300,68 @@
             margin-top: 0.25rem;
         }
 
+        /* Language selector */
+        .lang-group {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .lang-btn {
+            padding: 0.4rem 0.75rem;
+            border-radius: 0.25rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+            background: #1f2937;
+            color: #d1d5db;
+        }
+
+        .lang-btn:hover { background: #374151; }
+        .lang-btn.active { background: #f67280; color: #101828; }
+
+        /* Generate button */
         .btn-generar {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 1.125rem 1.5rem;
-            font-size: 1.125rem;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
             font-weight: 600;
             background: #f67280;
             color: #101828;
             border: none;
-            border-radius: 0.25rem;
+            border-radius: 0.375rem;
             cursor: pointer;
-            transition: background-color 0.15s;
+            transition: background 0.15s, opacity 0.15s;
             text-decoration: none;
+            margin-top: 0.5rem;
         }
 
         .btn-generar:hover { background: rgba(246, 114, 128, 0.85); }
+        .btn-generar:disabled { opacity: 0.5; cursor: not-allowed; }
 
+        /* Spinner */
+        .spinner {
+            display: inline-block;
+            width: 1.1rem;
+            height: 1.1rem;
+            border: 2px solid rgba(16, 24, 40, 0.3);
+            border-top-color: #101828;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Output */
         .output-wrapper {
             position: relative;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
         }
 
         .btn-copiar {
@@ -138,20 +376,41 @@
             color: #d1d5db;
             border: none;
             cursor: pointer;
-            transition: background-color 0.15s;
+            transition: background 0.15s;
         }
 
         .btn-copiar:hover { background: #374151; }
 
         .output-text {
             background: rgba(17, 24, 39, 0.5);
-            border-radius: 0.5rem;
-            padding: 1.5rem 6rem 1.5rem 1.5rem;
+            border-radius: 0.75rem;
+            padding: 1.5rem 5rem 1.5rem 1.5rem;
             font-family: Georgia, 'Times New Roman', serif;
             font-size: 1.125rem;
-            line-height: 1.8;
+            line-height: 1.9;
             color: #f3f4f6;
             white-space: pre-wrap;
+        }
+
+        /* Error */
+        .error-msg {
+            background: rgba(248, 113, 113, 0.15);
+            border: 1px solid rgba(248, 113, 113, 0.3);
+            border-radius: 0.375rem;
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            color: #fca5a5;
+            margin-top: 1rem;
+        }
+
+        /* Progress bar for streaming */
+        .stream-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: #9ca3af;
+            margin-top: 0.75rem;
         }
 
         .hidden { display: none; }
@@ -160,309 +419,618 @@
             margin-top: 3rem;
             padding: 2rem 0;
             font-size: 0.875rem;
+            color: #6b7280;
         }
 
-        footer a {
-            color: #f67280;
-            text-decoration: underline;
-            text-underline-offset: 4px;
-            text-decoration-style: dashed;
-        }
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.25); }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Generador de text a l'estil de Josep Pla</h1>
+        <h1>Generador de text amb IA</h1>
+        <p class="subtitle">Puja arxius d'un autor, introdueix un tema, i la IA generara text original en el seu estil.</p>
 
-        <div class="intro">
-            <p><a href="https://ca.wikipedia.org/wiki/Josep_Pla_i_Casadevall">Josep Pla</a> (Palafrugell, 1897 – Llofriu, 1981) és considerat un dels escriptors més importants de la literatura catalana contemporània. La seva prosa es caracteritza per la precisió, la claredat, l'observació directa de la realitat i un estil aparentment senzill que amaga una gran profunditat.</p>
-            <br>
-            <p>Autor d'una obra immensa — <em>El quadern gris</em>, <em>El pagès i el seu món</em>, <em>Costa Brava</em> — Pla va construir un univers literari al voltant de l'Empordà, la Mediterrània, la gastronomia i la gent del país.</p>
-            <br>
-            <p><strong>Seleccioneu un tema i genereu fragments de text inspirats en el seu estil inconfusible.</strong></p>
+        <!-- STEP 1: File Upload -->
+        <div class="panel">
+            <div class="step-header">
+                <span class="step-number">1</span>
+                <span class="panel-title">Puja els arxius de l'autor</span>
+            </div>
+            <p class="panel-desc">Puja ePub, PDF o Word (.docx) perque la IA aprengui l'estil d'escriptura.</p>
+
+            <div class="drop-zone" id="dropZone">
+                <div class="drop-zone-icon">&#128214;</div>
+                <div class="drop-zone-text">Arrossega els arxius aqui o fes clic per seleccionar-los</div>
+                <div class="drop-zone-formats">Formats acceptats: .epub, .pdf, .docx</div>
+            </div>
+            <input type="file" class="file-input" id="fileInput" multiple accept=".epub,.pdf,.docx">
+
+            <div class="file-list hidden" id="fileList"></div>
+
+            <div class="text-preview-header hidden" id="previewHeader">
+                <span class="text-preview-label">Text extret (previsualitzacio)</span>
+                <span class="text-stats" id="textStats"></span>
+            </div>
+            <div class="text-preview hidden" id="textPreview"></div>
         </div>
 
+        <!-- STEP 2: API Key -->
         <div class="panel">
-            <div class="section-label">Tema</div>
-            <div class="tema-group" id="temaGroup">
-                <button class="tema-btn active" data-tema="paisatge">Paisatge</button>
-                <button class="tema-btn" data-tema="gastronomia">Gastronomia</button>
-                <button class="tema-btn" data-tema="gent">Gent del país</button>
-                <button class="tema-btn" data-tema="mar">El mar</button>
-                <button class="tema-btn" data-tema="estacions">Les estacions</button>
+            <div class="step-header">
+                <span class="step-number">2</span>
+                <span class="panel-title">Clau API de Claude</span>
             </div>
+            <p class="panel-desc">Necessites una clau API d'Anthropic per generar text. La clau es guarda nomes al teu navegador.</p>
+
+            <div class="api-key-group">
+                <input type="password" class="api-key-input" id="apiKeyInput" placeholder="sk-ant-api03-...">
+                <button class="btn-toggle-key" id="btnToggleKey">Mostrar</button>
+            </div>
+            <p class="api-key-note">Obtingues una clau a <a href="https://console.anthropic.com/" target="_blank" style="color:#f67280;">console.anthropic.com</a></p>
+        </div>
+
+        <!-- STEP 3: Topic & Generate -->
+        <div class="panel">
+            <div class="step-header">
+                <span class="step-number">3</span>
+                <span class="panel-title">Escriu el tema</span>
+            </div>
+            <p class="panel-desc">Descriu sobre que vols que escrigui la IA amb l'estil apres.</p>
+
+            <textarea class="topic-input" id="topicInput" placeholder="Exemple: La llum del matí a les vinyes del Penedes a la tardor..."></textarea>
 
             <div class="slider-group">
-                <div class="section-label">Paràgrafs: <span id="numLabel">3</span></div>
-                <input type="range" id="numSlider" min="1" max="5" value="3">
+                <div class="section-label">Paragrafs: <span id="numLabel">3</span></div>
+                <input type="range" id="numSlider" min="1" max="10" value="3">
             </div>
 
+            <div class="lang-group">
+                <div class="section-label" style="width:100%;">Idioma del text generat:</div>
+                <button class="lang-btn active" data-lang="catala">Catala</button>
+                <button class="lang-btn" data-lang="castella">Castella</button>
+                <button class="lang-btn" data-lang="angles">Angles</button>
+                <button class="lang-btn" data-lang="frances">Frances</button>
+            </div>
+
+            <br>
             <button class="btn-generar" id="btnGenerar">Generar text</button>
+
+            <div class="error-msg hidden" id="errorMsg"></div>
         </div>
 
+        <!-- Output -->
         <div class="output-wrapper hidden" id="outputWrapper">
             <button class="btn-copiar" id="btnCopiar">Copiar</button>
             <div class="output-text" id="outputText"></div>
+            <div class="stream-indicator hidden" id="streamIndicator">
+                <span class="spinner"></span>
+                <span>Generant text...</span>
+            </div>
         </div>
 
         <footer>
-            <p>Inspirat en l'obra de <a href="https://ca.wikipedia.org/wiki/Josep_Pla_i_Casadevall">Josep Pla</a></p>
+            <p>Generador de text amb IA &mdash; Utilitza l'API de Claude (Anthropic)</p>
         </footer>
     </div>
 
     <script>
-        const inicis = {
-            paisatge: [
-                "L'Empordà és una terra seca, ventosa, aspra, que no admet cap mena de retòrica.",
-                "El paisatge de l'Empordà té una claredat que no es troba enlloc més.",
-                "He vist molts països, però cap no té la llum de la plana empordanesa.",
-                "La tramuntana bufa amb una violència que ho neteja tot: el cel, la terra i el pensament.",
-                "Des del cim de Sant Pere de Rodes, el món sembla explicable.",
-                "El cap de Creus és un paisatge d'una austeritat grandiosa.",
-                "La plana del Baix Empordà, vista des de dalt, és com un mosaic de camps ordenats amb una lògica perfecta.",
-                "Al Pirineu, la boira dorm als fondals com un gat enroscant-se."
-            ],
-            gastronomia: [
-                "La cuina empordanesa és la cuina de la claredat: productes nets, coccions justes, cap artifici.",
-                "Un bon suquet de peix és una de les coses més serioses que es poden fer en aquest país.",
-                "L'arròs a la cassola, fet com cal, és un dels plats que justifiquen l'existència.",
-                "El pa amb tomàquet és, potser, la creació gastronòmica més important de la Mediterrània.",
-                "Una escudella ben feta és una arquitectura líquida d'una perfecció admirable.",
-                "Les anxoves de l'Escala són un prodigi de la sal i del temps.",
-                "Un rostit de xai amb herbes del país és la quintaessència de la cuina de muntanya.",
-                "La botifarra amb mongetes és un plat d'una simplicitat enganyosa: cal fer-lo molt bé o no fer-lo."
-            ],
-            gent: [
-                "La gent d'aquest país és desconfiada, irònica i profundament escèptica.",
-                "El pagès empordanès és un home de poques paraules i moltes observacions.",
-                "He conegut pescadors que tenien més filosofia que molts catedràtics.",
-                "La gent del país parla poc, però quan parla, sol tenir raó.",
-                "El senyor Hermós era un home menut, sec, amb uns ulls d'una vivacitat extraordinària.",
-                "A Palafrugell, la gent tenia l'hàbit de seure davant de casa al capvespre i no dir res.",
-                "Els mariners de Cadaqués tenen una manera de mirar el cel que val més que qualsevol baròmetre.",
-                "La meva àvia deia que la millor qualitat d'una persona és saber callar a temps."
-            ],
-            mar: [
-                "La Mediterrània és un mar vell, cansat, ple d'història i de peixos.",
-                "El mar de la Costa Brava té una transparència mineral que fascina.",
-                "A Calella de Palafrugell, les barques descansen a la platja com animals cansats.",
-                "El mar a l'hivern és una cosa seriosa: gris, espès, malhumorat.",
-                "Les cales de Begur tenen l'aigua d'un blau que no existeix a la paleta de cap pintor.",
-                "Quan el mar està en calma, el silenci de la costa és absolut, perfecte.",
-                "El port de Cadaqués, al matí, té una llum que ho transfigura tot.",
-                "La mar grossa de llevant és un espectacle que posa les coses al seu lloc."
-            ],
-            estacions: [
-                "La primavera a l'Empordà arriba d'un dia per l'altre, sense avisar, com una visita inesperada.",
-                "L'estiu a la costa és llarg, espès, pesat com una migdiada interminable.",
-                "La tardor és l'estació més bella de l'Empordà: els colors, la llum, la temperatura.",
-                "L'hivern empordanès és curt però intens, dominat per la tramuntana.",
-                "Al novembre, els camps tenen un color terrós que és d'una bellesa austera.",
-                "El juny a l'Empordà és el mes perfecte: ni fa massa calor ni massa fred.",
-                "Quan arriba el fred, les cases del poble es tanquen com closques.",
-                "El setembre és el mes de la verema i de les postes de sol més llargues."
-            ]
-        };
+        // ==========================================
+        // PDF.js worker setup
+        // ==========================================
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-        const desenvolupaments = {
-            paisatge: [
-                "Tot és mineral, definit, tallat amb una precisió geomètrica. No hi ha lloc per a la vaguitat.",
-                "La llum del matí revela cada detall amb una nitidesa quasi cruel.",
-                "Els olivers, retorçats pel vent, tenen una dignitat que els arbres de jardí no tindran mai.",
-                "Les vinyes a la tardor semblen un incendi lent, controlat, d'una bellesa calculada.",
-                "Hi ha una hora, al capvespre, en què la llum ho daura tot i el paisatge sembla irreal.",
-                "Els camps de blat madur, amb la tramuntana, fan unes onades que recorden el mar.",
-                "Les muntanyes del fons delimiten el paisatge com els marges d'una pàgina ben escrita.",
-                "Cada poble de l'Empordà té una personalitat pròpia, inconfusible, com les persones."
-            ],
-            gastronomia: [
-                "La gràcia de la cuina catalana rau en la qualitat del producte i en la saviesa de no espatllar-lo.",
-                "Cuinar bé és, en el fons, una forma d'intel·ligència aplicada.",
-                "La diferència entre un plat bo i un plat excel·lent és una qüestió de paciència.",
-                "Tots els grans plats del país tenen una base de sofregit, que és la pedra angular de la nostra cuina.",
-                "L'oli d'oliva és el líquid fonamental d'aquesta civilització.",
-                "Un vi honest del país val més que un vi presumptuós de fora.",
-                "La millor cuina és la que es fa amb quatre coses i molta atenció.",
-                "El secret de la cuina de l'Empordà és que no té secrets: tot és a la vista."
-            ],
-            gent: [
-                "Aquí la gent no s'entusiasma fàcilment, cosa que és un senyal d'intel·ligència.",
-                "La ironia empordanesa és una forma de protecció contra la grandiloqüència.",
-                "La gent d'aquí valora el silenci tant com la conversa, potser més.",
-                "He observat que les persones més sensates solen ser les que menys parlen.",
-                "La desconfiança del pagès no és un defecte: és una forma de prudència ancestral.",
-                "La cortesia del país és seca, breu, però profundament sincera.",
-                "La gent gran tenia un sentit comú que s'ha anat perdent amb les generacions.",
-                "El sentit de l'humor de l'Empordà és sec com la tramuntana i igual de tallant."
-            ],
-            mar: [
-                "El mar és l'únic paisatge que canvia cada dia sense deixar de ser el mateix.",
-                "Els pescadors surten a la matinada amb una naturalitat que amaga un coratge enorme.",
-                "La Mediterrània ha estat el bressol de totes les civilitzacions que han valgut la pena.",
-                "L'olor de mar barrejada amb l'olor de pi és el perfum de la Costa Brava.",
-                "Des de la barca, el poble es veu petit, insignificant, humil, i això li escau.",
-                "El mar ensenya una cosa: la paciència. Qui no la té, no pot ser mariner.",
-                "A la tarda, el mar agafa un color de plom fos que és inquietant i bell alhora.",
-                "Les roques de la costa tenen formes que semblen esculpides per un artista borratxo."
-            ],
-            estacions: [
-                "Cada estació té el seu menjar, la seva llum, la seva manera de fer les coses.",
-                "El canvi d'estació és sempre una sorpresa, encara que passi cada any.",
-                "A l'hivern, el foc de la llar és el centre de la vida domèstica.",
-                "La calor de l'estiu empordanès només es pot combatre amb una ombra, una cadira i una mica de paciència.",
-                "La llum de la tardor té una qualitat melancòlica que predisposa a la reflexió.",
-                "La primavera fa florir els ametllers d'un dia per l'altre, amb una urgència vegetal admirable.",
-                "L'equinocci de setembre és el moment en què l'any gira i tot comença a plegar.",
-                "El fred de gener neteja l'aire i fa que les estrelles brillin amb una intensitat extraordinària."
-            ]
-        };
+        // ==========================================
+        // State
+        // ==========================================
+        let extractedTexts = [];
+        let currentLang = 'catala';
+        let isGenerating = false;
 
-        const conclusions = {
-            paisatge: [
-                "Al capdavall, un paisatge és una forma de pensament.",
-                "No cal anar gaire lluny per trobar la bellesa. Normalment, és a tocar.",
-                "L'Empordà no és un país fàcil, però és un país honest, i això val molt.",
-                "Escriure sobre el paisatge és una manera d'intentar retenir-lo, encara que sigui inútil.",
-                "La terra acaba imposant-se sempre. Les persones passen; el paisatge queda.",
-                "Qui no estima el seu paisatge no estima res."
-            ],
-            gastronomia: [
-                "Menjar bé és una de les poques coses sensates que es poden fer en aquesta vida.",
-                "La cuina és la primera forma de cultura d'un poble.",
-                "Un país que menja malament no pot aspirar a res de bo.",
-                "La gastronomia és l'art de transformar la necessitat en plaer.",
-                "Sense una bona cuina, la civilització és impensable.",
-                "Al final del dia, un bon àpat és el millor consol que existeix."
-            ],
-            gent: [
-                "La gent és el que és. No cal demanar-li que sigui altra cosa.",
-                "He après més de la gent del país que de tots els llibres que he llegit.",
-                "Les persones senzilles solen ser les més complexes per dins.",
-                "El coneixement de la gent és la base de tota literatura que valgui la pena.",
-                "En el fons, tots som iguals: una mica ridículs i una mica admirables.",
-                "La humanitat és un espectacle que no s'acaba mai, i això és el que la fa interessant."
-            ],
-            mar: [
-                "El mar és el gran mestre: ensenya humilitat, paciència i respecte.",
-                "Davant del mar, les pretensions humanes es tornen ridícules, i això és saludable.",
-                "La Mediterrània és un estat d'ànim, no només un mar.",
-                "Qui ha viscut vora el mar no pot viure lluny de l'aigua sense sentir una mancança profunda.",
-                "El mar és l'únic espectacle que no cansa mai.",
-                "Al final, tot torna al mar, que és on tot va començar."
-            ],
-            estacions: [
-                "Les estacions són el rellotge natural de la vida. Convé escoltar-les.",
-                "El pas del temps és l'únic tema realment important de la literatura.",
-                "Cada estació porta el seu consol i la seva melancolia.",
-                "La repetició de les estacions no és monòtona: és reconfortant.",
-                "El temps passa, les estacions tornen, i nosaltres ens fem vells mirant-les passar.",
-                "La vida, com les estacions, és una successió de renaixements i decadències."
-            ]
-        };
+        // ==========================================
+        // DOM Elements
+        // ==========================================
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
+        const previewHeader = document.getElementById('previewHeader');
+        const textPreview = document.getElementById('textPreview');
+        const textStats = document.getElementById('textStats');
+        const apiKeyInput = document.getElementById('apiKeyInput');
+        const btnToggleKey = document.getElementById('btnToggleKey');
+        const topicInput = document.getElementById('topicInput');
+        const numSlider = document.getElementById('numSlider');
+        const numLabel = document.getElementById('numLabel');
+        const btnGenerar = document.getElementById('btnGenerar');
+        const errorMsg = document.getElementById('errorMsg');
+        const outputWrapper = document.getElementById('outputWrapper');
+        const outputText = document.getElementById('outputText');
+        const btnCopiar = document.getElementById('btnCopiar');
+        const streamIndicator = document.getElementById('streamIndicator');
 
-        const transicions = [
-            " ", " ", " ",
-            " Ara bé, ", " D'altra banda, ", " Cal dir que ",
-            " En efecte, ", " Naturalment, ", " Val a dir que "
-        ];
+        // ==========================================
+        // Load saved API key from localStorage
+        // ==========================================
+        const savedKey = localStorage.getItem('claude_api_key');
+        if (savedKey) apiKeyInput.value = savedKey;
 
-        function randomItem(arr) {
-            return arr[Math.floor(Math.random() * arr.length)];
+        apiKeyInput.addEventListener('input', function() {
+            localStorage.setItem('claude_api_key', this.value);
+        });
+
+        // ==========================================
+        // Toggle API key visibility
+        // ==========================================
+        btnToggleKey.addEventListener('click', function() {
+            if (apiKeyInput.type === 'password') {
+                apiKeyInput.type = 'text';
+                btnToggleKey.textContent = 'Amagar';
+            } else {
+                apiKeyInput.type = 'password';
+                btnToggleKey.textContent = 'Mostrar';
+            }
+        });
+
+        // ==========================================
+        // Drop zone events
+        // ==========================================
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('drag-over');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+            fileInput.value = '';
+        });
+
+        // ==========================================
+        // File handling
+        // ==========================================
+        async function handleFiles(files) {
+            for (const file of files) {
+                const ext = file.name.split('.').pop().toLowerCase();
+                if (!['epub', 'pdf', 'docx'].includes(ext)) {
+                    showError('Format no suportat: .' + ext + '. Utilitza .epub, .pdf o .docx');
+                    continue;
+                }
+                await processFile(file, ext);
+            }
         }
 
-        function lowercaseFirst(s) {
-            if (!s) return s;
-            return s.charAt(0).toLowerCase() + s.slice(1);
-        }
+        async function processFile(file, ext) {
+            const itemId = 'file-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
 
-        function generarText(tema, numParagrafs) {
-            const paragraphs = [];
+            // Add to file list UI
+            fileList.classList.remove('hidden');
+            const item = document.createElement('div');
+            item.className = 'file-item';
+            item.id = itemId;
+            item.innerHTML = `
+                <div class="file-item-left">
+                    <span class="file-item-badge">${ext.toUpperCase()}</span>
+                    <span class="file-item-name">${file.name}</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                    <span class="file-item-status">Processant...</span>
+                </div>
+            `;
+            fileList.appendChild(item);
 
-            for (let i = 0; i < numParagrafs; i++) {
-                const parts = [];
-
-                if (i === 0) {
-                    parts.push(randomItem(inicis[tema]));
-                    const trans = randomItem(transicions);
-                    parts.push(trans);
-                    const dev = randomItem(desenvolupaments[tema]);
-                    parts.push(trans.trim() === "" ? dev : lowercaseFirst(dev));
-                } else if (i === numParagrafs - 1) {
-                    parts.push(randomItem(desenvolupaments[tema]));
-                    const trans = randomItem(transicions);
-                    parts.push(trans);
-                    const concl = randomItem(conclusions[tema]);
-                    parts.push(trans.trim() === "" ? concl : lowercaseFirst(concl));
-                } else {
-                    parts.push(randomItem(inicis[tema]));
-                    const trans1 = randomItem(transicions);
-                    parts.push(trans1);
-                    const dev = randomItem(desenvolupaments[tema]);
-                    parts.push(trans1.trim() === "" ? dev : lowercaseFirst(dev));
-                    const trans2 = randomItem(transicions);
-                    parts.push(trans2);
-                    const concl = randomItem(conclusions[tema]);
-                    parts.push(trans2.trim() === "" ? concl : lowercaseFirst(concl));
+            try {
+                let text = '';
+                if (ext === 'pdf') {
+                    text = await extractPDF(file);
+                } else if (ext === 'docx') {
+                    text = await extractDocx(file);
+                } else if (ext === 'epub') {
+                    text = await extractEpub(file);
                 }
 
-                paragraphs.push(parts.join(""));
-            }
+                text = text.trim();
+                if (!text) throw new Error('No s\'ha pogut extreure text del fitxer.');
 
-            return paragraphs.join("\n\n");
+                extractedTexts.push({ name: file.name, text: text });
+
+                // Update UI
+                const statusEl = item.querySelector('.file-item-status');
+                const words = text.split(/\s+/).length;
+                statusEl.textContent = words.toLocaleString() + ' paraules';
+                statusEl.className = 'file-item-status success';
+
+                // Add remove button
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'file-item-remove';
+                removeBtn.textContent = '\u00D7';
+                removeBtn.onclick = () => {
+                    extractedTexts = extractedTexts.filter(t => t.name !== file.name);
+                    item.remove();
+                    updatePreview();
+                    if (extractedTexts.length === 0) {
+                        fileList.classList.add('hidden');
+                    }
+                };
+                item.querySelector('div:last-child').appendChild(removeBtn);
+
+                updatePreview();
+            } catch (err) {
+                const statusEl = item.querySelector('.file-item-status');
+                statusEl.textContent = 'Error: ' + err.message;
+                statusEl.className = 'file-item-status error';
+            }
         }
 
-        // State
-        let currentTema = "paisatge";
-        let currentNum = 3;
+        function updatePreview() {
+            if (extractedTexts.length === 0) {
+                previewHeader.classList.add('hidden');
+                textPreview.classList.add('hidden');
+                return;
+            }
 
-        // DOM
-        const temaGroup = document.getElementById("temaGroup");
-        const numSlider = document.getElementById("numSlider");
-        const numLabel = document.getElementById("numLabel");
-        const btnGenerar = document.getElementById("btnGenerar");
-        const outputWrapper = document.getElementById("outputWrapper");
-        const outputText = document.getElementById("outputText");
-        const btnCopiar = document.getElementById("btnCopiar");
+            const allText = extractedTexts.map(t => t.text).join('\n\n');
+            const words = allText.split(/\s+/).length;
+            const chars = allText.length;
 
-        // Theme buttons
-        temaGroup.addEventListener("click", function(e) {
-            const btn = e.target.closest(".tema-btn");
-            if (!btn) return;
-            currentTema = btn.dataset.tema;
-            temaGroup.querySelectorAll(".tema-btn").forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
+            previewHeader.classList.remove('hidden');
+            textPreview.classList.remove('hidden');
+            textStats.textContent = words.toLocaleString() + ' paraules / ' + chars.toLocaleString() + ' caracters';
+
+            // Show first 2000 chars as preview
+            textPreview.textContent = allText.substring(0, 2000) + (allText.length > 2000 ? '\n\n[...]' : '');
+        }
+
+        // ==========================================
+        // PDF extraction
+        // ==========================================
+        async function extractPDF(file) {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            const pages = [];
+
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const content = await page.getTextContent();
+                const strings = content.items.map(item => item.str);
+                pages.push(strings.join(' '));
+            }
+
+            return pages.join('\n\n');
+        }
+
+        // ==========================================
+        // DOCX extraction (using mammoth)
+        // ==========================================
+        async function extractDocx(file) {
+            const arrayBuffer = await file.arrayBuffer();
+            const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+            return result.value;
+        }
+
+        // ==========================================
+        // EPUB extraction (using JSZip)
+        // ==========================================
+        async function extractEpub(file) {
+            const arrayBuffer = await file.arrayBuffer();
+            const zip = await JSZip.loadAsync(arrayBuffer);
+
+            // Find content files (xhtml/html)
+            const textParts = [];
+
+            // Try to read the OPF file to get reading order
+            let opfPath = null;
+            const containerXml = zip.file('META-INF/container.xml');
+            if (containerXml) {
+                const containerText = await containerXml.async('string');
+                const match = containerText.match(/full-path="([^"]+\.opf)"/);
+                if (match) opfPath = match[1];
+            }
+
+            // Get ordered content files from OPF
+            let orderedFiles = [];
+            if (opfPath) {
+                const opfFile = zip.file(opfPath);
+                if (opfFile) {
+                    const opfText = await opfFile.async('string');
+                    const opfDir = opfPath.includes('/') ? opfPath.substring(0, opfPath.lastIndexOf('/') + 1) : '';
+
+                    // Parse spine and manifest
+                    const manifestItems = {};
+                    const manifestRegex = /<item\s+[^>]*id="([^"]*)"[^>]*href="([^"]*)"[^>]*media-type="([^"]*)"[^>]*\/?>/g;
+                    let m;
+                    while ((m = manifestRegex.exec(opfText)) !== null) {
+                        manifestItems[m[1]] = { href: m[2], type: m[3] };
+                    }
+                    // Also try reversed attribute order
+                    const manifestRegex2 = /<item\s+[^>]*href="([^"]*)"[^>]*id="([^"]*)"[^>]*media-type="([^"]*)"[^>]*\/?>/g;
+                    while ((m = manifestRegex2.exec(opfText)) !== null) {
+                        manifestItems[m[2]] = { href: m[1], type: m[3] };
+                    }
+
+                    const spineRegex = /<itemref\s+[^>]*idref="([^"]*)"/g;
+                    while ((m = spineRegex.exec(opfText)) !== null) {
+                        const item = manifestItems[m[1]];
+                        if (item && item.type && item.type.includes('html')) {
+                            orderedFiles.push(opfDir + item.href);
+                        }
+                    }
+                }
+            }
+
+            // Fallback: find all html/xhtml files
+            if (orderedFiles.length === 0) {
+                zip.forEach((path, entry) => {
+                    if (!entry.dir && (path.endsWith('.xhtml') || path.endsWith('.html') || path.endsWith('.htm'))) {
+                        orderedFiles.push(path);
+                    }
+                });
+                orderedFiles.sort();
+            }
+
+            // Extract text from each file
+            for (const filePath of orderedFiles) {
+                const entry = zip.file(filePath);
+                if (!entry) continue;
+                const html = await entry.async('string');
+                const text = stripHtml(html);
+                if (text.trim()) textParts.push(text.trim());
+            }
+
+            return textParts.join('\n\n');
+        }
+
+        function stripHtml(html) {
+            // Remove scripts and styles
+            let text = html.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
+            text = text.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
+            // Replace block elements with newlines
+            text = text.replace(/<\/(p|div|h[1-6]|li|tr|br\s*\/?)>/gi, '\n');
+            text = text.replace(/<br\s*\/?>/gi, '\n');
+            // Remove remaining tags
+            text = text.replace(/<[^>]+>/g, ' ');
+            // Decode HTML entities
+            text = text.replace(/&nbsp;/gi, ' ');
+            text = text.replace(/&amp;/gi, '&');
+            text = text.replace(/&lt;/gi, '<');
+            text = text.replace(/&gt;/gi, '>');
+            text = text.replace(/&quot;/gi, '"');
+            text = text.replace(/&#(\d+);/g, (_, n) => String.fromCharCode(n));
+            // Clean up whitespace
+            text = text.replace(/[ \t]+/g, ' ');
+            text = text.replace(/\n\s*\n/g, '\n\n');
+            return text.trim();
+        }
+
+        // ==========================================
+        // Language buttons
+        // ==========================================
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentLang = btn.dataset.lang;
+            });
         });
 
+        // ==========================================
         // Slider
-        numSlider.addEventListener("input", function() {
-            currentNum = parseInt(this.value);
-            numLabel.textContent = currentNum;
+        // ==========================================
+        numSlider.addEventListener('input', function() {
+            numLabel.textContent = this.value;
         });
 
-        // Generate
-        btnGenerar.addEventListener("click", function() {
-            const text = generarText(currentTema, currentNum);
-            outputText.textContent = text;
-            outputWrapper.classList.remove("hidden");
-            btnCopiar.textContent = "Copiar";
+        // ==========================================
+        // Generate text
+        // ==========================================
+        btnGenerar.addEventListener('click', async function() {
+            if (isGenerating) return;
+
+            // Validation
+            hideError();
+
+            if (extractedTexts.length === 0) {
+                showError('Puja almenys un arxiu perque la IA pugui aprendre l\'estil d\'escriptura.');
+                return;
+            }
+
+            const apiKey = apiKeyInput.value.trim();
+            if (!apiKey) {
+                showError('Introdueix la teva clau API de Claude.');
+                return;
+            }
+
+            const topic = topicInput.value.trim();
+            if (!topic) {
+                showError('Escriu un tema sobre el qual vols generar text.');
+                return;
+            }
+
+            const numParagraphs = parseInt(numSlider.value);
+
+            // Prepare the sample text (limit to ~8000 words to stay within context)
+            let sampleText = extractedTexts.map(t => t.text).join('\n\n');
+            const words = sampleText.split(/\s+/);
+            if (words.length > 8000) {
+                sampleText = words.slice(0, 8000).join(' ') + '\n\n[... text truncat per limitacions de context ...]';
+            }
+
+            const langMap = {
+                'catala': 'catala',
+                'castella': 'castella (espanyol)',
+                'angles': 'angles',
+                'frances': 'frances'
+            };
+            const langName = langMap[currentLang] || 'catala';
+
+            const systemPrompt = `Ets un analista literari i generador de text expert. Se t'ha proporcionat text d'exemple d'un autor. La teva tasca es:
+
+1. ANALITZAR profundament l'estil d'escriptura: estructura de les frases, ritme, vocabulari, to, us d'adjectius, perspectiva narrativa, estructura dels paragrafs, figures retoriques, longitud de les frases, cadencia, etc.
+
+2. GENERAR text nou i completament original sobre el tema indicat que capturi l'essencia d'aquest estil.
+
+REGLES CRITIQUES:
+- MAI copiis ni parafrasejis cap frase o expressio del text d'exemple
+- Crea contingut completament nou que capturi l'ESPERIT i la TECNICA de l'estil
+- Escriu en ${langName}
+- El text generat ha de sonar natural, no forcat
+- No facis referencia al fet que estas imitant un estil
+- No mencions l'autor original
+- Escriu directament el text, sense introduccions ni explicacions
+- Cada paragraf ha de ser substancial (minim 3-4 frases)`;
+
+            const userPrompt = `## Text d'exemple per aprendre l'estil:
+
+${sampleText}
+
+## Tema sobre el qual escriure:
+${topic}
+
+## Nombre de paragrafs:
+${numParagraphs}
+
+Genera ${numParagraphs} paragrafs de text original sobre "${topic}" amb l'estil d'escriptura apres dels textos d'exemple. Escriu en ${langName}. Escriu nomes els paragrafs, sense cap introduccio, titol ni explicacio.`;
+
+            // Start generating
+            isGenerating = true;
+            btnGenerar.disabled = true;
+            btnGenerar.innerHTML = '<span class="spinner"></span> Generant...';
+            outputWrapper.classList.remove('hidden');
+            outputText.textContent = '';
+            streamIndicator.classList.remove('hidden');
+
+            try {
+                const response = await fetch('https://api.anthropic.com/v1/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': apiKey,
+                        'anthropic-version': '2023-06-01',
+                        'anthropic-dangerous-direct-browser-access': 'true'
+                    },
+                    body: JSON.stringify({
+                        model: 'claude-sonnet-4-5-20250929',
+                        max_tokens: 4096,
+                        stream: true,
+                        system: systemPrompt,
+                        messages: [{
+                            role: 'user',
+                            content: userPrompt
+                        }]
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => null);
+                    let errorMessage = 'Error ' + response.status;
+                    if (response.status === 401) {
+                        errorMessage = 'Clau API invalida. Revisa la teva clau a console.anthropic.com';
+                    } else if (response.status === 429) {
+                        errorMessage = 'Massa peticions. Espera uns segons i torna-ho a provar.';
+                    } else if (response.status === 529) {
+                        errorMessage = 'L\'API de Claude esta sobrecarregada. Torna-ho a provar mes tard.';
+                    } else if (errorData && errorData.error && errorData.error.message) {
+                        errorMessage = errorData.error.message;
+                    }
+                    throw new Error(errorMessage);
+                }
+
+                // Read streaming response
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let fullText = '';
+                let buffer = '';
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    buffer += decoder.decode(value, { stream: true });
+                    const lines = buffer.split('\n');
+                    buffer = lines.pop() || '';
+
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            const data = line.slice(6);
+                            if (data === '[DONE]') continue;
+
+                            try {
+                                const parsed = JSON.parse(data);
+                                if (parsed.type === 'content_block_delta' && parsed.delta && parsed.delta.text) {
+                                    fullText += parsed.delta.text;
+                                    outputText.textContent = fullText;
+                                    // Auto-scroll
+                                    outputText.scrollTop = outputText.scrollHeight;
+                                }
+                            } catch (e) {
+                                // Skip malformed JSON
+                            }
+                        }
+                    }
+                }
+
+                streamIndicator.classList.add('hidden');
+
+                if (!fullText.trim()) {
+                    throw new Error('No s\'ha generat cap text. Torna-ho a provar.');
+                }
+
+            } catch (err) {
+                streamIndicator.classList.add('hidden');
+                if (!outputText.textContent) {
+                    outputWrapper.classList.add('hidden');
+                }
+                showError(err.message);
+            } finally {
+                isGenerating = false;
+                btnGenerar.disabled = false;
+                btnGenerar.innerHTML = 'Generar text';
+            }
         });
 
+        // ==========================================
         // Copy
-        btnCopiar.addEventListener("click", async function() {
+        // ==========================================
+        btnCopiar.addEventListener('click', async function() {
             const text = outputText.textContent;
             try {
                 await navigator.clipboard.writeText(text);
             } catch {
-                const textarea = document.createElement("textarea");
+                const textarea = document.createElement('textarea');
                 textarea.value = text;
                 document.body.appendChild(textarea);
                 textarea.select();
-                document.execCommand("copy");
+                document.execCommand('copy');
                 document.body.removeChild(textarea);
             }
-            btnCopiar.textContent = "Copiat!";
-            setTimeout(() => { btnCopiar.textContent = "Copiar"; }, 2000);
+            btnCopiar.textContent = 'Copiat!';
+            setTimeout(() => { btnCopiar.textContent = 'Copiar'; }, 2000);
         });
+
+        // ==========================================
+        // Error handling
+        // ==========================================
+        function showError(msg) {
+            errorMsg.textContent = msg;
+            errorMsg.classList.remove('hidden');
+        }
+
+        function hideError() {
+            errorMsg.classList.add('hidden');
+        }
     </script>
 </body>
 </html>
