@@ -3,62 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de text amb IA</title>
+    <title>Generador de Text — A l'estil de Josep Pla</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+        :root {
+            --terra-dark: #3b2a1a;
+            --terra-brown: #6b4c3b;
+            --terra-warm: #8c6d5a;
+            --terra-sand: #c4a882;
+            --terra-cream: #f0e6d3;
+            --terra-light: #faf6f0;
+            --terra-olive: #5a6340;
+            --terra-olive-light: #7a8a5a;
+            --terra-accent: #b85c38;
+            --terra-accent-light: #d4845a;
+            --terra-red: #9e3a26;
+            --text-dark: #2c1e10;
+            --text-mid: #5a4a3a;
+            --text-light: #8a7a6a;
+        }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background-color: #355c7d;
-            color: #fff;
+            font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--terra-light);
+            color: var(--text-dark);
             min-height: 100vh;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
 
+        /* Hero header */
+        .hero {
+            background: linear-gradient(135deg, var(--terra-dark) 0%, var(--terra-brown) 40%, var(--terra-warm) 100%);
+            color: var(--terra-cream);
+            padding: 3rem 1.5rem 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            max-width: 64rem;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            background: rgba(255,255,255,0.12);
+            color: var(--terra-sand);
+            padding: 0.3rem 0.75rem;
+            border-radius: 2rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--terra-sand);
+        }
+
+        .hero-subtitle {
+            font-size: 1.05rem;
+            color: rgba(196, 168, 130, 0.85);
+            font-weight: 300;
+            max-width: 36rem;
+        }
+
+        .hero-decoration {
+            position: absolute;
+            right: -2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18rem;
+            height: 18rem;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(196, 168, 130, 0.08) 0%, transparent 70%);
+        }
+
+        .hero-quote {
+            margin-top: 1.5rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--terra-sand);
+            font-family: 'Playfair Display', Georgia, serif;
+            font-style: italic;
+            font-size: 0.95rem;
+            color: rgba(196, 168, 130, 0.7);
+            max-width: 30rem;
+        }
+
+        @media (min-width: 640px) {
+            .hero { padding: 4rem 3rem 3rem; }
+            .hero h1 { font-size: 3.2rem; }
+        }
+
+        /* Container */
         .container {
             max-width: 64rem;
             margin: 0 auto;
             padding: 2rem 1.5rem;
         }
 
-        h1 {
-            font-size: 2.25rem;
-            font-weight: 700;
-            letter-spacing: -0.025em;
-            margin-bottom: 0.5rem;
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            color: #c8d6e5;
-            margin-bottom: 2rem;
-        }
-
         @media (min-width: 640px) {
-            h1 { font-size: 3rem; }
-            .container { padding: 3rem; }
+            .container { padding: 2.5rem 3rem; }
         }
 
+        /* Panels */
         .panel {
-            background: rgba(17, 24, 39, 0.5);
+            background: #fff;
             border-radius: 0.75rem;
-            padding: 1.5rem;
+            padding: 1.75rem;
             margin-bottom: 1.5rem;
+            border: 1px solid rgba(107, 76, 59, 0.1);
+            box-shadow: 0 1px 3px rgba(59, 42, 26, 0.06);
         }
 
         .panel-title {
-            font-size: 1.1rem;
-            font-weight: 700;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--terra-dark);
             margin-bottom: 0.25rem;
         }
 
         .panel-desc {
             font-size: 0.85rem;
-            color: #9ca3af;
+            color: var(--text-light);
             margin-bottom: 1rem;
         }
 
@@ -69,11 +166,11 @@
             width: 1.75rem;
             height: 1.75rem;
             border-radius: 50%;
-            background: #f67280;
-            color: #101828;
+            background: var(--terra-accent);
+            color: #fff;
             font-weight: 700;
             font-size: 0.85rem;
-            margin-right: 0.5rem;
+            margin-right: 0.6rem;
             flex-shrink: 0;
         }
 
@@ -83,36 +180,55 @@
             margin-bottom: 0.25rem;
         }
 
+        /* Divider with olive branch decoration */
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 0.5rem 0 1.5rem;
+            color: var(--terra-sand);
+            font-size: 0.8rem;
+        }
+
+        .section-divider::before,
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--terra-sand), transparent);
+            opacity: 0.3;
+        }
+
         /* Drop zone */
         .drop-zone {
-            border: 2px dashed rgba(246, 114, 128, 0.4);
+            border: 2px dashed rgba(107, 76, 59, 0.25);
             border-radius: 0.5rem;
             padding: 2rem;
             text-align: center;
             cursor: pointer;
             transition: all 0.2s;
-            background: rgba(246, 114, 128, 0.05);
+            background: rgba(240, 230, 211, 0.3);
         }
 
         .drop-zone:hover, .drop-zone.drag-over {
-            border-color: #f67280;
-            background: rgba(246, 114, 128, 0.1);
+            border-color: var(--terra-accent);
+            background: rgba(240, 230, 211, 0.6);
         }
 
         .drop-zone-icon {
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
-            opacity: 0.7;
+            opacity: 0.6;
         }
 
         .drop-zone-text {
             font-size: 0.95rem;
-            color: #d1d5db;
+            color: var(--text-mid);
         }
 
         .drop-zone-formats {
             font-size: 0.75rem;
-            color: #6b7280;
+            color: var(--text-light);
             margin-top: 0.25rem;
         }
 
@@ -130,10 +246,11 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: rgba(31, 41, 55, 0.7);
+            background: var(--terra-cream);
             padding: 0.6rem 1rem;
             border-radius: 0.375rem;
             font-size: 0.875rem;
+            border: 1px solid rgba(107, 76, 59, 0.08);
         }
 
         .file-item-left {
@@ -147,6 +264,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            color: var(--text-dark);
         }
 
         .file-item-badge {
@@ -155,45 +273,46 @@
             text-transform: uppercase;
             padding: 0.15rem 0.4rem;
             border-radius: 0.2rem;
-            background: rgba(246, 114, 128, 0.2);
-            color: #f67280;
+            background: rgba(184, 92, 56, 0.12);
+            color: var(--terra-accent);
             flex-shrink: 0;
         }
 
         .file-item-status {
             font-size: 0.75rem;
-            color: #6b7280;
+            color: var(--text-light);
             flex-shrink: 0;
         }
 
-        .file-item-status.success { color: #34d399; }
-        .file-item-status.error { color: #f87171; }
+        .file-item-status.success { color: var(--terra-olive); }
+        .file-item-status.error { color: var(--terra-red); }
 
         .file-item-remove {
             background: none;
             border: none;
-            color: #6b7280;
+            color: var(--text-light);
             cursor: pointer;
             font-size: 1.1rem;
             padding: 0 0.25rem;
             transition: color 0.15s;
         }
 
-        .file-item-remove:hover { color: #f87171; }
+        .file-item-remove:hover { color: var(--terra-red); }
 
         /* Text preview */
         .text-preview {
-            margin-top: 1rem;
-            background: rgba(31, 41, 55, 0.5);
+            margin-top: 0.5rem;
+            background: var(--terra-cream);
             border-radius: 0.375rem;
             padding: 1rem;
             max-height: 10rem;
             overflow-y: auto;
             font-size: 0.8rem;
-            color: #9ca3af;
+            color: var(--text-mid);
             line-height: 1.5;
             white-space: pre-wrap;
             word-break: break-word;
+            border: 1px solid rgba(107, 76, 59, 0.08);
         }
 
         .text-preview-header {
@@ -209,12 +328,12 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: #6b7280;
+            color: var(--text-light);
         }
 
         .text-stats {
             font-size: 0.75rem;
-            color: #6b7280;
+            color: var(--text-light);
         }
 
         /* API key */
@@ -228,45 +347,52 @@
             flex: 1;
             padding: 0.6rem 0.75rem;
             border-radius: 0.375rem;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(31, 41, 55, 0.7);
-            color: #f3f4f6;
+            border: 1px solid rgba(107, 76, 59, 0.2);
+            background: #fff;
+            color: var(--text-dark);
             font-size: 0.875rem;
             font-family: monospace;
             outline: none;
             transition: border-color 0.15s;
         }
 
-        .api-key-input:focus { border-color: #f67280; }
+        .api-key-input:focus { border-color: var(--terra-accent); }
 
         .btn-toggle-key {
             padding: 0.6rem 0.75rem;
             border-radius: 0.375rem;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(31, 41, 55, 0.7);
-            color: #9ca3af;
+            border: 1px solid rgba(107, 76, 59, 0.2);
+            background: var(--terra-cream);
+            color: var(--text-mid);
             cursor: pointer;
             font-size: 0.8rem;
             white-space: nowrap;
             transition: background 0.15s;
         }
 
-        .btn-toggle-key:hover { background: rgba(55, 65, 81, 0.9); }
+        .btn-toggle-key:hover { background: var(--terra-sand); color: #fff; }
 
         .api-key-note {
             font-size: 0.75rem;
-            color: #6b7280;
+            color: var(--text-light);
             margin-top: 0.4rem;
         }
+
+        .api-key-note a {
+            color: var(--terra-accent);
+            text-decoration: none;
+        }
+
+        .api-key-note a:hover { text-decoration: underline; }
 
         /* Topic input */
         .topic-input {
             width: 100%;
             padding: 0.75rem;
             border-radius: 0.375rem;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(31, 41, 55, 0.7);
-            color: #f3f4f6;
+            border: 1px solid rgba(107, 76, 59, 0.2);
+            background: #fff;
+            color: var(--text-dark);
             font-size: 1rem;
             font-family: inherit;
             resize: vertical;
@@ -275,9 +401,8 @@
             transition: border-color 0.15s;
         }
 
-        .topic-input:focus { border-color: #f67280; }
-
-        .topic-input::placeholder { color: #4b5563; }
+        .topic-input:focus { border-color: var(--terra-accent); }
+        .topic-input::placeholder { color: var(--text-light); }
 
         /* Slider */
         .slider-group {
@@ -289,14 +414,14 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: #9ca3af;
+            color: var(--text-light);
             margin-bottom: 0.35rem;
         }
 
         input[type="range"] {
             width: 100%;
             max-width: 20rem;
-            accent-color: #f67280;
+            accent-color: var(--terra-accent);
             margin-top: 0.25rem;
         }
 
@@ -313,45 +438,124 @@
             border-radius: 0.25rem;
             font-size: 0.8rem;
             font-weight: 600;
-            border: none;
+            border: 1px solid rgba(107, 76, 59, 0.15);
             cursor: pointer;
-            transition: background 0.15s, color 0.15s;
-            background: #1f2937;
-            color: #d1d5db;
+            transition: all 0.15s;
+            background: #fff;
+            color: var(--text-mid);
         }
 
-        .lang-btn:hover { background: #374151; }
-        .lang-btn.active { background: #f67280; color: #101828; }
+        .lang-btn:hover { background: var(--terra-cream); }
+        .lang-btn.active { background: var(--terra-accent); color: #fff; border-color: var(--terra-accent); }
 
-        /* Generate button */
+        /* Buttons row */
+        .btn-row {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
         .btn-generar {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
+            padding: 0.85rem 2rem;
+            font-size: 1.05rem;
             font-weight: 600;
-            background: #f67280;
-            color: #101828;
+            background: var(--terra-accent);
+            color: #fff;
             border: none;
             border-radius: 0.375rem;
             cursor: pointer;
             transition: background 0.15s, opacity 0.15s;
-            text-decoration: none;
-            margin-top: 0.5rem;
         }
 
-        .btn-generar:hover { background: rgba(246, 114, 128, 0.85); }
+        .btn-generar:hover { background: var(--terra-red); }
         .btn-generar:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* Memory panel */
+        .memory-panel {
+            background: rgba(240, 230, 211, 0.5);
+            border: 1px solid rgba(107, 76, 59, 0.1);
+            border-radius: 0.5rem;
+            padding: 1rem 1.25rem;
+            margin-top: 1rem;
+        }
+
+        .memory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .memory-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--terra-warm);
+        }
+
+        .memory-count {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            background: var(--terra-cream);
+            padding: 0.15rem 0.5rem;
+            border-radius: 1rem;
+        }
+
+        .memory-list {
+            list-style: none;
+            font-size: 0.8rem;
+            color: var(--text-mid);
+            max-height: 8rem;
+            overflow-y: auto;
+        }
+
+        .memory-list li {
+            padding: 0.3rem 0;
+            border-bottom: 1px solid rgba(107, 76, 59, 0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .memory-list li:last-child { border-bottom: none; }
+
+        .memory-item-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-style: italic;
+            color: var(--terra-brown);
+        }
+
+        .memory-item-date {
+            font-size: 0.7rem;
+            color: var(--text-light);
+        }
+
+        .btn-clear-memory {
+            font-size: 0.7rem;
+            background: none;
+            border: 1px solid rgba(107, 76, 59, 0.15);
+            color: var(--text-light);
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.2rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .btn-clear-memory:hover { background: var(--terra-red); color: #fff; border-color: var(--terra-red); }
 
         /* Spinner */
         .spinner {
             display: inline-block;
             width: 1.1rem;
             height: 1.1rem;
-            border: 2px solid rgba(16, 24, 40, 0.3);
-            border-top-color: #101828;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: #fff;
             border-radius: 50%;
             animation: spin 0.6s linear infinite;
         }
@@ -360,79 +564,168 @@
 
         /* Output */
         .output-wrapper {
-            position: relative;
             margin-top: 1.5rem;
+            background: #fff;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(107, 76, 59, 0.1);
+            box-shadow: 0 2px 8px rgba(59, 42, 26, 0.08);
+            overflow: hidden;
         }
 
-        .btn-copiar {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: var(--terra-cream);
+            border-bottom: 1px solid rgba(107, 76, 59, 0.08);
+        }
+
+        .output-header-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--terra-brown);
+        }
+
+        .output-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-action {
             padding: 0.375rem 0.75rem;
             border-radius: 0.25rem;
             font-size: 0.75rem;
             font-weight: 600;
-            background: #1f2937;
-            color: #d1d5db;
-            border: none;
+            background: #fff;
+            color: var(--text-mid);
+            border: 1px solid rgba(107, 76, 59, 0.15);
             cursor: pointer;
-            transition: background 0.15s;
+            transition: all 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
         }
 
-        .btn-copiar:hover { background: #374151; }
+        .btn-action:hover { background: var(--terra-accent); color: #fff; border-color: var(--terra-accent); }
+
+        .output-body {
+            padding: 2rem 2.5rem;
+        }
+
+        .output-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--terra-dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+            text-align: center;
+        }
 
         .output-text {
-            background: rgba(17, 24, 39, 0.5);
-            border-radius: 0.75rem;
-            padding: 1.5rem 5rem 1.5rem 1.5rem;
             font-family: Georgia, 'Times New Roman', serif;
-            font-size: 1.125rem;
-            line-height: 1.9;
-            color: #f3f4f6;
-            white-space: pre-wrap;
+            font-size: 1.1rem;
+            line-height: 1.85;
+            color: var(--text-dark);
         }
 
-        /* Error */
-        .error-msg {
-            background: rgba(248, 113, 113, 0.15);
-            border: 1px solid rgba(248, 113, 113, 0.3);
-            border-radius: 0.375rem;
-            padding: 0.75rem 1rem;
-            font-size: 0.875rem;
-            color: #fca5a5;
-            margin-top: 1rem;
+        .output-text p {
+            margin-bottom: 1.2rem;
+            text-align: justify;
+            text-indent: 1.5rem;
         }
 
-        /* Progress bar for streaming */
+        .output-text p:first-child {
+            text-indent: 0;
+        }
+
+        .output-text p:first-child::first-letter {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 3.2rem;
+            float: left;
+            line-height: 1;
+            padding-right: 0.5rem;
+            padding-top: 0.1rem;
+            color: var(--terra-accent);
+            font-weight: 700;
+        }
+
+        /* Stream indicator */
         .stream-indicator {
             display: flex;
             align-items: center;
             gap: 0.5rem;
             font-size: 0.85rem;
-            color: #9ca3af;
-            margin-top: 0.75rem;
+            color: var(--text-light);
+            padding: 0.75rem 2.5rem 1.5rem;
+        }
+
+        .stream-indicator .spinner {
+            border-color: rgba(107, 76, 59, 0.2);
+            border-top-color: var(--terra-accent);
+        }
+
+        /* Error */
+        .error-msg {
+            background: rgba(158, 58, 38, 0.08);
+            border: 1px solid rgba(158, 58, 38, 0.2);
+            border-radius: 0.375rem;
+            padding: 0.75rem 1rem;
+            font-size: 0.875rem;
+            color: var(--terra-red);
+            margin-top: 1rem;
         }
 
         .hidden { display: none; }
 
+        /* Footer */
         footer {
-            margin-top: 3rem;
+            margin-top: 2rem;
             padding: 2rem 0;
-            font-size: 0.875rem;
-            color: #6b7280;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            border-top: 1px solid rgba(107, 76, 59, 0.08);
+        }
+
+        footer .footer-ornament {
+            color: var(--terra-sand);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
         }
 
         /* Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.25); }
+        ::-webkit-scrollbar-thumb { background: var(--terra-sand); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--terra-warm); }
+
+        /* Decorative elements */
+        .ornament {
+            text-align: center;
+            color: var(--terra-sand);
+            font-size: 1.4rem;
+            letter-spacing: 0.5rem;
+            margin: 1rem 0;
+            opacity: 0.4;
+        }
     </style>
 </head>
 <body>
+    <!-- Hero Header -->
+    <div class="hero">
+        <div class="hero-decoration"></div>
+        <div class="hero-content">
+            <span class="hero-badge">Intel&middot;lig&egrave;ncia Artificial &amp; Literatura</span>
+            <h1>Generador de Text<br><em>a l'estil de Josep Pla</em></h1>
+            <p class="hero-subtitle">Puja les obres de l'autor, escull un tema, i la IA crear&agrave; prosa original capturant l'ess&egrave;ncia del seu estil inconfusible.</p>
+            <div class="hero-quote">&laquo;Escriure &eacute;s veure, i veure &eacute;s comprendre, i comprendre &eacute;s viure.&raquo;</div>
+        </div>
+    </div>
+
     <div class="container">
-        <h1>Generador de text amb IA</h1>
-        <p class="subtitle">Puja arxius d'un autor, introdueix un tema, i la IA generara text original en el seu estil.</p>
 
         <!-- STEP 1: File Upload -->
         <div class="panel">
@@ -440,11 +733,11 @@
                 <span class="step-number">1</span>
                 <span class="panel-title">Puja els arxius de l'autor</span>
             </div>
-            <p class="panel-desc">Puja ePub, PDF o Word (.docx) perque la IA aprengui l'estil d'escriptura.</p>
+            <p class="panel-desc">Puja ePub, PDF o Word (.docx) perqu&egrave; la IA aprengui l'estil d'escriptura.</p>
 
             <div class="drop-zone" id="dropZone">
                 <div class="drop-zone-icon">&#128214;</div>
-                <div class="drop-zone-text">Arrossega els arxius aqui o fes clic per seleccionar-los</div>
+                <div class="drop-zone-text">Arrossega els arxius aqu&iacute; o fes clic per seleccionar-los</div>
                 <div class="drop-zone-formats">Formats acceptats: .epub, .pdf, .docx</div>
             </div>
             <input type="file" class="file-input" id="fileInput" multiple accept=".epub,.pdf,.docx">
@@ -452,7 +745,7 @@
             <div class="file-list hidden" id="fileList"></div>
 
             <div class="text-preview-header hidden" id="previewHeader">
-                <span class="text-preview-label">Text extret (previsualitzacio)</span>
+                <span class="text-preview-label">Text extret (previsualitzaci&oacute;)</span>
                 <span class="text-stats" id="textStats"></span>
             </div>
             <div class="text-preview hidden" id="textPreview"></div>
@@ -464,13 +757,13 @@
                 <span class="step-number">2</span>
                 <span class="panel-title">Clau API de Claude</span>
             </div>
-            <p class="panel-desc">Necessites una clau API d'Anthropic per generar text. La clau es guarda nomes al teu navegador.</p>
+            <p class="panel-desc">Necessites una clau API d'Anthropic per generar text. La clau es guarda nom&eacute;s al teu navegador.</p>
 
             <div class="api-key-group">
                 <input type="password" class="api-key-input" id="apiKeyInput" placeholder="sk-ant-api03-...">
                 <button class="btn-toggle-key" id="btnToggleKey">Mostrar</button>
             </div>
-            <p class="api-key-note">Obtingues una clau a <a href="https://console.anthropic.com/" target="_blank" style="color:#f67280;">console.anthropic.com</a></p>
+            <p class="api-key-note">Obtingues una clau a <a href="https://console.anthropic.com/" target="_blank">console.anthropic.com</a></p>
         </div>
 
         <!-- STEP 3: Topic & Generate -->
@@ -479,33 +772,55 @@
                 <span class="step-number">3</span>
                 <span class="panel-title">Escriu el tema</span>
             </div>
-            <p class="panel-desc">Descriu sobre que vols que escrigui la IA amb l'estil apres.</p>
+            <p class="panel-desc">Descriu sobre qu&egrave; vols que escrigui la IA amb l'estil apr&egrave;s.</p>
 
-            <textarea class="topic-input" id="topicInput" placeholder="Exemple: La llum del matí a les vinyes del Penedes a la tardor..."></textarea>
+            <textarea class="topic-input" id="topicInput" placeholder="Exemple: La llum del mat&iacute; a les vinyes del Pened&egrave;s a la tardor..."></textarea>
 
             <div class="slider-group">
-                <div class="section-label">Paragrafs: <span id="numLabel">3</span></div>
-                <input type="range" id="numSlider" min="1" max="10" value="3">
+                <div class="section-label">Par&agrave;grafs: <span id="numLabel">10</span></div>
+                <input type="range" id="numSlider" min="5" max="30" value="10">
             </div>
 
             <div class="lang-group">
                 <div class="section-label" style="width:100%;">Idioma del text generat:</div>
-                <button class="lang-btn active" data-lang="catala">Catala</button>
-                <button class="lang-btn" data-lang="castella">Castella</button>
-                <button class="lang-btn" data-lang="angles">Angles</button>
-                <button class="lang-btn" data-lang="frances">Frances</button>
+                <button class="lang-btn active" data-lang="catala">Catal&agrave;</button>
+                <button class="lang-btn" data-lang="castella">Castell&agrave;</button>
+                <button class="lang-btn" data-lang="angles">Angl&egrave;s</button>
+                <button class="lang-btn" data-lang="frances">Franc&egrave;s</button>
             </div>
 
-            <br>
-            <button class="btn-generar" id="btnGenerar">Generar text</button>
+            <div class="btn-row">
+                <button class="btn-generar" id="btnGenerar">Generar text</button>
+            </div>
 
             <div class="error-msg hidden" id="errorMsg"></div>
+
+            <!-- Memory panel -->
+            <div class="memory-panel hidden" id="memoryPanel">
+                <div class="memory-header">
+                    <span class="memory-title">Mem&ograve;ria de textos anteriors</span>
+                    <div style="display:flex;align-items:center;gap:0.5rem;">
+                        <span class="memory-count" id="memoryCount">0 textos</span>
+                        <button class="btn-clear-memory" id="btnClearMemory">Esborrar</button>
+                    </div>
+                </div>
+                <ul class="memory-list" id="memoryList"></ul>
+            </div>
         </div>
 
         <!-- Output -->
         <div class="output-wrapper hidden" id="outputWrapper">
-            <button class="btn-copiar" id="btnCopiar">Copiar</button>
-            <div class="output-text" id="outputText"></div>
+            <div class="output-header">
+                <span class="output-header-title">Text generat</span>
+                <div class="output-actions">
+                    <button class="btn-action" id="btnCopiar">&#128203; Copiar</button>
+                    <button class="btn-action" id="btnPDF">&#128196; Guardar PDF</button>
+                </div>
+            </div>
+            <div class="output-body">
+                <div class="output-title hidden" id="outputTitle"></div>
+                <div class="output-text" id="outputText"></div>
+            </div>
             <div class="stream-indicator hidden" id="streamIndicator">
                 <span class="spinner"></span>
                 <span>Generant text...</span>
@@ -513,6 +828,7 @@
         </div>
 
         <footer>
+            <div class="footer-ornament">&#10045; &#10045; &#10045;</div>
             <p>Generador de text amb IA &mdash; Utilitza l'API de Claude (Anthropic)</p>
         </footer>
     </div>
@@ -529,6 +845,7 @@
         let extractedTexts = [];
         let currentLang = 'catala';
         let isGenerating = false;
+        let textMemory = JSON.parse(localStorage.getItem('text_memory') || '[]');
 
         // ==========================================
         // DOM Elements
@@ -547,9 +864,15 @@
         const btnGenerar = document.getElementById('btnGenerar');
         const errorMsg = document.getElementById('errorMsg');
         const outputWrapper = document.getElementById('outputWrapper');
+        const outputTitle = document.getElementById('outputTitle');
         const outputText = document.getElementById('outputText');
         const btnCopiar = document.getElementById('btnCopiar');
+        const btnPDF = document.getElementById('btnPDF');
         const streamIndicator = document.getElementById('streamIndicator');
+        const memoryPanel = document.getElementById('memoryPanel');
+        const memoryList = document.getElementById('memoryList');
+        const memoryCount = document.getElementById('memoryCount');
+        const btnClearMemory = document.getElementById('btnClearMemory');
 
         // ==========================================
         // Load saved API key from localStorage
@@ -560,6 +883,73 @@
         apiKeyInput.addEventListener('input', function() {
             localStorage.setItem('claude_api_key', this.value);
         });
+
+        // ==========================================
+        // Memory management
+        // ==========================================
+        function updateMemoryUI() {
+            if (textMemory.length === 0) {
+                memoryPanel.classList.add('hidden');
+                return;
+            }
+            memoryPanel.classList.remove('hidden');
+            memoryCount.textContent = textMemory.length + (textMemory.length === 1 ? ' text' : ' textos');
+            memoryList.innerHTML = '';
+            textMemory.slice().reverse().forEach(item => {
+                const li = document.createElement('li');
+                li.innerHTML = '<span class="memory-item-title">' + escapeHtml(item.title) + '</span><span class="memory-item-date">' + item.date + '</span>';
+                memoryList.appendChild(li);
+            });
+        }
+
+        function saveToMemory(title, text, topic) {
+            const summary = buildSummary(title, text);
+            textMemory.push({
+                title: title,
+                topic: topic,
+                summary: summary,
+                date: new Date().toLocaleDateString('ca-ES', { day: 'numeric', month: 'short', year: 'numeric' })
+            });
+            // Keep last 20 texts max
+            if (textMemory.length > 20) textMemory = textMemory.slice(-20);
+            localStorage.setItem('text_memory', JSON.stringify(textMemory));
+            updateMemoryUI();
+        }
+
+        function buildSummary(title, text) {
+            // Extract key elements: character names, places, and a brief summary
+            const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 20);
+            const first3 = sentences.slice(0, 3).map(s => s.trim()).join('. ');
+            const last2 = sentences.slice(-2).map(s => s.trim()).join('. ');
+            return 'Titol: ' + title + '. Inici: ' + first3 + '. Final: ' + last2;
+        }
+
+        function getMemoryContext() {
+            if (textMemory.length === 0) return '';
+            const recent = textMemory.slice(-5);
+            let context = '\n\n## MEMORIA DE TEXTOS ANTERIORS (per mantenir continuitat de personatges i fets):\n';
+            recent.forEach((item, i) => {
+                context += '\n### Text anterior ' + (i + 1) + ':\n';
+                context += 'Tema: ' + item.topic + '\n';
+                context += item.summary + '\n';
+            });
+            context += '\nIMPORTANT: Si algun dels textos anteriors menciona personatges, llocs o fets, pots fer-hi referencies subtils per crear continuitat narrativa. No repeteixis els mateixos textos, pero mantingues coherencia amb el mon creat.\n';
+            return context;
+        }
+
+        btnClearMemory.addEventListener('click', function() {
+            textMemory = [];
+            localStorage.removeItem('text_memory');
+            updateMemoryUI();
+        });
+
+        updateMemoryUI();
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
 
         // ==========================================
         // Toggle API key visibility
@@ -616,20 +1006,18 @@
         async function processFile(file, ext) {
             const itemId = 'file-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5);
 
-            // Add to file list UI
             fileList.classList.remove('hidden');
             const item = document.createElement('div');
             item.className = 'file-item';
             item.id = itemId;
-            item.innerHTML = `
-                <div class="file-item-left">
-                    <span class="file-item-badge">${ext.toUpperCase()}</span>
-                    <span class="file-item-name">${file.name}</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:0.5rem;">
-                    <span class="file-item-status">Processant...</span>
-                </div>
-            `;
+            item.innerHTML =
+                '<div class="file-item-left">' +
+                    '<span class="file-item-badge">' + ext.toUpperCase() + '</span>' +
+                    '<span class="file-item-name">' + escapeHtml(file.name) + '</span>' +
+                '</div>' +
+                '<div style="display:flex;align-items:center;gap:0.5rem;">' +
+                    '<span class="file-item-status">Processant...</span>' +
+                '</div>';
             fileList.appendChild(item);
 
             try {
@@ -643,17 +1031,15 @@
                 }
 
                 text = text.trim();
-                if (!text) throw new Error('No s\'ha pogut extreure text del fitxer.');
+                if (!text) throw new Error("No s'ha pogut extreure text del fitxer.");
 
                 extractedTexts.push({ name: file.name, text: text });
 
-                // Update UI
                 const statusEl = item.querySelector('.file-item-status');
                 const words = text.split(/\s+/).length;
                 statusEl.textContent = words.toLocaleString() + ' paraules';
                 statusEl.className = 'file-item-status success';
 
-                // Add remove button
                 const removeBtn = document.createElement('button');
                 removeBtn.className = 'file-item-remove';
                 removeBtn.textContent = '\u00D7';
@@ -688,9 +1074,8 @@
 
             previewHeader.classList.remove('hidden');
             textPreview.classList.remove('hidden');
-            textStats.textContent = words.toLocaleString() + ' paraules / ' + chars.toLocaleString() + ' caracters';
+            textStats.textContent = words.toLocaleString() + ' paraules / ' + chars.toLocaleString() + ' car\u00e0cters';
 
-            // Show first 2000 chars as preview
             textPreview.textContent = allText.substring(0, 2000) + (allText.length > 2000 ? '\n\n[...]' : '');
         }
 
@@ -728,10 +1113,8 @@
             const arrayBuffer = await file.arrayBuffer();
             const zip = await JSZip.loadAsync(arrayBuffer);
 
-            // Find content files (xhtml/html)
             const textParts = [];
 
-            // Try to read the OPF file to get reading order
             let opfPath = null;
             const containerXml = zip.file('META-INF/container.xml');
             if (containerXml) {
@@ -740,7 +1123,6 @@
                 if (match) opfPath = match[1];
             }
 
-            // Get ordered content files from OPF
             let orderedFiles = [];
             if (opfPath) {
                 const opfFile = zip.file(opfPath);
@@ -748,14 +1130,12 @@
                     const opfText = await opfFile.async('string');
                     const opfDir = opfPath.includes('/') ? opfPath.substring(0, opfPath.lastIndexOf('/') + 1) : '';
 
-                    // Parse spine and manifest
                     const manifestItems = {};
                     const manifestRegex = /<item\s+[^>]*id="([^"]*)"[^>]*href="([^"]*)"[^>]*media-type="([^"]*)"[^>]*\/?>/g;
                     let m;
                     while ((m = manifestRegex.exec(opfText)) !== null) {
                         manifestItems[m[1]] = { href: m[2], type: m[3] };
                     }
-                    // Also try reversed attribute order
                     const manifestRegex2 = /<item\s+[^>]*href="([^"]*)"[^>]*id="([^"]*)"[^>]*media-type="([^"]*)"[^>]*\/?>/g;
                     while ((m = manifestRegex2.exec(opfText)) !== null) {
                         manifestItems[m[2]] = { href: m[1], type: m[3] };
@@ -771,7 +1151,6 @@
                 }
             }
 
-            // Fallback: find all html/xhtml files
             if (orderedFiles.length === 0) {
                 zip.forEach((path, entry) => {
                     if (!entry.dir && (path.endsWith('.xhtml') || path.endsWith('.html') || path.endsWith('.htm'))) {
@@ -781,7 +1160,6 @@
                 orderedFiles.sort();
             }
 
-            // Extract text from each file
             for (const filePath of orderedFiles) {
                 const entry = zip.file(filePath);
                 if (!entry) continue;
@@ -794,22 +1172,17 @@
         }
 
         function stripHtml(html) {
-            // Remove scripts and styles
             let text = html.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
             text = text.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
-            // Replace block elements with newlines
             text = text.replace(/<\/(p|div|h[1-6]|li|tr|br\s*\/?)>/gi, '\n');
             text = text.replace(/<br\s*\/?>/gi, '\n');
-            // Remove remaining tags
             text = text.replace(/<[^>]+>/g, ' ');
-            // Decode HTML entities
             text = text.replace(/&nbsp;/gi, ' ');
             text = text.replace(/&amp;/gi, '&');
             text = text.replace(/&lt;/gi, '<');
             text = text.replace(/&gt;/gi, '>');
             text = text.replace(/&quot;/gi, '"');
             text = text.replace(/&#(\d+);/g, (_, n) => String.fromCharCode(n));
-            // Clean up whitespace
             text = text.replace(/[ \t]+/g, ' ');
             text = text.replace(/\n\s*\n/g, '\n\n');
             return text.trim();
@@ -839,11 +1212,10 @@
         btnGenerar.addEventListener('click', async function() {
             if (isGenerating) return;
 
-            // Validation
             hideError();
 
             if (extractedTexts.length === 0) {
-                showError('Puja almenys un arxiu perque la IA pugui aprendre l\'estil d\'escriptura.');
+                showError("Puja almenys un arxiu perque la IA pugui aprendre l'estil d'escriptura.");
                 return;
             }
 
@@ -861,7 +1233,6 @@
 
             const numParagraphs = parseInt(numSlider.value);
 
-            // Prepare the sample text (limit to ~8000 words to stay within context)
             let sampleText = extractedTexts.map(t => t.text).join('\n\n');
             const words = sampleText.split(/\s+/);
             if (words.length > 8000) {
@@ -876,40 +1247,37 @@
             };
             const langName = langMap[currentLang] || 'catala';
 
-            const systemPrompt = `Ets un analista literari i generador de text expert. Se t'ha proporcionat text d'exemple d'un autor. La teva tasca es:
+            const memoryContext = getMemoryContext();
 
-1. ANALITZAR profundament l'estil d'escriptura: estructura de les frases, ritme, vocabulari, to, us d'adjectius, perspectiva narrativa, estructura dels paragrafs, figures retoriques, longitud de les frases, cadencia, etc.
+            const systemPrompt = 'Ets un analista literari i generador de text expert. Se t\'ha proporcionat text d\'exemple d\'un autor. La teva tasca es:\n\n' +
+                '1. ANALITZAR profundament l\'estil d\'escriptura: estructura de les frases, ritme, vocabulari, to, us d\'adjectius, perspectiva narrativa, estructura dels paragrafs, figures retoriques, longitud de les frases, cadencia, etc.\n\n' +
+                '2. GENERAR text nou i completament original sobre el tema indicat que capturi l\'essencia d\'aquest estil.\n\n' +
+                '3. CREAR UN TITOL evocador i literari per al text, a l\'estil dels titols d\'articles i capitols de l\'autor.\n\n' +
+                'REGLES CRITIQUES:\n' +
+                '- MAI copiis ni parafrasejis cap frase o expressio del text d\'exemple\n' +
+                '- Crea contingut completament nou que capturi l\'ESPERIT i la TECNICA de l\'estil\n' +
+                '- Escriu en ' + langName + '\n' +
+                '- El text generat ha de sonar natural, no forcat\n' +
+                '- No facis referencia al fet que estas imitant un estil\n' +
+                '- No mencions l\'autor original\n' +
+                '- IMPORTANT SOBRE ELS PARAGRAFS: La llargada dels paragrafs ha de ser MOLT IRREGULAR i variada, com en la prosa natural. Alguns paragrafs han de ser curts (1-2 frases), altres mitjans (3-5 frases), i alguns llargs (6-10 frases o mes). Aquesta irregularitat es essencial per donar un ritme huma i organic al text. Mai facis tots els paragrafs de la mateixa llargada.\n' +
+                '- FORMAT DE RESPOSTA OBLIGATORI: La primera linia ha de ser el titol precedit per "TITOL: " i despres una linia en blanc seguida dels paragrafs del text. Exemple:\nTITOL: El nom del titol\n\nPrimer paragraf...\n\nSegon paragraf...';
 
-2. GENERAR text nou i completament original sobre el tema indicat que capturi l'essencia d'aquest estil.
-
-REGLES CRITIQUES:
-- MAI copiis ni parafrasejis cap frase o expressio del text d'exemple
-- Crea contingut completament nou que capturi l'ESPERIT i la TECNICA de l'estil
-- Escriu en ${langName}
-- El text generat ha de sonar natural, no forcat
-- No facis referencia al fet que estas imitant un estil
-- No mencions l'autor original
-- Escriu directament el text, sense introduccions ni explicacions
-- Cada paragraf ha de ser substancial (minim 3-4 frases)`;
-
-            const userPrompt = `## Text d'exemple per aprendre l'estil:
-
-${sampleText}
-
-## Tema sobre el qual escriure:
-${topic}
-
-## Nombre de paragrafs:
-${numParagraphs}
-
-Genera ${numParagraphs} paragrafs de text original sobre "${topic}" amb l'estil d'escriptura apres dels textos d'exemple. Escriu en ${langName}. Escriu nomes els paragrafs, sense cap introduccio, titol ni explicacio.`;
+            const userPrompt = '## Text d\'exemple per aprendre l\'estil:\n\n' +
+                sampleText + '\n\n' +
+                '## Tema sobre el qual escriure:\n' + topic + '\n\n' +
+                '## Nombre de paragrafs:\n' + numParagraphs + '\n\n' +
+                memoryContext +
+                'Genera un titol evocador seguit de ' + numParagraphs + ' paragrafs de text original sobre "' + topic + '" amb l\'estil d\'escriptura apres dels textos d\'exemple. Escriu en ' + langName + '. Recorda: la llargada dels paragrafs ha de ser irregular i variada (alguns curts, altres llargs). Comenca amb "TITOL: " seguit del titol.';
 
             // Start generating
             isGenerating = true;
             btnGenerar.disabled = true;
             btnGenerar.innerHTML = '<span class="spinner"></span> Generant...';
             outputWrapper.classList.remove('hidden');
-            outputText.textContent = '';
+            outputTitle.classList.add('hidden');
+            outputTitle.textContent = '';
+            outputText.innerHTML = '';
             streamIndicator.classList.remove('hidden');
 
             try {
@@ -923,7 +1291,7 @@ Genera ${numParagraphs} paragrafs de text original sobre "${topic}" amb l'estil 
                     },
                     body: JSON.stringify({
                         model: 'claude-sonnet-4-5-20250929',
-                        max_tokens: 4096,
+                        max_tokens: 8192,
                         stream: true,
                         system: systemPrompt,
                         messages: [{
@@ -941,14 +1309,13 @@ Genera ${numParagraphs} paragrafs de text original sobre "${topic}" amb l'estil 
                     } else if (response.status === 429) {
                         errorMessage = 'Massa peticions. Espera uns segons i torna-ho a provar.';
                     } else if (response.status === 529) {
-                        errorMessage = 'L\'API de Claude esta sobrecarregada. Torna-ho a provar mes tard.';
+                        errorMessage = "L'API de Claude esta sobrecarregada. Torna-ho a provar mes tard.";
                     } else if (errorData && errorData.error && errorData.error.message) {
                         errorMessage = errorData.error.message;
                     }
                     throw new Error(errorMessage);
                 }
 
-                // Read streaming response
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
                 let fullText = '';
@@ -971,9 +1338,7 @@ Genera ${numParagraphs} paragrafs de text original sobre "${topic}" amb l'estil 
                                 const parsed = JSON.parse(data);
                                 if (parsed.type === 'content_block_delta' && parsed.delta && parsed.delta.text) {
                                     fullText += parsed.delta.text;
-                                    outputText.textContent = fullText;
-                                    // Auto-scroll
-                                    outputText.scrollTop = outputText.scrollHeight;
+                                    renderOutput(fullText);
                                 }
                             } catch (e) {
                                 // Skip malformed JSON
@@ -985,12 +1350,16 @@ Genera ${numParagraphs} paragrafs de text original sobre "${topic}" amb l'estil 
                 streamIndicator.classList.add('hidden');
 
                 if (!fullText.trim()) {
-                    throw new Error('No s\'ha generat cap text. Torna-ho a provar.');
+                    throw new Error("No s'ha generat cap text. Torna-ho a provar.");
                 }
+
+                // Save to memory
+                const parsedOutput = parseOutput(fullText);
+                saveToMemory(parsedOutput.title || topic, parsedOutput.body, topic);
 
             } catch (err) {
                 streamIndicator.classList.add('hidden');
-                if (!outputText.textContent) {
+                if (!outputText.innerHTML) {
                     outputWrapper.classList.add('hidden');
                 }
                 showError(err.message);
@@ -1002,22 +1371,149 @@ Genera ${numParagraphs} paragrafs de text original sobre "${topic}" amb l'estil 
         });
 
         // ==========================================
+        // Parse and render output with title
+        // ==========================================
+        function parseOutput(text) {
+            let title = '';
+            let body = text;
+
+            // Extract title
+            const titleMatch = text.match(/^TITOL:\s*(.+?)(?:\n|$)/i);
+            if (titleMatch) {
+                title = titleMatch[1].trim();
+                body = text.substring(titleMatch[0].length).trim();
+            }
+
+            return { title, body };
+        }
+
+        function renderOutput(text) {
+            const parsed = parseOutput(text);
+
+            if (parsed.title) {
+                outputTitle.textContent = parsed.title;
+                outputTitle.classList.remove('hidden');
+            }
+
+            // Convert paragraphs to <p> tags
+            const paragraphs = parsed.body.split(/\n\s*\n/).filter(p => p.trim());
+            outputText.innerHTML = paragraphs.map(p => '<p>' + escapeHtml(p.trim()) + '</p>').join('');
+
+            // Auto-scroll
+            outputText.scrollTop = outputText.scrollHeight;
+        }
+
+        // ==========================================
         // Copy
         // ==========================================
         btnCopiar.addEventListener('click', async function() {
-            const text = outputText.textContent;
+            const parsed = parseOutput(getPlainText());
+            const textToCopy = (parsed.title ? parsed.title + '\n\n' : '') + parsed.body;
             try {
-                await navigator.clipboard.writeText(text);
+                await navigator.clipboard.writeText(textToCopy);
             } catch {
                 const textarea = document.createElement('textarea');
-                textarea.value = text;
+                textarea.value = textToCopy;
                 document.body.appendChild(textarea);
                 textarea.select();
                 document.execCommand('copy');
                 document.body.removeChild(textarea);
             }
-            btnCopiar.textContent = 'Copiat!';
-            setTimeout(() => { btnCopiar.textContent = 'Copiar'; }, 2000);
+            btnCopiar.innerHTML = '&#10003; Copiat!';
+            setTimeout(() => { btnCopiar.innerHTML = '&#128203; Copiar'; }, 2000);
+        });
+
+        function getPlainText() {
+            const title = outputTitle.textContent ? 'TITOL: ' + outputTitle.textContent : '';
+            const bodyParagraphs = outputText.querySelectorAll('p');
+            const body = Array.from(bodyParagraphs).map(p => p.textContent).join('\n\n');
+            return title + (title ? '\n\n' : '') + body;
+        }
+
+        // ==========================================
+        // PDF Export
+        // ==========================================
+        btnPDF.addEventListener('click', function() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
+
+            const marginLeft = 25;
+            const marginRight = 25;
+            const marginTop = 30;
+            const marginBottom = 25;
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
+            const maxWidth = pageWidth - marginLeft - marginRight;
+
+            let y = marginTop;
+
+            // Title
+            const title = outputTitle.textContent;
+            if (title) {
+                doc.setFont('times', 'bold');
+                doc.setFontSize(18);
+                const titleLines = doc.splitTextToSize(title, maxWidth);
+                titleLines.forEach(line => {
+                    if (y > pageHeight - marginBottom) {
+                        doc.addPage();
+                        y = marginTop;
+                    }
+                    // Center title
+                    const textWidth = doc.getTextWidth(line);
+                    const xCenter = (pageWidth - textWidth) / 2;
+                    doc.text(line, xCenter, y);
+                    y += 8;
+                });
+                y += 6;
+
+                // Decorative line under title
+                doc.setDrawColor(180, 150, 120);
+                doc.setLineWidth(0.3);
+                const lineX1 = pageWidth / 2 - 20;
+                const lineX2 = pageWidth / 2 + 20;
+                doc.line(lineX1, y - 4, lineX2, y - 4);
+                y += 4;
+            }
+
+            // Body paragraphs
+            doc.setFont('times', 'normal');
+            doc.setFontSize(11);
+
+            const bodyParagraphs = outputText.querySelectorAll('p');
+            bodyParagraphs.forEach((p, index) => {
+                const text = p.textContent.trim();
+                if (!text) return;
+
+                const lines = doc.splitTextToSize(text, maxWidth);
+
+                lines.forEach((line, lineIndex) => {
+                    if (y > pageHeight - marginBottom) {
+                        doc.addPage();
+                        y = marginTop;
+                    }
+                    // First line of paragraph gets indent (except first paragraph)
+                    const indent = (lineIndex === 0 && index > 0) ? 8 : 0;
+                    doc.text(line, marginLeft + indent, y);
+                    y += 6;
+                });
+
+                y += 3; // Space between paragraphs
+            });
+
+            // Footer ornament on last page
+            doc.setFontSize(10);
+            doc.setTextColor(180, 150, 120);
+            const ornament = '* * *';
+            const ornWidth = doc.getTextWidth(ornament);
+            doc.text(ornament, (pageWidth - ornWidth) / 2, pageHeight - 15);
+
+            // Save
+            const fileName = title ? title.substring(0, 40).replace(/[^a-zA-Z0-9\u00C0-\u024F ]/g, '').trim().replace(/\s+/g, '_') : 'text_generat';
+            doc.save(fileName + '.pdf');
         });
 
         // ==========================================
