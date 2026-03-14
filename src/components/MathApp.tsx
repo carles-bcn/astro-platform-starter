@@ -25,7 +25,7 @@ function generateOptions(answer: number, count = 4): number[] {
     while (opts.size < count) {
         const delta = Math.floor(Math.random() * 20) - 10;
         const candidate = answer + delta;
-        if (candidate >= 0 && candidate !== answer) opts.add(candidate);
+        if (candidate > 0 && candidate !== answer) opts.add(candidate);
     }
     return shuffle([...opts]);
 }
