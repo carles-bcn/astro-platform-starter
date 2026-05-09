@@ -1,0 +1,1947 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="La Prehistòria explicada per a nens i nenes de 3r de Primària: períodes, homínids, art rupestre, animals i molt més." />
+<title>La Prehistòria · El gran viatge a l'origen de la humanitat</title>
+<style>
+/* ============================================================
+   PALETA & VARIABLES
+   ============================================================ */
+:root{
+  --marro-fosc:#3d2614;
+  --marro:#5d3a1a;
+  --marro-mig:#8b5a2b;
+  --ocre:#c9881c;
+  --ocre-clar:#e0a445;
+  --beige:#f4e5c2;
+  --crema:#fbf5e6;
+  --taronja:#e67e22;
+  --taronja-fosc:#c0541c;
+  --vermell-rupestre:#a83b1d;
+  --verd-molsa:#6b8e23;
+  --verd-fosc:#4a6318;
+  --gris-pedra:#7d6f5d;
+  --negre-carbo:#1a1410;
+  --blanc-os:#fffaf0;
+  --ombra: 0 8px 24px rgba(61,38,20,.15);
+  --ombra-forta: 0 14px 40px rgba(61,38,20,.25);
+  --radi: 18px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{
+  font-family: 'Georgia', 'Cambria', 'Times New Roman', serif;
+  font-size:19px;
+  line-height:1.7;
+  color:var(--marro-fosc);
+  background:var(--crema);
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(201,136,28,0.07) 0, transparent 40%),
+    radial-gradient(circle at 90% 60%, rgba(107,142,35,0.06) 0, transparent 45%);
+  overflow-x:hidden;
+}
+
+h1,h2,h3,h4{
+  font-family:'Trebuchet MS','Verdana',sans-serif;
+  color:var(--marro);
+  line-height:1.2;
+  letter-spacing:.5px;
+}
+h2{font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:.5rem}
+h3{font-size:clamp(1.3rem,2.5vw,1.6rem);margin-bottom:.5rem}
+p{margin-bottom:1rem}
+a{color:var(--taronja-fosc);text-decoration:none}
+a:hover{text-decoration:underline}
+img,svg{max-width:100%;display:block}
+
+/* ============================================================
+   BARRA DE PROGRÉS
+   ============================================================ */
+.progress-bar{
+  position:fixed;top:0;left:0;height:5px;width:0%;
+  background:linear-gradient(90deg,var(--ocre),var(--taronja),var(--vermell-rupestre));
+  z-index:1000;transition:width .1s linear;
+  box-shadow:0 1px 4px rgba(0,0,0,.2);
+}
+
+/* ============================================================
+   NAV STICKY
+   ============================================================ */
+nav.principal{
+  position:sticky;top:5px;z-index:900;
+  background:rgba(61,38,20,.96);
+  backdrop-filter:blur(8px);
+  padding:.8rem 1rem;
+  box-shadow:0 4px 14px rgba(0,0,0,.18);
+}
+nav.principal ul{
+  list-style:none;display:flex;gap:.4rem;flex-wrap:wrap;
+  justify-content:center;max-width:1200px;margin:0 auto;
+}
+nav.principal a{
+  color:var(--beige);font-size:.9rem;
+  padding:.4rem .8rem;border-radius:20px;
+  font-family:'Trebuchet MS',sans-serif;font-weight:bold;
+  transition:all .2s ease;display:inline-block;
+  text-decoration:none;
+}
+nav.principal a:hover{background:var(--ocre);color:var(--marro-fosc);text-decoration:none}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  position:relative;overflow:hidden;
+  background:linear-gradient(180deg,#f6c570 0%,#e08e3f 45%,#a85a26 100%);
+  padding:3rem 1rem 2rem;
+  text-align:center;
+  color:var(--marro-fosc);
+}
+.hero h1{
+  font-size:clamp(2.5rem,8vw,5.5rem);
+  color:var(--marro-fosc);
+  text-shadow:3px 3px 0 var(--beige), 6px 6px 0 rgba(61,38,20,.3);
+  letter-spacing:4px;
+  margin-bottom:.4rem;
+  font-family:'Trebuchet MS',sans-serif;
+}
+.hero .subtitol{
+  font-size:clamp(1.1rem,2.5vw,1.6rem);
+  font-style:italic;
+  color:var(--marro-fosc);
+  margin-bottom:1.5rem;
+}
+.paisatge-prehistoric{
+  width:100%;max-width:1100px;margin:0 auto;
+  filter:drop-shadow(0 10px 20px rgba(0,0,0,.25));
+}
+
+/* Línia de temps "1 dia" */
+.linia-temps-dia{
+  background:var(--marro-fosc);color:var(--beige);
+  border-radius:var(--radi);padding:1.4rem 1rem;
+  max-width:1000px;margin:1.5rem auto 0;
+  box-shadow:var(--ombra-forta);
+}
+.linia-temps-dia h3{color:var(--ocre-clar);margin-bottom:.6rem;font-size:1.2rem}
+.barra-dia{
+  position:relative;height:50px;
+  background:linear-gradient(90deg,#1a1a40 0%,#3a2a5a 35%,#a85a26 80%,#e67e22 100%);
+  border-radius:25px;margin:1rem 0 .5rem;overflow:hidden;
+  border:3px solid var(--ocre);
+}
+.marca-dia{
+  position:absolute;top:0;bottom:0;width:2px;background:var(--blanc-os);
+}
+.etiqueta-dia{
+  position:absolute;top:55px;font-size:.78rem;color:var(--beige);
+  transform:translateX(-50%);text-align:center;width:90px;
+}
+.linia-temps-dia .peu{font-size:.85rem;margin-top:3rem;font-style:italic;color:var(--ocre-clar)}
+
+/* ============================================================
+   SECCIONS GENÈRIQUES
+   ============================================================ */
+section{padding:4rem 1.2rem;position:relative}
+.contenidor{max-width:1200px;margin:0 auto}
+section h2{
+  text-align:center;margin-bottom:.5rem;
+  display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap;
+}
+section h2 .icona{width:50px;height:50px;flex-shrink:0}
+.subtitol-seccio{
+  text-align:center;color:var(--marro-mig);
+  font-style:italic;margin-bottom:2.5rem;font-size:1.1rem;
+}
+
+.bg-beige{background:linear-gradient(180deg,var(--beige) 0%,var(--crema) 100%)}
+.bg-fosc{background:linear-gradient(180deg,#3d2614 0%,#5d3a1a 100%);color:var(--beige)}
+.bg-fosc h2,.bg-fosc h3{color:var(--ocre-clar)}
+.bg-fosc .subtitol-seccio{color:var(--beige)}
+.bg-musgo{background:linear-gradient(180deg,#7a9a35 0%,#5e7c1f 100%);color:var(--blanc-os)}
+.bg-musgo h2,.bg-musgo h3{color:#fff8d6}
+.bg-musgo .subtitol-seccio{color:#fff8d6}
+
+/* Tarjeta base */
+.tarjeta{
+  background:var(--blanc-os);border-radius:var(--radi);
+  padding:1.6rem;box-shadow:var(--ombra);
+  transition:transform .3s ease, box-shadow .3s ease;
+  border:1px solid rgba(139,90,43,.15);
+}
+.tarjeta:hover{transform:translateY(-6px);box-shadow:var(--ombra-forta)}
+
+/* ============================================================
+   QUE ÉS LA PREHISTORIA
+   ============================================================ */
+.que-es{
+  display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;
+}
+.que-es-text p{font-size:1.05rem}
+.dato-sorprendent{
+  background:linear-gradient(135deg,var(--taronja),var(--vermell-rupestre));
+  color:var(--blanc-os);padding:1.4rem;border-radius:var(--radi);
+  margin-top:1.5rem;box-shadow:var(--ombra);
+  font-size:1.1rem;text-align:center;
+}
+.dato-sorprendent strong{font-size:1.4rem;display:block;margin-bottom:.3rem}
+
+/* ============================================================
+   PERIODES
+   ============================================================ */
+.periodes-graella{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;
+  margin-top:2rem;
+}
+.periode{
+  border-radius:var(--radi);padding:1.6rem;
+  color:var(--blanc-os);text-align:center;
+  box-shadow:var(--ombra);
+  transition:transform .35s ease;
+  position:relative;overflow:hidden;
+}
+.periode:hover{transform:translateY(-8px) rotate(-1deg)}
+.periode .icona-gran{width:70px;height:70px;margin:0 auto .8rem}
+.periode h3{color:#fff;font-size:1.4rem}
+.periode .data{font-weight:bold;display:block;margin-bottom:.5rem;opacity:.9;font-size:.9rem}
+.periode p{font-size:.97rem;margin-bottom:0}
+.p-paleolitic{background:linear-gradient(160deg,#5d3a1a,#3d2614)}
+.p-mesolitic{background:linear-gradient(160deg,#8b5a2b,#5d3a1a)}
+.p-neolitic{background:linear-gradient(160deg,#6b8e23,#4a6318)}
+.p-metalls{background:linear-gradient(160deg,#c0541c,#7a2a0a)}
+
+/* ============================================================
+   HOMÍNIDS — TRADING CARDS
+   ============================================================ */
+.cartes-graella{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;
+  margin-top:1.5rem;
+}
+.carta-hominid{
+  background:linear-gradient(160deg,var(--beige),var(--blanc-os));
+  border:4px solid var(--ocre);border-radius:var(--radi);
+  padding:1rem;box-shadow:var(--ombra-forta);
+  transition:transform .3s, box-shadow .3s;
+  position:relative;overflow:hidden;
+}
+.carta-hominid:hover{transform:scale(1.04) rotate(-1deg);box-shadow:0 18px 40px rgba(0,0,0,.3)}
+.carta-hominid::before{
+  content:"";position:absolute;top:-30%;right:-30%;width:120px;height:120px;
+  background:radial-gradient(circle,rgba(255,255,255,.5),transparent 70%);
+  border-radius:50%;
+}
+.carta-hominid .nom{
+  background:var(--marro-fosc);color:var(--ocre-clar);
+  padding:.4rem .8rem;border-radius:8px;
+  font-family:'Trebuchet MS',sans-serif;font-weight:bold;
+  font-size:1.1rem;text-align:center;margin-bottom:.6rem;
+}
+.carta-hominid .retrat{
+  background:linear-gradient(180deg,#c89867,#8b5a2b);
+  border-radius:10px;padding:.5rem;margin-bottom:.6rem;
+  border:2px solid var(--marro);
+}
+.carta-hominid .retrat svg{width:100%;height:160px}
+.carta-hominid .data-h{
+  font-size:.85rem;color:var(--vermell-rupestre);
+  font-weight:bold;text-align:center;margin-bottom:.5rem;
+}
+.carta-hominid ul{list-style:none;padding:0;font-size:.92rem}
+.carta-hominid ul li{padding:.2rem 0;border-bottom:1px dashed rgba(139,90,43,.3)}
+.carta-hominid ul li:last-child{border:0}
+.carta-hominid ul li::before{content:"⚡ ";color:var(--taronja)}
+
+/* ============================================================
+   COM VIVIEN
+   ============================================================ */
+.vida-graella{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;
+  margin-top:2rem;
+}
+.vida-carta{
+  background:var(--blanc-os);border-radius:var(--radi);
+  padding:1.5rem;box-shadow:var(--ombra);
+  text-align:center;border-top:6px solid var(--taronja);
+  transition:transform .3s ease;
+}
+.vida-carta:hover{transform:translateY(-5px)}
+.vida-carta .icona-vida{width:80px;height:80px;margin:0 auto .8rem}
+
+/* Foc animat */
+.foc-animat{
+  position:relative;width:100px;height:120px;margin:0 auto 1rem;
+}
+.flama{
+  position:absolute;bottom:20px;left:50%;
+  width:60px;height:80px;
+  background:radial-gradient(ellipse at center bottom,#ffec8b 0%,#ffaa00 35%,#ff5722 70%,#a83b1d 100%);
+  border-radius:50% 50% 30% 30% / 60% 60% 40% 40%;
+  transform:translateX(-50%);
+  animation:flama 1.2s ease-in-out infinite alternate;
+  filter:blur(.5px);
+}
+.flama::before{
+  content:"";position:absolute;bottom:0;left:50%;
+  width:34px;height:50px;
+  background:radial-gradient(ellipse at center bottom,#fff8d6 0%,#ffec8b 50%,#ff8c00 100%);
+  border-radius:50% 50% 30% 30%;
+  transform:translateX(-50%);
+  animation:flama 1s ease-in-out infinite alternate-reverse;
+}
+.lenya{
+  position:absolute;bottom:0;left:10%;width:80px;height:18px;
+  background:linear-gradient(90deg,#5d3a1a,#8b5a2b,#5d3a1a);
+  border-radius:8px;
+  box-shadow:0 4px 0 var(--marro-fosc);
+}
+.lenya::after{
+  content:"";position:absolute;top:-6px;left:30%;width:50px;height:14px;
+  background:linear-gradient(90deg,#3d2614,#5d3a1a);
+  border-radius:6px;transform:rotate(-15deg);
+}
+@keyframes flama{
+  from{transform:translateX(-50%) scaleY(1) scaleX(1);opacity:.95}
+  to  {transform:translateX(-52%) scaleY(1.15) scaleX(.92);opacity:1}
+}
+
+/* ============================================================
+   ART PREHISTORIC
+   ============================================================ */
+.cova-pintures{
+  background:radial-gradient(ellipse at center,#7a5a3e 0%,#3d2614 100%);
+  border-radius:var(--radi);padding:1rem;
+  box-shadow:inset 0 0 60px rgba(0,0,0,.5),var(--ombra-forta);
+  margin:1.5rem 0;
+}
+.cova-pintures svg{width:100%;height:auto}
+.art-graella{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;
+  margin-top:1.5rem;
+}
+
+/* Canvas pintura rupestre */
+.canvas-rupestre{
+  background:radial-gradient(ellipse at center,#9a7050 0%,#5d3a1a 100%);
+  border-radius:var(--radi);padding:1.2rem;
+  box-shadow:inset 0 0 60px rgba(0,0,0,.5),var(--ombra-forta);
+  margin-top:2rem;
+}
+.canvas-rupestre h3{color:var(--ocre-clar);text-align:center;margin-bottom:1rem}
+#tela-cova{
+  display:block;width:100%;max-width:800px;margin:0 auto;
+  background:
+    radial-gradient(ellipse at 20% 30%,#7a5230 0,transparent 40%),
+    radial-gradient(ellipse at 70% 60%,#5d3a1a 0,transparent 50%),
+    linear-gradient(180deg,#9a7050,#5d3a1a);
+  border-radius:10px;
+  border:4px solid var(--marro-fosc);
+  cursor:crosshair;
+  touch-action:none;
+}
+.controls-canvas{
+  display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;
+  margin-top:1rem;
+}
+.color-pic{
+  width:42px;height:42px;border-radius:50%;
+  border:3px solid var(--blanc-os);cursor:pointer;
+  box-shadow:var(--ombra);transition:transform .15s;
+}
+.color-pic:hover{transform:scale(1.15)}
+.color-pic.actiu{border-color:var(--ocre-clar);transform:scale(1.2);box-shadow:0 0 0 3px var(--marro-fosc)}
+.btn-canvas{
+  background:var(--ocre);color:var(--marro-fosc);
+  border:none;padding:.6rem 1.2rem;border-radius:25px;
+  font-family:'Trebuchet MS',sans-serif;font-weight:bold;
+  cursor:pointer;font-size:1rem;
+  box-shadow:var(--ombra);transition:all .2s;
+}
+.btn-canvas:hover{background:var(--taronja);transform:translateY(-2px)}
+.controls-canvas label{
+  color:var(--beige);align-self:center;
+  font-size:.95rem;
+}
+input[type=range]{accent-color:var(--ocre)}
+
+/* ============================================================
+   EINES
+   ============================================================ */
+.eines-evolucio{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;
+  margin:2rem 0;align-items:end;
+}
+.eina-pas{
+  background:var(--blanc-os);border-radius:var(--radi);
+  padding:1rem;text-align:center;box-shadow:var(--ombra);
+  transition:transform .3s;
+}
+.eina-pas:hover{transform:translateY(-6px)}
+.eina-pas svg{height:120px;margin:0 auto}
+.eina-pas .titol{font-weight:bold;color:var(--marro);margin-top:.5rem;font-family:'Trebuchet MS',sans-serif}
+.eina-pas .data-e{font-size:.82rem;color:var(--marro-mig)}
+.fletxa-evo{
+  display:flex;justify-content:center;align-items:center;
+  font-size:2rem;color:var(--taronja);
+}
+.eines-extra{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.4rem;
+  margin-top:2rem;
+}
+
+/* ============================================================
+   ANIMALS
+   ============================================================ */
+.animals-graella{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;
+}
+.carta-animal{
+  background:linear-gradient(160deg,var(--beige),var(--blanc-os));
+  border-radius:var(--radi);overflow:hidden;
+  box-shadow:var(--ombra);transition:transform .3s, box-shadow .3s;
+  border:3px solid var(--gris-pedra);
+}
+.carta-animal:hover{transform:translateY(-6px) scale(1.02);box-shadow:var(--ombra-forta)}
+.carta-animal .il-animal{
+  background:linear-gradient(180deg,#cce6ff 0%,#e6f2d4 70%,#9a7050 100%);
+  padding:.6rem;height:170px;display:flex;align-items:end;justify-content:center;
+}
+.carta-animal .il-animal svg{height:100%;width:auto}
+.carta-animal .info{padding:1rem}
+.carta-animal h3{color:var(--vermell-rupestre);font-size:1.2rem;margin-bottom:.3rem}
+.carta-animal .dada{
+  background:var(--ocre);color:var(--marro-fosc);
+  padding:.3rem .6rem;border-radius:6px;
+  font-size:.82rem;font-weight:bold;display:inline-block;margin-bottom:.4rem;
+}
+
+/* ============================================================
+   MEGÀLITS
+   ============================================================ */
+.megalits-graella{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;
+  margin-top:1.5rem;
+}
+.megalit-carta{
+  background:linear-gradient(180deg,#9ab8c4,#7a9aa6);
+  border-radius:var(--radi);padding:1rem;
+  box-shadow:var(--ombra);text-align:center;color:var(--marro-fosc);
+  transition:transform .3s;
+}
+.megalit-carta:hover{transform:translateY(-6px)}
+.megalit-carta svg{
+  background:linear-gradient(180deg,#a8c9d6 0%,#8ba87b 100%);
+  border-radius:10px;padding:.5rem;height:160px;width:100%;
+}
+.megalit-carta h3{color:var(--marro-fosc);margin:.6rem 0 .3rem}
+
+.mapa-europa{
+  background:linear-gradient(180deg,#a8c9d6,#7e9eaa);
+  border-radius:var(--radi);padding:1.5rem;margin-top:2rem;
+  box-shadow:var(--ombra);
+}
+.mapa-europa h3{text-align:center;color:var(--marro-fosc);margin-bottom:1rem}
+.mapa-europa svg{margin:0 auto;max-height:420px}
+
+/* ============================================================
+   CURIOSITATS
+   ============================================================ */
+.curiositats-graella{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.4rem;
+  margin-top:2rem;
+}
+.curiositat{
+  background:var(--blanc-os);border-radius:var(--radi);
+  padding:1.4rem;box-shadow:var(--ombra);
+  border-left:8px solid var(--taronja);
+  transition:transform .3s, border-color .3s;
+}
+.curiositat:hover{transform:translateY(-5px);border-left-color:var(--vermell-rupestre)}
+.curiositat .emoji{font-size:2.4rem;display:block;margin-bottom:.4rem}
+.curiositat strong{display:block;color:var(--vermell-rupestre);margin-bottom:.4rem;font-size:1.1rem}
+
+/* ============================================================
+   QUIZ
+   ============================================================ */
+.quiz-caixa{
+  background:var(--blanc-os);
+  border-radius:var(--radi);
+  padding:2rem;box-shadow:var(--ombra-forta);
+  max-width:800px;margin:2rem auto 0;
+  border:5px solid var(--ocre);
+}
+.pregunta{
+  background:var(--beige);border-radius:12px;padding:1.2rem;margin-bottom:1.2rem;
+  border-left:6px solid var(--taronja);
+}
+.pregunta h4{color:var(--marro);margin-bottom:.8rem;font-size:1.15rem}
+.opcio{
+  display:block;width:100%;text-align:left;
+  background:var(--blanc-os);border:2px solid var(--gris-pedra);
+  padding:.7rem 1rem;margin:.4rem 0;border-radius:10px;
+  cursor:pointer;font-family:inherit;font-size:1rem;
+  transition:all .15s;
+}
+.opcio:hover{background:var(--ocre-clar);border-color:var(--taronja)}
+.opcio.correcta{background:#a8d39a;border-color:var(--verd-fosc);color:var(--verd-fosc);font-weight:bold}
+.opcio.incorrecta{background:#f5b8a8;border-color:var(--vermell-rupestre);color:var(--vermell-rupestre)}
+.opcio:disabled{cursor:not-allowed}
+.feedback{margin-top:.6rem;padding:.6rem;border-radius:8px;font-size:.95rem;display:none}
+.feedback.mostra{display:block}
+.feedback.ok{background:#dcedc8;color:var(--verd-fosc)}
+.feedback.ko{background:#ffe0d6;color:var(--vermell-rupestre)}
+#resultat-quiz{
+  text-align:center;padding:2rem;margin-top:1rem;
+  background:linear-gradient(135deg,var(--ocre),var(--taronja));
+  color:var(--marro-fosc);border-radius:var(--radi);
+  display:none;
+}
+#resultat-quiz.mostra{display:block}
+#resultat-quiz h3{color:var(--marro-fosc);font-size:1.6rem}
+#puntuacio-final{font-size:3rem;font-weight:bold;color:var(--marro-fosc);margin:.5rem 0}
+.btn-reinicia{
+  background:var(--marro-fosc);color:var(--ocre-clar);
+  border:none;padding:.8rem 1.6rem;border-radius:25px;
+  font-family:'Trebuchet MS',sans-serif;font-weight:bold;font-size:1rem;
+  cursor:pointer;margin-top:1rem;
+  box-shadow:var(--ombra);transition:all .2s;
+}
+.btn-reinicia:hover{background:var(--marro);transform:translateY(-2px)}
+
+/* ============================================================
+   GLOSSARI
+   ============================================================ */
+.glossari{max-width:900px;margin:2rem auto 0}
+.entrada-glos{
+  background:var(--blanc-os);border-radius:12px;
+  margin-bottom:.6rem;box-shadow:var(--ombra);
+  overflow:hidden;border-left:5px solid var(--ocre);
+}
+.entrada-glos summary{
+  padding:1rem 1.2rem;cursor:pointer;font-weight:bold;
+  color:var(--marro);font-size:1.1rem;
+  display:flex;justify-content:space-between;align-items:center;
+  list-style:none;
+  font-family:'Trebuchet MS',sans-serif;
+}
+.entrada-glos summary::-webkit-details-marker{display:none}
+.entrada-glos summary::after{
+  content:"+";font-size:1.6rem;color:var(--taronja);
+  transition:transform .25s;
+}
+.entrada-glos[open] summary::after{transform:rotate(45deg)}
+.entrada-glos[open]{border-left-color:var(--taronja)}
+.entrada-glos p{padding:0 1.2rem 1rem;color:var(--marro-fosc)}
+
+/* ============================================================
+   BOTÓ AMUNT
+   ============================================================ */
+.btn-amunt{
+  position:fixed;bottom:25px;right:25px;
+  width:55px;height:55px;border-radius:50%;
+  background:var(--taronja);color:var(--blanc-os);
+  border:3px solid var(--blanc-os);cursor:pointer;
+  font-size:1.6rem;font-weight:bold;
+  box-shadow:var(--ombra-forta);
+  opacity:0;pointer-events:none;
+  transition:all .3s ease;
+  z-index:800;
+}
+.btn-amunt.visible{opacity:1;pointer-events:auto}
+.btn-amunt:hover{background:var(--vermell-rupestre);transform:translateY(-4px)}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{
+  background:var(--marro-fosc);color:var(--beige);
+  padding:2rem 1rem;text-align:center;font-size:.95rem;
+}
+footer .emoji{font-size:1.4rem}
+
+/* ============================================================
+   FADE-IN ANIMATION
+   ============================================================ */
+.fade-in{opacity:0;transform:translateY(30px);transition:opacity .8s ease, transform .8s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:780px){
+  .que-es{grid-template-columns:1fr}
+  .fletxa-evo{display:none}
+  body{font-size:18px}
+  section{padding:3rem 1rem}
+  nav.principal a{font-size:.8rem;padding:.3rem .6rem}
+}
+@media (max-width:500px){
+  .hero h1{letter-spacing:2px}
+  .controls-canvas{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+<!-- Barra de progrés -->
+<div class="progress-bar" id="barraProgres" aria-hidden="true"></div>
+
+<!-- Navegació -->
+<nav class="principal" aria-label="Navegació principal">
+  <ul>
+    <li><a href="#inici">🏠 Inici</a></li>
+    <li><a href="#que-es">❓ Què és?</a></li>
+    <li><a href="#periodes">⏳ Períodes</a></li>
+    <li><a href="#hominids">🧍 Homínids</a></li>
+    <li><a href="#vida">🔥 Vida</a></li>
+    <li><a href="#art">🎨 Art</a></li>
+    <li><a href="#eines">🔨 Eines</a></li>
+    <li><a href="#animals">🦣 Animals</a></li>
+    <li><a href="#megalits">🗿 Megàlits</a></li>
+    <li><a href="#curiositats">🤯 Curiositats</a></li>
+    <li><a href="#quiz">🧠 Quiz</a></li>
+    <li><a href="#glossari">📖 Glossari</a></li>
+  </ul>
+</nav>
+
+<!-- ========================= HERO ========================= -->
+<header class="hero" id="inici">
+  <h1>LA PREHISTÒRIA</h1>
+  <p class="subtitol">El gran viatge a l'origen de la humanitat</p>
+
+  <!-- Paisatge prehistòric SVG -->
+  <svg class="paisatge-prehistoric" viewBox="0 0 1100 380" role="img" aria-label="Paisatge prehistòric amb volcans, arbres i animals">
+    <defs>
+      <linearGradient id="cel" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0%" stop-color="#ffd58a"/>
+        <stop offset="50%" stop-color="#f29a47"/>
+        <stop offset="100%" stop-color="#a85a26"/>
+      </linearGradient>
+      <radialGradient id="sol" cx="50%" cy="50%">
+        <stop offset="0%" stop-color="#fff7c2"/>
+        <stop offset="100%" stop-color="#ffb347"/>
+      </radialGradient>
+      <linearGradient id="muntanya" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0%" stop-color="#7a5a3e"/>
+        <stop offset="100%" stop-color="#3d2614"/>
+      </linearGradient>
+      <linearGradient id="lava" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0%" stop-color="#fff700"/>
+        <stop offset="50%" stop-color="#ff5722"/>
+        <stop offset="100%" stop-color="#a83b1d"/>
+      </linearGradient>
+    </defs>
+    <!-- Cel -->
+    <rect width="1100" height="280" fill="url(#cel)"/>
+    <!-- Sol -->
+    <circle cx="850" cy="100" r="48" fill="url(#sol)"/>
+    <!-- Núvols -->
+    <ellipse cx="200" cy="80" rx="60" ry="14" fill="rgba(255,255,255,.55)"/>
+    <ellipse cx="240" cy="70" rx="40" ry="10" fill="rgba(255,255,255,.55)"/>
+    <ellipse cx="600" cy="55" rx="50" ry="11" fill="rgba(255,255,255,.5)"/>
+    <!-- Muntanyes llunyanes -->
+    <polygon points="0,280 150,160 300,280" fill="#8b5a2b" opacity=".7"/>
+    <polygon points="200,280 350,180 500,280" fill="#6d4520" opacity=".75"/>
+    <polygon points="700,280 820,150 940,280" fill="#7a5a3e" opacity=".7"/>
+    <!-- Volcà actiu -->
+    <polygon points="380,280 530,100 680,280" fill="url(#muntanya)"/>
+    <polygon points="495,160 530,100 565,160 555,180 505,180" fill="#1a1410"/>
+    <!-- Lava i fum -->
+    <path d="M515 110 Q510 80 525 60 Q540 80 535 50 Q550 70 545 30" stroke="#5d3a1a" stroke-width="6" fill="none" opacity=".55"/>
+    <ellipse cx="530" cy="20" rx="35" ry="14" fill="#7a6a5d" opacity=".6"/>
+    <ellipse cx="490" cy="35" rx="25" ry="10" fill="#7a6a5d" opacity=".5"/>
+    <path d="M500 130 Q510 145 505 165 Q515 175 510 195 Q525 200 522 220 L540 220 Q537 200 550 195 Q543 175 555 165 Q548 145 558 130 Z" fill="url(#lava)"/>
+
+    <!-- Volcà petit -->
+    <polygon points="900,280 990,180 1080,280" fill="url(#muntanya)" opacity=".95"/>
+    <polygon points="965,200 990,180 1015,200 1010,215 970,215" fill="#1a1410"/>
+    <ellipse cx="990" cy="160" rx="22" ry="9" fill="#7a6a5d" opacity=".5"/>
+
+    <!-- Terra -->
+    <rect y="280" width="1100" height="100" fill="#6b8e23"/>
+    <path d="M0,280 Q200,265 400,280 T800,280 T1100,278 L1100,380 L0,380 Z" fill="#7a9a35"/>
+    <!-- Riu -->
+    <path d="M0,355 Q300,340 600,360 T1100,355 L1100,380 L0,380 Z" fill="#5b8db5" opacity=".75"/>
+
+    <!-- Arbre primitiu (falguera/ginkgo) esquerra -->
+    <g transform="translate(80,180)">
+      <rect x="-7" y="0" width="14" height="100" fill="#5d3a1a"/>
+      <ellipse cx="0" cy="-10" rx="55" ry="35" fill="#6b8e23"/>
+      <ellipse cx="-25" cy="-35" rx="30" ry="22" fill="#7a9a35"/>
+      <ellipse cx="25" cy="-35" rx="30" ry="22" fill="#7a9a35"/>
+      <ellipse cx="0" cy="-55" rx="35" ry="22" fill="#6b8e23"/>
+    </g>
+    <!-- Arbre dreta (palma/cíca) -->
+    <g transform="translate(740,200)">
+      <rect x="-6" y="0" width="12" height="80" fill="#5d3a1a"/>
+      <path d="M0,0 Q-30,-20 -60,-15" stroke="#6b8e23" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <path d="M0,0 Q30,-20 60,-15" stroke="#6b8e23" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <path d="M0,0 Q-15,-35 -25,-55" stroke="#7a9a35" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <path d="M0,0 Q15,-35 25,-55" stroke="#7a9a35" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <path d="M0,0 Q0,-30 5,-55" stroke="#6b8e23" stroke-width="8" fill="none" stroke-linecap="round"/>
+    </g>
+    <!-- Falguera petita -->
+    <g transform="translate(1010,300)">
+      <path d="M0,0 Q-12,-25 -25,-40 M0,0 Q-5,-30 -10,-55 M0,0 Q5,-30 10,-55 M0,0 Q12,-25 25,-40 M0,0 Q0,-35 0,-60" stroke="#4a6318" stroke-width="3" fill="none" stroke-linecap="round"/>
+    </g>
+
+    <!-- Mamut silueta -->
+    <g transform="translate(160,300)" opacity=".95">
+      <ellipse cx="0" cy="0" rx="55" ry="30" fill="#4a3320"/>
+      <circle cx="-50" cy="-12" r="22" fill="#4a3320"/>
+      <path d="M-65,-15 Q-95,5 -75,28" stroke="#4a3320" stroke-width="11" fill="none" stroke-linecap="round"/>
+      <path d="M-72,-3 Q-95,18 -88,38" stroke="#fff8d6" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <rect x="-30" y="20" width="7" height="22" fill="#4a3320"/>
+      <rect x="-15" y="20" width="7" height="22" fill="#4a3320"/>
+      <rect x="20" y="20" width="7" height="22" fill="#4a3320"/>
+      <rect x="35" y="20" width="7" height="22" fill="#4a3320"/>
+    </g>
+    <!-- Cérvol/Megaloceros silueta -->
+    <g transform="translate(840,300)" opacity=".9">
+      <ellipse cx="0" cy="0" rx="32" ry="14" fill="#5d3a1a"/>
+      <ellipse cx="30" cy="-15" rx="14" ry="10" fill="#5d3a1a"/>
+      <rect x="-22" y="10" width="4" height="22" fill="#5d3a1a"/>
+      <rect x="-10" y="10" width="4" height="22" fill="#5d3a1a"/>
+      <rect x="18" y="10" width="4" height="22" fill="#5d3a1a"/>
+      <rect x="30" y="10" width="4" height="22" fill="#5d3a1a"/>
+      <!-- Banyes -->
+      <path d="M30,-22 Q25,-40 15,-45 M30,-22 Q40,-42 55,-40 M30,-22 Q35,-35 45,-32 M30,-22 Q22,-32 10,-30" stroke="#5d3a1a" stroke-width="2.5" fill="none"/>
+    </g>
+  </svg>
+
+  <!-- Línia de temps "1 dia" -->
+  <div class="linia-temps-dia">
+    <h3>⏰ Si tota la història humana fos un dia de 24 hores…</h3>
+    <p style="font-size:.95rem;margin-bottom:.4rem">La <strong>Prehistòria</strong> ocuparia gairebé <strong>tot el dia</strong>! La Història (amb escriptura) només són els últims 4 minuts! 😮</p>
+    <div class="barra-dia" id="barraDia">
+      <div class="marca-dia" style="left:0%"></div>
+      <div class="marca-dia" style="left:25%"></div>
+      <div class="marca-dia" style="left:50%"></div>
+      <div class="marca-dia" style="left:75%"></div>
+      <div class="marca-dia" style="left:99.7%;background:#fff700;width:3px"></div>
+      <div class="etiqueta-dia" style="left:0%">00:00<br>Prehistòria</div>
+      <div class="etiqueta-dia" style="left:50%">12:00<br>migdia</div>
+      <div class="etiqueta-dia" style="left:99.7%;width:120px">23:56<br>📜 Escriptura!</div>
+    </div>
+  </div>
+</header>
+
+<!-- ========================= QUE ÉS ========================= -->
+<section id="que-es" class="bg-beige">
+  <div class="contenidor fade-in">
+    <h2>
+      <svg class="icona" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="28" fill="#c9881c"/>
+        <text x="32" y="44" text-anchor="middle" font-size="36" font-weight="bold" fill="#3d2614">?</text>
+      </svg>
+      Què és la Prehistòria?
+    </h2>
+    <p class="subtitol-seccio">Un viatge fa milers i milers d'anys 🌍</p>
+
+    <div class="que-es">
+      <div class="que-es-text">
+        <p>La <strong>Prehistòria</strong> és el període més llarg de la història de la humanitat. Va començar fa <strong>uns 2,5 milions d'anys</strong>, quan els primers homínids van fabricar les primeres eines de pedra, i va acabar quan es va inventar l'<strong>escriptura</strong>, fa uns 5.000 anys.</p>
+        <p>Saps per què es diu "<strong>pre-història</strong>"? Perquè <em>"pre"</em> vol dir <em>"abans"</em>! És tot el que va passar <strong>abans</strong> que les persones aprenguessin a escriure. Com que no hi havia llibres, els arqueòlegs han hagut de descobrir com vivien gràcies als <strong>fòssils, ossos, eines i pintures de les coves</strong>. 🦴🪨</p>
+        <p>Imagina't: durant milions d'anys, la gent vivia sense roba com la d'avui, sense cases, sense escola… però va inventar coses tan importants com <strong>el foc, la roda i la ceràmica</strong>! 🔥</p>
+        <div class="dato-sorprendent">
+          <strong>🤯 Dada increïble!</strong>
+          La Prehistòria va durar <strong>més de 2.500.000 anys</strong>. La Història "només" porta <strong>uns 5.000 anys</strong>. Si fessis una línia, la Prehistòria seria <strong>500 vegades més llarga</strong>!
+        </div>
+      </div>
+      <div>
+        <!-- Il·lustració d'una cova amb foguera -->
+        <svg viewBox="0 0 400 320" role="img" aria-label="Cova prehistòrica amb persones al voltant del foc">
+          <defs>
+            <radialGradient id="covaInt" cx="50%" cy="50%">
+              <stop offset="0%" stop-color="#a8784a"/>
+              <stop offset="100%" stop-color="#3d2614"/>
+            </radialGradient>
+          </defs>
+          <rect width="400" height="320" fill="#5d3a1a"/>
+          <!-- Cova arc -->
+          <path d="M40 280 Q40 80 200 60 Q360 80 360 280 Z" fill="url(#covaInt)"/>
+          <!-- Terra -->
+          <ellipse cx="200" cy="285" rx="170" ry="20" fill="#3d2614"/>
+          <!-- Foguera -->
+          <ellipse cx="200" cy="265" rx="32" ry="6" fill="#1a1410"/>
+          <rect x="180" y="252" width="40" height="8" rx="4" fill="#3d2614"/>
+          <path d="M200 250 Q190 220 200 200 Q210 220 200 250" fill="#ff5722"/>
+          <path d="M200 245 Q193 225 200 210 Q207 225 200 245" fill="#ffec8b"/>
+          <!-- Persona 1 -->
+          <g transform="translate(130,235)">
+            <circle cx="0" cy="0" r="10" fill="#c89867"/>
+            <path d="M-12 12 Q0 8 12 12 L10 35 L-10 35 Z" fill="#7a5a3e"/>
+          </g>
+          <!-- Persona 2 -->
+          <g transform="translate(270,235)">
+            <circle cx="0" cy="0" r="10" fill="#c89867"/>
+            <path d="M-12 12 Q0 8 12 12 L10 35 L-10 35 Z" fill="#8b5a2b"/>
+          </g>
+          <!-- Pintures rupestres a la paret -->
+          <g transform="translate(80,170)" opacity=".75">
+            <ellipse cx="10" cy="10" rx="12" ry="6" fill="#a83b1d"/>
+            <rect x="6" y="14" width="2" height="8" fill="#a83b1d"/>
+            <rect x="12" y="14" width="2" height="8" fill="#a83b1d"/>
+          </g>
+          <g transform="translate(310,180)" opacity=".75">
+            <path d="M0 8 Q5 0 12 5 Q18 -2 22 8 Z" fill="#3d2614"/>
+            <rect x="3" y="8" width="2" height="6" fill="#3d2614"/>
+            <rect x="18" y="8" width="2" height="6" fill="#3d2614"/>
+          </g>
+          <!-- Mà rupestre -->
+          <g transform="translate(85,100)">
+            <ellipse cx="10" cy="20" rx="9" ry="11" fill="#fff" opacity=".4"/>
+            <rect x="6" y="5" width="3" height="14" rx="1.5" fill="#fff" opacity=".4"/>
+            <rect x="11" y="3" width="3" height="16" rx="1.5" fill="#fff" opacity=".4"/>
+            <rect x="16" y="6" width="3" height="13" rx="1.5" fill="#fff" opacity=".4"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= PERIODES ========================= -->
+<section id="periodes">
+  <div class="contenidor fade-in">
+    <h2>
+      <svg class="icona" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="28" fill="#5d3a1a" stroke="#c9881c" stroke-width="3"/>
+        <line x1="32" y1="32" x2="32" y2="14" stroke="#c9881c" stroke-width="3" stroke-linecap="round"/>
+        <line x1="32" y1="32" x2="46" y2="32" stroke="#c9881c" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      Els Grans Períodes
+    </h2>
+    <p class="subtitol-seccio">La Prehistòria es divideix en quatre etapes ⏳</p>
+
+    <div class="periodes-graella">
+      <article class="periode p-paleolitic">
+        <svg class="icona-gran" viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M14 30 Q20 10 38 18 Q55 25 50 42 Q42 56 26 52 Q12 46 14 30 Z" fill="#a8784a" stroke="#3d2614" stroke-width="2"/>
+          <path d="M22 28 L28 22 M30 32 L36 26 M22 40 L28 44" stroke="#3d2614" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <h3>Paleolític</h3>
+        <span class="data">Pedra Antiga · 2.500.000 – 10.000 a.C.</span>
+        <p>Les persones eren <strong>nòmades</strong>: anaven d'un lloc a un altre buscant menjar. Caçaven mamuts, pescaven i recollien fruits. Vivien a <strong>coves</strong> i feien eines de pedra <strong>tallada</strong>. Va ser el període més llarg!</p>
+      </article>
+      <article class="periode p-mesolitic">
+        <svg class="icona-gran" viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M14 50 Q32 10 50 50" stroke="#fff8d6" stroke-width="3" fill="none"/>
+          <line x1="14" y1="50" x2="50" y2="50" stroke="#fff8d6" stroke-width="2" stroke-dasharray="3,3"/>
+          <line x1="32" y1="14" x2="32" y2="58" stroke="#c9881c" stroke-width="2"/>
+          <polygon points="32,12 28,18 36,18" fill="#fff8d6"/>
+        </svg>
+        <h3>Mesolític</h3>
+        <span class="data">Pedra Mitjana · 10.000 – 7.000 a.C.</span>
+        <p>Es va acabar el fred de la <strong>glaciació</strong> i la Terra es va escalfar. La gent va inventar <strong>l'arc i les fletxes</strong> i va començar a viure en pobles petits a prop de rius i llacs. 🏹</p>
+      </article>
+      <article class="periode p-neolitic">
+        <svg class="icona-gran" viewBox="0 0 64 64" aria-hidden="true">
+          <rect x="28" y="14" width="8" height="36" fill="#3d2614"/>
+          <ellipse cx="32" cy="14" rx="14" ry="6" fill="#7a9a35"/>
+          <ellipse cx="22" cy="12" rx="6" ry="4" fill="#6b8e23"/>
+          <ellipse cx="42" cy="12" rx="6" ry="4" fill="#6b8e23"/>
+          <ellipse cx="32" cy="55" rx="20" ry="3" fill="#3d2614"/>
+        </svg>
+        <h3>Neolític</h3>
+        <span class="data">Pedra Nova · 7.000 – 4.000 a.C.</span>
+        <p>Una <strong>revolució</strong>! La gent va aprendre a <strong>cultivar</strong> blat i a <strong>criar animals</strong>. Es van fer <strong>sedentaris</strong> (deixaven d'anar d'un lloc a un altre), van inventar la <strong>ceràmica</strong> i la pedra polida. 🌾🐑</p>
+      </article>
+      <article class="periode p-metalls">
+        <svg class="icona-gran" viewBox="0 0 64 64" aria-hidden="true">
+          <rect x="29" y="12" width="6" height="34" fill="#5d3a1a"/>
+          <polygon points="20,10 44,10 50,22 14,22" fill="#c0541c"/>
+          <polygon points="20,10 44,10 42,16 22,16" fill="#ff8c45"/>
+          <circle cx="32" cy="50" r="6" fill="#ffc107"/>
+        </svg>
+        <h3>Edat dels Metalls</h3>
+        <span class="data">4.000 – 1.000 a.C.</span>
+        <p>Es descobreix que <strong>fonent pedres especials</strong> surt metall! Primer el <strong>coure</strong>, després el <strong>bronze</strong> (barreja de coure i estany) i finalment el <strong>ferro</strong>, el més fort de tots. ⚒️</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= HOMÍNIDS ========================= -->
+<section id="hominids" class="bg-fosc">
+  <div class="contenidor fade-in">
+    <h2>
+      <svg class="icona" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="20" r="10" fill="#c9881c"/>
+        <path d="M18 50 Q32 38 46 50 L44 58 L20 58 Z" fill="#c9881c"/>
+      </svg>
+      Els nostres avantpassats: els Homínids
+    </h2>
+    <p class="subtitol-seccio">Coneix la família humana al llarg del temps 👨‍👩‍👧</p>
+
+    <div class="cartes-graella">
+      <!-- AUSTRALOPITHECUS -->
+      <article class="carta-hominid">
+        <div class="nom">Australopithecus</div>
+        <div class="retrat">
+          <svg viewBox="0 0 100 120" aria-label="Il·lustració d'Australopithecus">
+            <ellipse cx="50" cy="105" rx="34" ry="6" fill="#3d2614" opacity=".4"/>
+            <ellipse cx="50" cy="35" rx="20" ry="22" fill="#6b4a2a"/>
+            <ellipse cx="50" cy="42" rx="16" ry="14" fill="#c89867"/>
+            <circle cx="44" cy="40" r="2" fill="#1a1410"/>
+            <circle cx="56" cy="40" r="2" fill="#1a1410"/>
+            <ellipse cx="50" cy="50" rx="3" ry="2" fill="#5d3a1a"/>
+            <path d="M44 54 Q50 57 56 54" stroke="#3d2614" stroke-width="1.5" fill="none"/>
+            <ellipse cx="50" cy="80" rx="18" ry="20" fill="#6b4a2a"/>
+            <rect x="36" y="92" width="6" height="22" fill="#6b4a2a"/>
+            <rect x="58" y="92" width="6" height="22" fill="#6b4a2a"/>
+            <path d="M32 70 Q22 85 30 95" stroke="#6b4a2a" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <path d="M68 70 Q78 85 70 95" stroke="#6b4a2a" stroke-width="6" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="data-h">Fa 4 – 2 milions d'anys</div>
+        <ul>
+          <li>Va ser un dels primers homínids</li>
+          <li>Caminava sobre dues cames 🚶</li>
+          <li>Vivia a Àfrica</li>
+          <li>"Lucy" és la més famosa!</li>
+        </ul>
+      </article>
+
+      <!-- HOMO HABILIS -->
+      <article class="carta-hominid">
+        <div class="nom">Homo habilis</div>
+        <div class="retrat">
+          <svg viewBox="0 0 100 120" aria-label="Il·lustració d'Homo habilis">
+            <ellipse cx="50" cy="105" rx="34" ry="6" fill="#3d2614" opacity=".4"/>
+            <ellipse cx="50" cy="34" rx="22" ry="23" fill="#7a5238"/>
+            <ellipse cx="50" cy="40" rx="17" ry="14" fill="#c89867"/>
+            <circle cx="43" cy="38" r="2" fill="#1a1410"/>
+            <circle cx="57" cy="38" r="2" fill="#1a1410"/>
+            <ellipse cx="50" cy="48" rx="3" ry="2" fill="#5d3a1a"/>
+            <path d="M43 54 Q50 58 57 54" stroke="#3d2614" stroke-width="1.5" fill="none"/>
+            <ellipse cx="50" cy="80" rx="20" ry="20" fill="#7a5238"/>
+            <rect x="35" y="92" width="7" height="22" fill="#7a5238"/>
+            <rect x="58" y="92" width="7" height="22" fill="#7a5238"/>
+            <path d="M30 75 Q22 88 32 96" stroke="#7a5238" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <path d="M70 75 L82 88 L78 92" stroke="#7a5238" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <!-- Pedra a la mà -->
+            <polygon points="78,86 90,84 88,96 76,94" fill="#7d6f5d" stroke="#1a1410" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="data-h">Fa 2,4 – 1,5 milions d'anys</div>
+        <ul>
+          <li>"L'home hàbil" 🛠️</li>
+          <li>Va fabricar les primeres eines</li>
+          <li>Cervell més gran</li>
+          <li>Talla pedres per tallar carn</li>
+        </ul>
+      </article>
+
+      <!-- HOMO ERECTUS -->
+      <article class="carta-hominid">
+        <div class="nom">Homo erectus</div>
+        <div class="retrat">
+          <svg viewBox="0 0 100 120" aria-label="Il·lustració d'Homo erectus">
+            <ellipse cx="50" cy="105" rx="34" ry="6" fill="#3d2614" opacity=".4"/>
+            <ellipse cx="50" cy="32" rx="23" ry="24" fill="#8b5a2b"/>
+            <ellipse cx="50" cy="40" rx="18" ry="15" fill="#c89867"/>
+            <circle cx="43" cy="38" r="2" fill="#1a1410"/>
+            <circle cx="57" cy="38" r="2" fill="#1a1410"/>
+            <path d="M40 33 L48 35 M52 35 L60 33" stroke="#5d3a1a" stroke-width="2"/>
+            <ellipse cx="50" cy="49" rx="3" ry="2" fill="#5d3a1a"/>
+            <path d="M43 55 Q50 58 57 55" stroke="#3d2614" stroke-width="1.5" fill="none"/>
+            <ellipse cx="50" cy="80" rx="22" ry="22" fill="#8b5a2b"/>
+            <rect x="34" y="94" width="7" height="22" fill="#8b5a2b"/>
+            <rect x="59" y="94" width="7" height="22" fill="#8b5a2b"/>
+            <path d="M28 78 L18 92 L26 96" stroke="#8b5a2b" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <path d="M72 78 Q88 80 86 96" stroke="#8b5a2b" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <!-- Llança -->
+            <line x1="14" y1="50" x2="32" y2="100" stroke="#5d3a1a" stroke-width="3"/>
+            <polygon points="14,50 12,42 20,46" fill="#7d6f5d"/>
+            <!-- Foc petit -->
+            <ellipse cx="86" cy="106" rx="8" ry="3" fill="#3d2614"/>
+            <path d="M82 100 Q86 92 90 100" fill="#ff5722"/>
+          </svg>
+        </div>
+        <div class="data-h">Fa 1,9 milions – 100.000 anys</div>
+        <ul>
+          <li>"L'home dret" 🚶‍♂️</li>
+          <li>Va dominar el FOC! 🔥</li>
+          <li>Va sortir d'Àfrica</li>
+          <li>Caçava en grup</li>
+        </ul>
+      </article>
+
+      <!-- HOMO NEANDERTHALENSIS -->
+      <article class="carta-hominid">
+        <div class="nom">Homo neanderthalensis</div>
+        <div class="retrat">
+          <svg viewBox="0 0 100 120" aria-label="Il·lustració d'Homo neanderthalensis">
+            <ellipse cx="50" cy="105" rx="34" ry="6" fill="#3d2614" opacity=".4"/>
+            <ellipse cx="50" cy="32" rx="24" ry="24" fill="#a8784a"/>
+            <ellipse cx="50" cy="42" rx="19" ry="15" fill="#e0b489"/>
+            <circle cx="42" cy="40" r="2.2" fill="#1a1410"/>
+            <circle cx="58" cy="40" r="2.2" fill="#1a1410"/>
+            <path d="M38 36 L48 38 M52 38 L62 36" stroke="#3d2614" stroke-width="2.5"/>
+            <ellipse cx="50" cy="50" rx="4" ry="3" fill="#7a5238"/>
+            <path d="M42 56 Q50 60 58 56" stroke="#3d2614" stroke-width="1.5" fill="none"/>
+            <!-- Cabells / pèl -->
+            <path d="M28 30 Q30 18 50 14 Q70 18 72 30" fill="#5d3a1a"/>
+            <ellipse cx="50" cy="83" rx="24" ry="22" fill="#a8784a"/>
+            <!-- Pell -->
+            <path d="M30 70 Q50 65 70 70 L72 90 L28 90 Z" fill="#8b5a2b"/>
+            <rect x="33" y="98" width="8" height="18" fill="#a8784a"/>
+            <rect x="59" y="98" width="8" height="18" fill="#a8784a"/>
+            <path d="M27 80 L18 92" stroke="#a8784a" stroke-width="6" stroke-linecap="round"/>
+            <path d="M73 80 L82 92" stroke="#a8784a" stroke-width="6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="data-h">Fa 400.000 – 30.000 anys</div>
+        <ul>
+          <li>Era forts i robusts 💪</li>
+          <li>Va viure el fred glacial ❄️</li>
+          <li>Enterraven els seus morts</li>
+          <li>Convivien amb els sapiens</li>
+        </ul>
+      </article>
+
+      <!-- HOMO SAPIENS -->
+      <article class="carta-hominid" style="border-color:var(--vermell-rupestre)">
+        <div class="nom" style="background:var(--vermell-rupestre)">Homo sapiens</div>
+        <div class="retrat">
+          <svg viewBox="0 0 100 120" aria-label="Il·lustració d'Homo sapiens">
+            <ellipse cx="50" cy="105" rx="34" ry="6" fill="#3d2614" opacity=".4"/>
+            <ellipse cx="50" cy="30" rx="22" ry="23" fill="#c89867"/>
+            <ellipse cx="50" cy="40" rx="18" ry="14" fill="#e8c8a4"/>
+            <circle cx="43" cy="38" r="2" fill="#1a1410"/>
+            <circle cx="57" cy="38" r="2" fill="#1a1410"/>
+            <path d="M40 34 L48 35 M52 35 L60 34" stroke="#5d3a1a" stroke-width="1.8"/>
+            <ellipse cx="50" cy="48" rx="2.5" ry="2" fill="#a8784a"/>
+            <path d="M43 54 Q50 58 57 54" stroke="#3d2614" stroke-width="1.5" fill="none"/>
+            <!-- Cabell -->
+            <path d="M28 32 Q30 12 50 10 Q70 12 72 32 Q60 22 50 22 Q40 22 28 32" fill="#3d2614"/>
+            <ellipse cx="50" cy="80" rx="20" ry="22" fill="#7a5238"/>
+            <!-- Roba -->
+            <path d="M30 70 Q50 64 70 70 L74 95 L26 95 Z" fill="#a83b1d"/>
+            <rect x="35" y="95" width="7" height="22" fill="#7a5238"/>
+            <rect x="58" y="95" width="7" height="22" fill="#7a5238"/>
+            <path d="M28 75 L20 90" stroke="#7a5238" stroke-width="6" stroke-linecap="round"/>
+            <path d="M72 75 L84 92" stroke="#7a5238" stroke-width="6" stroke-linecap="round"/>
+            <!-- Arc -->
+            <path d="M84 70 Q92 84 84 98" stroke="#5d3a1a" stroke-width="2" fill="none"/>
+            <line x1="84" y1="70" x2="84" y2="98" stroke="#fff8d6" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="data-h">Fa 300.000 anys – ARA</div>
+        <ul>
+          <li>"L'home savi" 🧠</li>
+          <li>Som NOSALTRES! 👋</li>
+          <li>Va crear l'art rupestre 🎨</li>
+          <li>Llenguatge complet i música</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= COM VIVIEN ========================= -->
+<section id="vida">
+  <div class="contenidor fade-in">
+    <h2>
+      <svg class="icona" viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M10 50 Q10 22 32 14 Q54 22 54 50 Z" fill="#5d3a1a"/>
+        <ellipse cx="32" cy="46" rx="6" ry="2" fill="#1a1410"/>
+        <path d="M28 44 Q32 36 36 44" fill="#ff5722"/>
+      </svg>
+      Com vivien?
+    </h2>
+    <p class="subtitol-seccio">El dia a dia dels nostres avantpassats 🌅</p>
+
+    <div class="vida-graella">
+      <div class="vida-carta">
+        <svg class="icona-vida" viewBox="0 0 80 80" aria-hidden="true">
+          <line x1="14" y1="68" x2="56" y2="14" stroke="#5d3a1a" stroke-width="4" stroke-linecap="round"/>
+          <polygon points="56,14 50,18 60,22" fill="#7d6f5d" stroke="#1a1410" stroke-width="1.5"/>
+          <ellipse cx="20" cy="68" rx="8" ry="3" fill="#3d2614"/>
+        </svg>
+        <h3>La caça i la recol·lecció</h3>
+        <p>Caçaven cérvols, cavalls i fins i tot mamuts! Les dones i nens recollien <strong>fruits, arrels, ous i mel</strong>. Tot s'aprofitava: la pell per fer roba, els ossos per fer eines i la carn per menjar. 🍯🍇</p>
+      </div>
+
+      <div class="vida-carta">
+        <div class="foc-animat" aria-hidden="true">
+          <div class="lenya"></div>
+          <div class="flama"></div>
+        </div>
+        <h3>El descobriment del foc</h3>
+        <p>El foc va canviar TOT! Servia per <strong>escalfar-se, cuinar el menjar, fer llum dins les coves i espantar els animals salvatges</strong>. Era tan valuós que mai el deixaven apagar! 🔥</p>
+      </div>
+
+      <div class="vida-carta">
+        <svg class="icona-vida" viewBox="0 0 80 80" aria-hidden="true">
+          <path d="M8 60 Q8 22 40 14 Q72 22 72 60 Z" fill="#5d3a1a"/>
+          <path d="M22 60 Q22 38 40 32 Q58 38 58 60 Z" fill="#1a1410"/>
+          <ellipse cx="40" cy="68" rx="32" ry="4" fill="#3d2614"/>
+        </svg>
+        <h3>Les coves com a llar</h3>
+        <p>Les coves eren refugis perfectes: protegien del fred, de la pluja i dels animals. Les decoraven amb <strong>pintures rupestres</strong> i feien fogueres a l'entrada. La vida era dura però acollidora! 🏡</p>
+      </div>
+
+      <div class="vida-carta">
+        <svg class="icona-vida" viewBox="0 0 80 80" aria-hidden="true">
+          <circle cx="25" cy="30" r="8" fill="#c89867"/>
+          <path d="M16 50 L34 50 L32 65 L18 65 Z" fill="#a8784a"/>
+          <circle cx="55" cy="30" r="8" fill="#c89867"/>
+          <path d="M46 50 L64 50 L62 65 L48 65 Z" fill="#7a5238"/>
+          <circle cx="40" cy="40" r="5" fill="#e8c8a4"/>
+          <path d="M34 55 L46 55 L45 65 L35 65 Z" fill="#c0541c"/>
+        </svg>
+        <h3>La vida en grup</h3>
+        <p>Vivien en grups petits anomenats <strong>tribus</strong>, com famílies grans. Compartien el menjar, es protegien entre tots i ensenyaven als més petits a caçar i fer eines. Junts eren més forts! 👨‍👩‍👧‍👦</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= ART ========================= -->
+<section id="art" class="bg-beige">
+  <div class="contenidor fade-in">
+    <h2>
+      <svg class="icona" viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M14 32 Q14 18 32 16 Q50 18 50 32 Q50 46 32 48 Q14 46 14 32 Z" fill="#a83b1d"/>
+        <circle cx="22" cy="28" r="4" fill="#fff8d6"/>
+        <circle cx="42" cy="28" r="4" fill="#3d2614"/>
+        <circle cx="32" cy="42" r="4" fill="#c9881c"/>
+      </svg>
+      Art Prehistòric
+    </h2>
+    <p class="subtitol-seccio">Les primeres obres mestres de la humanitat 🎨</p>
+
+    <p style="text-align:center;max-width:800px;margin:0 auto 1rem">Fa més de <strong>30.000 anys</strong>, els nostres avantpassats ja pintaven a les parets de les coves! Utilitzaven <strong>terra, carbó i sang</strong> barrejada amb greix com a pintura. Els pinzells els feien amb pèls d'animal o mastegant pals.</p>
+
+    <!-- Pintures rupestres recreació -->
+    <div class="cova-pintures">
+      <svg viewBox="0 0 800 350" role="img" aria-label="Recreació de pintures rupestres estil Altamira">
+        <!-- Bisó gran -->
+        <g transform="translate(110,170)">
+          <path d="M0 0 Q-20 -40 20 -55 Q60 -65 100 -55 Q140 -50 145 -20 Q150 10 130 25 L120 50 L100 35 L40 35 L25 55 L10 38 Z" fill="#7a2a0a" stroke="#3d2614" stroke-width="2"/>
+          <ellipse cx="20" cy="-40" rx="8" ry="6" fill="#3d2614"/>
+          <path d="M14 -50 Q8 -60 14 -64 M22 -50 Q24 -65 32 -65" stroke="#3d2614" stroke-width="3" fill="none"/>
+          <circle cx="22" cy="-38" r="1.5" fill="#fff"/>
+          <line x1="40" y1="35" x2="40" y2="65" stroke="#7a2a0a" stroke-width="6"/>
+          <line x1="100" y1="35" x2="100" y2="65" stroke="#7a2a0a" stroke-width="6"/>
+        </g>
+        <!-- Cavall -->
+        <g transform="translate(380,150)">
+          <path d="M0 0 Q-5 -25 30 -30 Q70 -35 110 -25 L120 -10 L130 0 L125 15 L115 20 L100 18 L20 18 L8 25 L0 18 Z" fill="#3d2614" stroke="#1a1410" stroke-width="2"/>
+          <path d="M125 -8 Q140 -25 132 -35" fill="#3d2614"/>
+          <path d="M130 -25 Q138 -32 130 -38" fill="#3d2614"/>
+          <line x1="20" y1="18" x2="20" y2="55" stroke="#3d2614" stroke-width="6"/>
+          <line x1="40" y1="18" x2="40" y2="55" stroke="#3d2614" stroke-width="6"/>
+          <line x1="80" y1="18" x2="80" y2="55" stroke="#3d2614" stroke-width="6"/>
+          <line x1="100" y1="18" x2="100" y2="55" stroke="#3d2614" stroke-width="6"/>
+          <!-- Crinera -->
+          <path d="M120 -20 L130 -32 L132 -22 L138 -28 L138 -18" fill="#1a1410"/>
+        </g>
+        <!-- Cérvol amb banyes -->
+        <g transform="translate(580,180)">
+          <ellipse cx="40" cy="0" rx="55" ry="20" fill="#a8784a" stroke="#5d3a1a" stroke-width="2"/>
+          <ellipse cx="90" cy="-10" rx="14" ry="11" fill="#a8784a" stroke="#5d3a1a" stroke-width="2"/>
+          <line x1="0" y1="15" x2="-3" y2="40" stroke="#a8784a" stroke-width="6"/>
+          <line x1="20" y1="15" x2="18" y2="42" stroke="#a8784a" stroke-width="6"/>
+          <line x1="60" y1="15" x2="58" y2="42" stroke="#a8784a" stroke-width="6"/>
+          <line x1="80" y1="15" x2="78" y2="42" stroke="#a8784a" stroke-width="6"/>
+          <!-- Banyes ramificades -->
+          <path d="M88 -22 Q85 -42 75 -50 M88 -22 Q95 -45 110 -45 M92 -22 Q95 -40 105 -38 M85 -22 Q78 -38 68 -36" stroke="#5d3a1a" stroke-width="3" fill="none"/>
+        </g>
+        <!-- Mans rupestres -->
+        <g transform="translate(40,40)">
+          <ellipse cx="20" cy="40" rx="14" ry="20" fill="#fff8d6"/>
+          <rect x="5" y="20" width="6" height="20" rx="3" fill="#fff8d6"/>
+          <rect x="13" y="13" width="6" height="22" rx="3" fill="#fff8d6"/>
+          <rect x="22" y="10" width="6" height="25" rx="3" fill="#fff8d6"/>
+          <rect x="30" y="14" width="6" height="22" rx="3" fill="#fff8d6"/>
+        </g>
+        <g transform="translate(700,30)">
+          <ellipse cx="20" cy="40" rx="14" ry="20" fill="#a83b1d"/>
+          <rect x="5" y="20" width="6" height="20" rx="3" fill="#a83b1d"/>
+          <rect x="13" y="13" width="6" height="22" rx="3" fill="#a83b1d"/>
+          <rect x="22" y="10" width="6" height="25" rx="3" fill="#a83b1d"/>
+          <rect x="30" y="14" width="6" height="22" rx="3" fill="#a83b1d"/>
+        </g>
+        <!-- Punts/línies -->
+        <g fill="#a83b1d">
+          <circle cx="280" cy="70" r="4"/>
+          <circle cx="295" cy="80" r="4"/>
+          <circle cx="310" cy="68" r="4"/>
+          <circle cx="325" cy="78" r="4"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="art-graella">
+      <div class="tarjeta">
+        <h3>🎨 Pintures rupestres</h3>
+        <p>A les coves d'<strong>Altamira</strong> (Espanya) i <strong>Lascaux</strong> (França) hi ha pintures de <strong>bisons, cérvols, cavalls i mans</strong> de fa milers d'anys. Ningú no sap exactament per què les pintaven. Potser per portar sort a la caça?</p>
+      </div>
+      <div class="tarjeta">
+        <h3>👶 Venus de Willendorf</h3>
+        <p>És una <strong>petita figureta de pedra</strong> d'una dona, feta fa més de <strong>25.000 anys</strong>. Mesura només 11 cm! La van trobar a Àustria. Es creu que era un símbol de la fertilitat i la vida.</p>
+      </div>
+      <div class="tarjeta">
+        <h3>🎵 Música primitiva</h3>
+        <p>També feien música! S'han trobat <strong>flautes fetes amb ossos d'ocell</strong> i d'os de mamut de fa 40.000 anys. Tocaven tambors i sonalls per als balls i les festes. La música és molt antiga! 🥁</p>
+      </div>
+    </div>
+
+    <!-- Canvas pintura rupestre -->
+    <div class="canvas-rupestre">
+      <h3>🖌️ Crea la teva pròpia pintura rupestre!</h3>
+      <p style="color:var(--beige);text-align:center;margin-bottom:1rem">Tria un color, dibuixa amb el rató (o el dit a la tauleta) i fes art com els nostres avantpassats!</p>
+      <canvas id="tela-cova" width="800" height="380" aria-label="Tela per dibuixar pintures rupestres"></canvas>
+      <div class="controls-canvas">
+        <button class="color-pic actiu" data-color="#3d2614" style="background:#3d2614" aria-label="Color negre carbó"></button>
+        <button class="color-pic" data-color="#a83b1d" style="background:#a83b1d" aria-label="Color vermell ocre"></button>
+        <button class="color-pic" data-color="#c9881c" style="background:#c9881c" aria-label="Color ocre groc"></button>
+        <button class="color-pic" data-color="#7a2a0a" style="background:#7a2a0a" aria-label="Color marró fosc"></button>
+        <button class="color-pic" data-color="#fff8d6" style="background:#fff8d6" aria-label="Color blanc os"></button>
+        <label for="mida-pinzell" style="color:var(--beige)">Mida:</label>
+        <input id="mida-pinzell" type="range" min="2" max="30" value="6" />
+        <button class="btn-canvas" id="netejar-canvas">🧹 Netejar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= EINES ========================= -->
+<section id="eines">
+  <div class="contenidor fade-in">
+    <h2>
+      <svg class="icona" viewBox="0 0 64 64" aria-hidden="true">
+        <rect x="28" y="14" width="6" height="40" fill="#5d3a1a"/>
+        <polygon points="14,18 38,10 44,24 18,32" fill="#7d6f5d" stroke="#1a1410" stroke-width="2"/>
+      </svg>
+      Eines i Tecnologia
+    </h2>
+    <p class="subtitol-seccio">L'enginy que ens ha portat fins aquí 🔨</p>
+
+    <h3 style="text-align:center;margin-bottom:1rem">Evolució de les eines</h3>
+    <div class="eines-evolucio">
+      <div class="eina-pas">
+        <svg viewBox="0 0 80 120" aria-label="Pedra tallada">
+          <polygon points="20,30 60,20 70,60 50,100 25,90 15,55" fill="#7d6f5d" stroke="#3d2614" stroke-width="2"/>
+          <path d="M22 35 L34 50 M40 30 L50 45 M55 60 L48 75 M28 70 L38 80" stroke="#3d2614" stroke-width="1.8"/>
+        </svg>
+        <div class="titol">Pedra tallada</div>
+        <div class="data-e">Paleolític</div>
+      </div>
+      <div class="fletxa-evo" aria-hidden="true">→</div>
+      <div class="eina-pas">
+        <svg viewBox="0 0 80 120" aria-label="Pedra polida amb mànec">
+          <rect x="36" y="30" width="8" height="80" fill="#5d3a1a" rx="2"/>
+          <ellipse cx="40" cy="20" rx="22" ry="16" fill="#9a8d7c" stroke="#3d2614" stroke-width="2"/>
+          <path d="M22 18 Q28 12 36 14" stroke="#fff8d6" stroke-width="1.5" fill="none" opacity=".5"/>
+          <path d="M30 36 L50 36" stroke="#1a1410" stroke-width="2"/>
+          <path d="M30 36 L50 36 L48 40 L32 40 Z" fill="#3d2614"/>
+        </svg>
+        <div class="titol">Pedra polida</div>
+        <div class="data-e">Neolític</div>
+      </div>
+      <div class="fletxa-evo" aria-hidden="true">→</div>
+      <div class="eina-pas">
+        <svg viewBox="0 0 80 120" aria-label="Destral de bronze">
+          <rect x="36" y="30" width="8" height="80" fill="#5d3a1a" rx="2"/>
+          <polygon points="14,8 56,8 64,30 60,38 18,38 10,30" fill="#c9881c" stroke="#7a2a0a" stroke-width="2"/>
+          <polygon points="14,8 56,8 50,18 18,18" fill="#ffc107"/>
+          <path d="M30 38 L50 38 L48 42 L32 42 Z" fill="#3d2614"/>
+        </svg>
+        <div class="titol">Bronze</div>
+        <div class="data-e">Edat Metalls</div>
+      </div>
+      <div class="fletxa-evo" aria-hidden="true">→</div>
+      <div class="eina-pas">
+        <svg viewBox="0 0 80 120" aria-label="Destral de ferro">
+          <rect x="36" y="30" width="8" height="80" fill="#3d2614" rx="2"/>
+          <polygon points="14,8 56,8 64,28 56,38 18,38 10,28" fill="#5a5d6e" stroke="#1a1410" stroke-width="2"/>
+          <polygon points="14,8 56,8 50,16 18,16" fill="#9a9eb0"/>
+          <path d="M30 38 L50 38 L48 42 L32 42 Z" fill="#1a1410"/>
+        </svg>
+        <div class="titol">Ferro</div>
+        <div class="data-e">Final Metalls</div>
+      </div>
+    </div>
+
+    <div class="eines-extra">
+      <div class="tarjeta">
+        <h3>⚙️ La roda</h3>
+        <svg viewBox="0 0 100 80" style="height:100px;margin:0 auto" aria-label="Roda primitiva">
+          <circle cx="50" cy="40" r="32" fill="#5d3a1a" stroke="#1a1410" stroke-width="3"/>
+          <circle cx="50" cy="40" r="22" fill="#7a5238"/>
+          <circle cx="50" cy="40" r="6" fill="#3d2614"/>
+          <line x1="50" y1="18" x2="50" y2="62" stroke="#3d2614" stroke-width="3"/>
+          <line x1="28" y1="40" x2="72" y2="40" stroke="#3d2614" stroke-width="3"/>
+        </svg>
+        <p>Es va inventar fa uns <strong>5.500 anys</strong>. Va ser un dels invents més importants de la història! Va fer més fàcil <strong>transportar coses pesades</strong>.</p>
+      </div>
+      <div class="tarjeta">
+        <h3>🏺 La ceràmica</h3>
+        <svg viewBox="0 0 100 100" style="height:100px;margin:0 auto" aria-label="Gerra de ceràmica">
+          <path d="M30 25 L30 30 Q30 38 38 40 Q30 50 30 65 Q30 85 50 88 Q70 85 70 65 Q70 50 62 40 Q70 38 70 30 L70 25 Z" fill="#a8784a" stroke="#3d2614" stroke-width="2"/>
+          <path d="M35 50 Q50 58 65 50 M35 65 Q50 72 65 65" stroke="#3d2614" stroke-width="1.5" fill="none"/>
+          <ellipse cx="50" cy="27" rx="20" ry="3" fill="#7a5238"/>
+        </svg>
+        <p>Amb fang i foc, podien fer <strong>gerros, plats i recipients</strong> per guardar gra, aigua i menjar. Un invent del Neolític!</p>
+      </div>
+      <div class="tarjeta">
+        <h3>🏹 L'arc i la fletxa</h3>
+        <svg viewBox="0 0 100 100" style="height:100px;margin:0 auto" aria-label="Arc i fletxa">
+          <path d="M20 20 Q10 50 20 80" stroke="#5d3a1a" stroke-width="4" fill="none"/>
+          <line x1="20" y1="20" x2="20" y2="80" stroke="#fff8d6" stroke-width="1.5"/>
+          <line x1="20" y1="50" x2="85" y2="50" stroke="#5d3a1a" stroke-width="2"/>
+          <polygon points="85,50 78,46 78,54" fill="#7d6f5d"/>
+          <path d="M22 48 L28 50 L22 52 Z" fill="#3d2614"/>
+        </svg>
+        <p>Va aparèixer al <strong>Mesolític</strong>. Permetia caçar animals des de <strong>lluny</strong> i amb més precisió. Era millor que les llances!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= ANIMALS ========================= -->
+<section id="animals" class="bg-musgo">
+  <div class="contenidor fade-in">
+    <h2>
+      <svg class="icona" viewBox="0 0 64 64" aria-hidden="true">
+        <ellipse cx="32" cy="38" rx="22" ry="14" fill="#5d3a1a"/>
+        <circle cx="14" cy="32" r="9" fill="#5d3a1a"/>
+        <path d="M6 28 Q-2 38 6 48" stroke="#5d3a1a" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <path d="M2 36 Q-4 50 0 58" stroke="#fff8d6" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <line x1="22" y1="50" x2="22" y2="60" stroke="#5d3a1a" stroke-width="4"/>
+        <line x1="42" y1="50" x2="42" y2="60" stroke="#5d3a1a" stroke-width="4"/>
+      </svg>
+      Animals de la Prehistòria
+    </h2>
+    <p class="subtitol-seccio">Bèsties impressionants que ja no existeixen 🦣</p>
+
+    <div class="animals-graella">
+      <!-- Mamut -->
+      <article class="carta-animal">
+        <div class="il-animal">
+          <svg viewBox="0 0 200 140" aria-label="Mamut llanut">
+            <ellipse cx="100" cy="125" rx="80" ry="6" fill="#3d2614" opacity=".4"/>
+            <ellipse cx="110" cy="80" rx="65" ry="40" fill="#5d3a1a"/>
+            <path d="M50 70 Q15 75 25 110 Q40 100 55 95" fill="#5d3a1a"/>
+            <circle cx="40" cy="80" r="22" fill="#5d3a1a"/>
+            <path d="M28 92 Q12 110 25 125" stroke="#5d3a1a" stroke-width="14" fill="none" stroke-linecap="round"/>
+            <path d="M22 95 Q5 115 18 130" stroke="#fff8d6" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <path d="M48 90 Q40 130 32 125" stroke="#fff8d6" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <circle cx="38" cy="74" r="2" fill="#1a1410"/>
+            <rect x="60" y="115" width="14" height="20" fill="#3d2614"/>
+            <rect x="90" y="115" width="14" height="20" fill="#3d2614"/>
+            <rect x="135" y="115" width="14" height="20" fill="#3d2614"/>
+            <rect x="160" y="115" width="14" height="20" fill="#3d2614"/>
+            <!-- Pèl -->
+            <path d="M60 50 L65 38 M85 45 L88 32 M115 40 L120 28 M145 45 L150 32 M175 60 L180 50" stroke="#3d2614" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="info">
+          <h3>Mamut llanut</h3>
+          <span class="dada">Pesava 6.000 kg!</span>
+          <p>Tenia <strong>pèl llarg i gruixut</strong> per protegir-se del fred glacial. Les seves <strong>defenses</strong> mesuraven fins a 4 metres! 🦣</p>
+        </div>
+      </article>
+
+      <!-- Smilodon -->
+      <article class="carta-animal">
+        <div class="il-animal">
+          <svg viewBox="0 0 200 140" aria-label="Tigre dents de sabre">
+            <ellipse cx="100" cy="125" rx="80" ry="6" fill="#3d2614" opacity=".4"/>
+            <ellipse cx="110" cy="85" rx="60" ry="30" fill="#c9881c"/>
+            <circle cx="50" cy="80" r="25" fill="#c9881c"/>
+            <polygon points="40,68 35,55 48,62" fill="#c9881c"/>
+            <polygon points="60,68 65,55 52,62" fill="#c9881c"/>
+            <circle cx="44" cy="78" r="2.5" fill="#1a1410"/>
+            <circle cx="56" cy="78" r="2.5" fill="#1a1410"/>
+            <ellipse cx="50" cy="88" rx="3" ry="2" fill="#1a1410"/>
+            <!-- Dents de sabre -->
+            <polygon points="44,92 42,108 47,106" fill="#fff8d6" stroke="#3d2614" stroke-width="1"/>
+            <polygon points="56,92 58,108 53,106" fill="#fff8d6" stroke="#3d2614" stroke-width="1"/>
+            <!-- Ratlles -->
+            <path d="M85 70 L92 65 M105 65 L112 60 M125 70 L130 65 M145 75 L150 70" stroke="#5d3a1a" stroke-width="3"/>
+            <rect x="78" y="108" width="10" height="22" fill="#c9881c"/>
+            <rect x="100" y="108" width="10" height="22" fill="#c9881c"/>
+            <rect x="135" y="108" width="10" height="22" fill="#c9881c"/>
+            <rect x="155" y="108" width="10" height="22" fill="#c9881c"/>
+            <path d="M170 80 Q190 70 195 90" stroke="#c9881c" stroke-width="8" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="info">
+          <h3>Tigre dents de sabre</h3>
+          <span class="dada">Smilodon</span>
+          <p>Tenia <strong>dos dents enormes</strong> de fins a 28 cm! Era un <strong>caçador silenciós</strong>. La seva mossegada era tres vegades més forta que la d'un lleó. 🐯</p>
+        </div>
+      </article>
+
+      <!-- Os de les cavernes -->
+      <article class="carta-animal">
+        <div class="il-animal">
+          <svg viewBox="0 0 200 140" aria-label="Os de les cavernes">
+            <ellipse cx="100" cy="125" rx="80" ry="6" fill="#3d2614" opacity=".4"/>
+            <ellipse cx="110" cy="85" rx="55" ry="35" fill="#3d2614"/>
+            <circle cx="55" cy="78" r="28" fill="#3d2614"/>
+            <ellipse cx="55" cy="92" rx="14" ry="10" fill="#5d3a1a"/>
+            <circle cx="50" cy="73" r="2.5" fill="#fff"/>
+            <circle cx="60" cy="73" r="2.5" fill="#fff"/>
+            <circle cx="50" cy="73" r="1.2" fill="#1a1410"/>
+            <circle cx="60" cy="73" r="1.2" fill="#1a1410"/>
+            <ellipse cx="55" cy="92" rx="3" ry="2" fill="#1a1410"/>
+            <ellipse cx="35" cy="58" rx="6" ry="7" fill="#3d2614"/>
+            <ellipse cx="75" cy="58" rx="6" ry="7" fill="#3d2614"/>
+            <rect x="78" y="110" width="14" height="22" fill="#3d2614"/>
+            <rect x="100" y="110" width="14" height="22" fill="#3d2614"/>
+            <rect x="135" y="110" width="14" height="22" fill="#3d2614"/>
+            <rect x="155" y="110" width="14" height="22" fill="#3d2614"/>
+            <!-- Urpes -->
+            <line x1="78" y1="132" x2="80" y2="138" stroke="#fff8d6" stroke-width="1.5"/>
+            <line x1="84" y1="132" x2="86" y2="138" stroke="#fff8d6" stroke-width="1.5"/>
+            <line x1="88" y1="132" x2="90" y2="138" stroke="#fff8d6" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="info">
+          <h3>Os de les cavernes</h3>
+          <span class="dada">3 metres dret!</span>
+          <p>Vivia a les <strong>coves d'Europa</strong>. Era enorme: dret feia 3 metres! Sovint es disputava la cova amb les persones. Es va extingir fa uns 25.000 anys. 🐻</p>
+        </div>
+      </article>
+
+      <!-- Rinoceront llanut -->
+      <article class="carta-animal">
+        <div class="il-animal">
+          <svg viewBox="0 0 200 140" aria-label="Rinoceront llanut">
+            <ellipse cx="100" cy="125" rx="80" ry="6" fill="#3d2614" opacity=".4"/>
+            <ellipse cx="110" cy="80" rx="60" ry="32" fill="#7a5238"/>
+            <ellipse cx="50" cy="85" rx="28" ry="20" fill="#7a5238"/>
+            <circle cx="42" cy="80" r="2" fill="#1a1410"/>
+            <ellipse cx="35" cy="92" rx="4" ry="2" fill="#1a1410"/>
+            <!-- Banya gran -->
+            <path d="M28 78 Q15 60 18 50 Q28 60 32 75" fill="#fff8d6" stroke="#5d3a1a" stroke-width="1.5"/>
+            <!-- Banya petita -->
+            <path d="M42 70 Q40 60 46 58 Q48 65 48 72" fill="#fff8d6" stroke="#5d3a1a" stroke-width="1"/>
+            <!-- Pèl llanut -->
+            <path d="M70 50 L73 40 M90 48 L93 38 M115 50 L118 40 M140 55 L142 45 M158 65 L160 55" stroke="#5d3a1a" stroke-width="3" stroke-linecap="round"/>
+            <!-- Pell texturada -->
+            <path d="M80 75 Q90 78 100 75 M110 85 Q120 88 130 85" stroke="#5d3a1a" stroke-width="1.5" fill="none"/>
+            <rect x="68" y="108" width="12" height="20" fill="#5d3a1a"/>
+            <rect x="92" y="108" width="12" height="20" fill="#5d3a1a"/>
+            <rect x="130" y="108" width="12" height="20" fill="#5d3a1a"/>
+            <rect x="155" y="108" width="12" height="20" fill="#5d3a1a"/>
+          </svg>
+        </div>
+        <div class="info">
+          <h3>Rinoceront llanut</h3>
+          <span class="dada">Pèl + 2 banyes</span>
+          <p>Com el mamut, anava cobert de <strong>pèl espès</strong>! Tenia <strong>dues banyes</strong> al cap, una molt llarga. Vivia a les estepes fredes d'Europa i Àsia. 🦏❄️</p>
+        </div>
+      </article>
+
+      <!-- Megaloceros -->
+      <article class="carta-animal">
+        <div class="il-animal">
+          <svg viewBox="0 0 200 140" aria-label="Megaloceros, cérvol gegant">
+            <ellipse cx="100" cy="125" rx="80" ry="6" fill="#3d2614" opacity=".4"/>
+            <ellipse cx="100" cy="90" rx="52" ry="22" fill="#a8784a"/>
+            <ellipse cx="155" cy="70" rx="14" ry="11" fill="#a8784a"/>
+            <ellipse cx="165" cy="70" rx="6" ry="4" fill="#a8784a"/>
+            <circle cx="158" cy="68" r="1.8" fill="#1a1410"/>
+            <!-- Banyes enormes -->
+            <path d="M150 58 Q120 35 105 30 Q135 30 150 50" fill="#5d3a1a" stroke="#3d2614" stroke-width="1.5"/>
+            <path d="M160 58 Q190 35 200 30 Q170 30 158 50" fill="#5d3a1a" stroke="#3d2614" stroke-width="1.5"/>
+            <path d="M125 35 L115 25 M118 32 L108 22 M180 35 L188 25 M175 32 L185 22" stroke="#3d2614" stroke-width="2"/>
+            <rect x="60" y="108" width="9" height="22" fill="#7a5238"/>
+            <rect x="80" y="108" width="9" height="22" fill="#7a5238"/>
+            <rect x="115" y="108" width="9" height="22" fill="#7a5238"/>
+            <rect x="135" y="108" width="9" height="22" fill="#7a5238"/>
+            <path d="M50 88 Q40 85 38 95" stroke="#a8784a" stroke-width="6" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="info">
+          <h3>Megaloceros</h3>
+          <span class="dada">Banyes de 3,5 m!</span>
+          <p>El <strong>cérvol més gran</strong> que ha existit mai. Les seves banyes mesuraven fins a 3,5 metres d'extrem a extrem! Vivia per Europa i Àsia. 🦌</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= MEGÀLITS ========================= -->
+<section id="megalits">
+  <div class="contenidor fade-in">
+    <h2>
+      <svg class="icona" viewBox="0 0 64 64" aria-hidden="true">
+        <rect x="14" y="20" width="10" height="36" fill="#7d6f5d" stroke="#3d2614" stroke-width="2"/>
+        <rect x="40" y="20" width="10" height="36" fill="#7d6f5d" stroke="#3d2614" stroke-width="2"/>
+        <rect x="10" y="14" width="44" height="10" fill="#9a8d7c" stroke="#3d2614" stroke-width="2"/>
+        <ellipse cx="32" cy="58" rx="26" ry="3" fill="#3d2614" opacity=".4"/>
+      </svg>
+      Megàlits i Monuments
+    </h2>
+    <p class="subtitol-seccio">Pedres gegants que encara estan dempeus 🗿</p>
+
+    <p style="text-align:center;max-width:800px;margin:0 auto 1rem">"<strong>Megàlit</strong>" vol dir "<strong>pedra gran</strong>" en grec. Al final del Neolític, la gent va començar a construir monuments amb pedres enormes, algunes de fins a <strong>50 tones</strong>! Encara avui no sabem ben bé com les van moure.</p>
+
+    <div class="megalits-graella">
+      <article class="megalit-carta">
+        <svg viewBox="0 0 200 160" aria-label="Menhir, pedra dreta">
+          <ellipse cx="100" cy="148" rx="60" ry="8" fill="#3d2614" opacity=".5"/>
+          <path d="M85 140 L90 30 Q100 20 110 30 L115 140 Z" fill="#9a8d7c" stroke="#3d2614" stroke-width="2"/>
+          <path d="M92 50 L100 80 M104 40 L108 60" stroke="#7d6f5d" stroke-width="2"/>
+          <ellipse cx="100" cy="35" rx="10" ry="5" fill="#a8a294"/>
+          <!-- Persona per escala -->
+          <g transform="translate(150,115)">
+            <circle cx="0" cy="0" r="4" fill="#c89867"/>
+            <path d="M-4 5 L4 5 L3 25 L-3 25 Z" fill="#5d3a1a"/>
+          </g>
+        </svg>
+        <h3>Menhir</h3>
+        <p>Una <strong>gran pedra dreta</strong>, plantada al terra. Podia mesurar més de <strong>10 metres</strong>! Marcaven llocs sagrats. 🪨</p>
+      </article>
+      <article class="megalit-carta">
+        <svg viewBox="0 0 200 160" aria-label="Dolmen, taula de pedra">
+          <ellipse cx="100" cy="148" rx="80" ry="8" fill="#3d2614" opacity=".5"/>
+          <rect x="40" y="50" width="20" height="90" fill="#9a8d7c" stroke="#3d2614" stroke-width="2"/>
+          <rect x="140" y="50" width="20" height="90" fill="#9a8d7c" stroke="#3d2614" stroke-width="2"/>
+          <rect x="90" y="80" width="20" height="60" fill="#7d6f5d" stroke="#3d2614" stroke-width="2"/>
+          <polygon points="20,55 180,55 175,40 25,40" fill="#a8a294" stroke="#3d2614" stroke-width="2"/>
+          <ellipse cx="100" cy="48" rx="80" ry="3" fill="#7d6f5d"/>
+        </svg>
+        <h3>Dolmen</h3>
+        <p>Sembla una <strong>taula de pedra</strong>: dues pedres clavades al terra i una a sobre. Servia com a <strong>tomba</strong>. ⚰️</p>
+      </article>
+      <article class="megalit-carta">
+        <svg viewBox="0 0 200 160" aria-label="Cromlech, cercle de pedres com Stonehenge">
+          <ellipse cx="100" cy="148" rx="90" ry="10" fill="#3d2614" opacity=".5"/>
+          <!-- Pedres del fons -->
+          <rect x="20" y="80" width="14" height="55" fill="#7d6f5d" stroke="#3d2614" stroke-width="1.5"/>
+          <rect x="60" y="60" width="16" height="75" fill="#9a8d7c" stroke="#3d2614" stroke-width="1.5"/>
+          <rect x="98" y="55" width="16" height="80" fill="#9a8d7c" stroke="#3d2614" stroke-width="1.5"/>
+          <rect x="138" y="60" width="16" height="75" fill="#9a8d7c" stroke="#3d2614" stroke-width="1.5"/>
+          <rect x="170" y="80" width="14" height="55" fill="#7d6f5d" stroke="#3d2614" stroke-width="1.5"/>
+          <!-- Llindes -->
+          <rect x="58" y="50" width="58" height="10" fill="#a8a294" stroke="#3d2614" stroke-width="1.5"/>
+          <rect x="100" y="50" width="58" height="10" fill="#a8a294" stroke="#3d2614" stroke-width="1.5"/>
+          <!-- Sol al fons -->
+          <circle cx="100" cy="30" r="14" fill="#ffc107" opacity=".7"/>
+        </svg>
+        <h3>Cromlec</h3>
+        <p>Un <strong>cercle de pedres</strong>. El més famós és <strong>Stonehenge</strong>, a Anglaterra. Servia per observar el sol i les estrelles! 🌞</p>
+      </article>
+    </div>
+
+    <!-- Mapa Europa -->
+    <div class="mapa-europa">
+      <h3>📍 Megàlits famosos d'Europa</h3>
+      <svg viewBox="0 0 500 400" role="img" aria-label="Mapa simplificat d'Europa amb ubicacions de megàlits">
+        <!-- Continent -->
+        <path d="M80 90 Q120 60 200 70 Q280 60 340 80 Q400 90 430 130 Q440 180 420 220 Q380 270 320 290 Q260 310 200 300 Q150 320 110 300 Q70 270 70 220 Q60 150 80 90 Z" fill="#a8c989" stroke="#5d3a1a" stroke-width="2"/>
+        <!-- Mar -->
+        <text x="40" y="200" fill="#fff" font-size="12" font-style="italic">Atlàntic</text>
+        <text x="430" y="350" fill="#fff" font-size="12" font-style="italic">Mediterrani</text>
+        <!-- Stonehenge UK -->
+        <circle cx="160" cy="135" r="6" fill="#a83b1d"/>
+        <line x1="160" y1="135" x2="180" y2="115" stroke="#3d2614" stroke-width="1.5"/>
+        <text x="183" y="118" font-size="13" font-weight="bold" fill="#3d2614">Stonehenge 🇬🇧</text>
+        <!-- Carnac França -->
+        <circle cx="200" cy="180" r="6" fill="#a83b1d"/>
+        <line x1="200" y1="180" x2="220" y2="200" stroke="#3d2614" stroke-width="1.5"/>
+        <text x="223" y="205" font-size="13" font-weight="bold" fill="#3d2614">Carnac 🇫🇷</text>
+        <!-- Antequera Espanya -->
+        <circle cx="170" cy="250" r="6" fill="#a83b1d"/>
+        <line x1="170" y1="250" x2="120" y2="270" stroke="#3d2614" stroke-width="1.5"/>
+        <text x="40" y="275" font-size="13" font-weight="bold" fill="#3d2614">Antequera 🇪🇸</text>
+        <!-- Newgrange Irlanda -->
+        <circle cx="125" cy="115" r="6" fill="#a83b1d"/>
+        <line x1="125" y1="115" x2="100" y2="90" stroke="#3d2614" stroke-width="1.5"/>
+        <text x="20" y="92" font-size="13" font-weight="bold" fill="#3d2614">Newgrange 🇮🇪</text>
+        <!-- Malta -->
+        <circle cx="320" cy="290" r="6" fill="#a83b1d"/>
+        <line x1="320" y1="290" x2="370" y2="320" stroke="#3d2614" stroke-width="1.5"/>
+        <text x="370" y="325" font-size="13" font-weight="bold" fill="#3d2614">Malta 🇲🇹</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= CURIOSITATS ========================= -->
+<section id="curiositats" class="bg-beige">
+  <div class="contenidor fade-in">
+    <h2>
+      <svg class="icona" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="28" fill="#e67e22"/>
+        <text x="32" y="44" text-anchor="middle" font-size="32" font-weight="bold" fill="#fff">!</text>
+      </svg>
+      Curiositats i Dades Boges 🤯
+    </h2>
+    <p class="subtitol-seccio">Sabies que…?</p>
+
+    <div class="curiositats-graella">
+      <div class="curiositat">
+        <span class="emoji">🦷</span>
+        <strong>Dents perfectes!</strong>
+        Els humans del Paleolític gairebé no tenien càries! No menjaven sucre, sinó fruits, carn i arrels.
+      </div>
+      <div class="curiositat">
+        <span class="emoji">👶</span>
+        <strong>"Lucy" tenia 3,2 milions d'anys</strong>
+        És l'esquelet d'una Australopithecus famosíssima. La van trobar a Etiòpia el 1974 i porta el nom d'una cançó dels Beatles!
+      </div>
+      <div class="curiositat">
+        <span class="emoji">🎨</span>
+        <strong>Pinzells de pèl de cavall</strong>
+        Per pintar a les coves feien pinzells amb pèls d'animal o mastegaven pals fins a desfilar-los.
+      </div>
+      <div class="curiositat">
+        <span class="emoji">🐺</span>
+        <strong>El millor amic de l'home</strong>
+        El gos va ser el primer animal domesticat, fa més de <strong>15.000 anys</strong>! Ve dels llops salvatges.
+      </div>
+      <div class="curiositat">
+        <span class="emoji">❄️</span>
+        <strong>Una gran nevada de 100.000 anys</strong>
+        Durant l'última glaciació, gran part d'Europa estava coberta de gel. Per això hi havia mamuts!
+      </div>
+      <div class="curiositat">
+        <span class="emoji">🧬</span>
+        <strong>Tens DNA neandertal!</strong>
+        Si vius fora d'Àfrica, el teu cos té entre un 1% i un 4% de gens neandertals. Som una mescla! 🤝
+      </div>
+      <div class="curiositat">
+        <span class="emoji">🪨</span>
+        <strong>Eines de Olduvai</strong>
+        Les eines més antigues que coneixem tenen <strong>2,6 milions d'anys</strong> i es van trobar a Tanzània.
+      </div>
+      <div class="curiositat">
+        <span class="emoji">🏠</span>
+        <strong>Cases d'os de mamut</strong>
+        On no hi havia coves, alguns grups feien cabanes amb <strong>ossos de mamut</strong> i pell d'animal!
+      </div>
+      <div class="curiositat">
+        <span class="emoji">🎵</span>
+        <strong>Flautes d'os</strong>
+        S'han trobat flautes fetes amb ossos d'au i d'ós que tenen <strong>40.000 anys</strong> i encara sonen!
+      </div>
+      <div class="curiositat">
+        <span class="emoji">🚶‍♀️</span>
+        <strong>Petjades d'una família</strong>
+        A Laetoli (Tanzània) hi ha petjades de fa 3,6 milions d'anys d'una família caminant junta. Tendre, oi?
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= QUIZ ========================= -->
+<section id="quiz" class="bg-fosc">
+  <div class="contenidor fade-in">
+    <h2>
+      <svg class="icona" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="28" fill="#c9881c"/>
+        <text x="32" y="44" text-anchor="middle" font-size="34" font-weight="bold" fill="#3d2614">?</text>
+      </svg>
+      Quiz Interactiu
+    </h2>
+    <p class="subtitol-seccio">Quant has après? Posa't a prova! 🧠</p>
+
+    <div class="quiz-caixa" id="quizCaixa">
+      <!-- es genera amb JS -->
+    </div>
+    <div id="resultat-quiz" role="status" aria-live="polite">
+      <h3 id="missatge-resultat">Molt bé!</h3>
+      <div id="puntuacio-final">0 / 10</div>
+      <p id="comentari-resultat"></p>
+      <button class="btn-reinicia" id="btn-reinicia">🔄 Tornar a començar</button>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= GLOSSARI ========================= -->
+<section id="glossari">
+  <div class="contenidor fade-in">
+    <h2>
+      <svg class="icona" viewBox="0 0 64 64" aria-hidden="true">
+        <rect x="12" y="10" width="40" height="44" rx="3" fill="#5d3a1a"/>
+        <rect x="14" y="12" width="36" height="40" rx="2" fill="#f4e5c2"/>
+        <line x1="20" y1="22" x2="44" y2="22" stroke="#5d3a1a" stroke-width="2"/>
+        <line x1="20" y1="30" x2="44" y2="30" stroke="#5d3a1a" stroke-width="2"/>
+        <line x1="20" y1="38" x2="40" y2="38" stroke="#5d3a1a" stroke-width="2"/>
+      </svg>
+      Glossari
+    </h2>
+    <p class="subtitol-seccio">Paraules importants que has de saber 📖</p>
+
+    <div class="glossari" id="llistaGlossari">
+      <!-- es genera amb JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ========================= FOOTER ========================= -->
+<footer>
+  <p><span class="emoji">🦣</span> <strong>La Prehistòria</strong> · Recurs educatiu per a 3r de Primària</p>
+  <p style="opacity:.7;margin-top:.4rem">Fet amb estima per aprendre tot allò que va passar abans de la història escrita.</p>
+</footer>
+
+<!-- Botó amunt -->
+<button class="btn-amunt" id="btn-amunt" aria-label="Tornar a dalt">↑</button>
+
+<script>
+/* ============================================================
+   1. BARRA DE PROGRÉS DE LECTURA
+   ============================================================ */
+const barra = document.getElementById('barraProgres');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const total = h.scrollHeight - h.clientHeight;
+  const pct = (h.scrollTop / total) * 100;
+  barra.style.width = pct + '%';
+});
+
+/* ============================================================
+   2. BOTÓ AMUNT
+   ============================================================ */
+const btnAmunt = document.getElementById('btn-amunt');
+window.addEventListener('scroll', () => {
+  btnAmunt.classList.toggle('visible', window.scrollY > 400);
+});
+btnAmunt.addEventListener('click', () => {
+  window.scrollTo({top:0, behavior:'smooth'});
+});
+
+/* ============================================================
+   3. FADE-IN AL FER SCROLL (IntersectionObserver)
+   ============================================================ */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, {threshold: 0.12});
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+/* ============================================================
+   4. CANVAS PINTURA RUPESTRE
+   ============================================================ */
+const tela = document.getElementById('tela-cova');
+const ctx = tela.getContext('2d');
+let dibuixant = false, color = '#3d2614', mida = 6;
+
+function ajustarCanvas(){
+  const ample = tela.clientWidth;
+  const alt = tela.clientHeight;
+  if (tela.width !== ample || tela.height !== alt) {
+    const dataUrl = tela.width ? tela.toDataURL() : null;
+    tela.width = ample;
+    tela.height = alt;
+    if (dataUrl) {
+      const img = new Image();
+      img.onload = () => ctx.drawImage(img, 0, 0, ample, alt);
+      img.src = dataUrl;
+    }
+  }
+}
+window.addEventListener('resize', ajustarCanvas);
+ajustarCanvas();
+
+function getPos(e){
+  const r = tela.getBoundingClientRect();
+  const x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
+  const y = (e.touches ? e.touches[0].clientY : e.clientY) - r.top;
+  return {x: x * (tela.width/r.width), y: y * (tela.height/r.height)};
+}
+
+function comencar(e){
+  e.preventDefault();
+  dibuixant = true;
+  const p = getPos(e);
+  ctx.beginPath();
+  ctx.moveTo(p.x, p.y);
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+}
+function pintar(e){
+  if(!dibuixant) return;
+  e.preventDefault();
+  const p = getPos(e);
+  ctx.strokeStyle = color;
+  ctx.lineWidth = mida;
+  ctx.lineTo(p.x, p.y);
+  ctx.stroke();
+}
+function aturar(){ dibuixant = false; }
+
+tela.addEventListener('mousedown', comencar);
+tela.addEventListener('mousemove', pintar);
+tela.addEventListener('mouseup', aturar);
+tela.addEventListener('mouseleave', aturar);
+tela.addEventListener('touchstart', comencar, {passive:false});
+tela.addEventListener('touchmove', pintar, {passive:false});
+tela.addEventListener('touchend', aturar);
+
+document.querySelectorAll('.color-pic').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.color-pic').forEach(x => x.classList.remove('actiu'));
+    b.classList.add('actiu');
+    color = b.dataset.color;
+  });
+});
+document.getElementById('mida-pinzell').addEventListener('input', e => mida = +e.target.value);
+document.getElementById('netejar-canvas').addEventListener('click', () => {
+  ctx.clearRect(0, 0, tela.width, tela.height);
+});
+
+/* ============================================================
+   5. QUIZ
+   ============================================================ */
+const preguntes = [
+  {q:"Què vol dir la paraula 'Prehistòria'?",
+   o:["L'època dels dinosaures","El temps abans de l'escriptura","La història dels reis","L'època dels romans"],
+   c:1,
+   exp:"'Pre' vol dir 'abans'. La Prehistòria és tot el que va passar abans que s'inventés l'escriptura."},
+  {q:"Quin període és el més llarg de la Prehistòria?",
+   o:["Neolític","Edat dels Metalls","Mesolític","Paleolític"],
+   c:3,
+   exp:"El Paleolític va durar més de 2 milions d'anys! És el període més llarg."},
+  {q:"Què van inventar les persones del Neolític?",
+   o:["L'escriptura","L'agricultura i la ramaderia","La pintura rupestre","La fotografia"],
+   c:1,
+   exp:"Al Neolític, les persones van aprendre a cultivar la terra i a tenir animals. Es van fer sedentàries."},
+  {q:"Quin homínid som nosaltres?",
+   o:["Homo erectus","Australopithecus","Homo sapiens","Homo habilis"],
+   c:2,
+   exp:"Tots nosaltres som Homo sapiens, que vol dir 'home savi'."},
+  {q:"Qui va dominar el foc per primera vegada?",
+   o:["Homo sapiens","Homo erectus","Australopithecus","Neandertals"],
+   c:1,
+   exp:"L'Homo erectus va ser el primer en controlar el foc, fa centenars de milers d'anys."},
+  {q:"Què és un dolmen?",
+   o:["Una pedra dreta sola","Una cova pintada","Una taula de pedres usada com a tomba","Una eina de caça"],
+   c:2,
+   exp:"Un dolmen són dues pedres dretes amb una pedra plana a sobre, com una taula. Servia com a tomba."},
+  {q:"Quin animal era PELUT i tenia defenses llargues?",
+   o:["Smilodon","Megaloceros","Os de les cavernes","Mamut llanut"],
+   c:3,
+   exp:"El mamut llanut tenia pèl llarg i defenses de fins a 4 metres! Per això podia viure al fred."},
+  {q:"Quin va ser el primer animal domesticat?",
+   o:["El cavall","El gos","La vaca","La gallina"],
+   c:1,
+   exp:"El gos va ser el primer animal domesticat fa més de 15.000 anys. Ve del llop!"},
+  {q:"On està Stonehenge?",
+   o:["A França","A Espanya","A Anglaterra","A Itàlia"],
+   c:2,
+   exp:"Stonehenge és un cromlec famosíssim que es troba a Anglaterra (Regne Unit)."},
+  {q:"Quin metall NO es feia servir a la Prehistòria?",
+   o:["Coure","Bronze","Ferro","Or"],
+   c:3,
+   exp:"L'or sí que es coneixia, però era molt rar i no es feia servir per fer eines. Els metalls importants van ser coure, bronze i ferro."}
+];
+
+let respostes = new Array(preguntes.length).fill(null);
+
+function dibuixarQuiz(){
+  const cont = document.getElementById('quizCaixa');
+  cont.innerHTML = '';
+  preguntes.forEach((p, i) => {
+    const div = document.createElement('div');
+    div.className = 'pregunta';
+    div.innerHTML = `<h4>${i+1}. ${p.q}</h4>` +
+      p.o.map((op, j) => `<button class="opcio" data-q="${i}" data-op="${j}">${op}</button>`).join('') +
+      `<div class="feedback" id="fb-${i}"></div>`;
+    cont.appendChild(div);
+  });
+  cont.querySelectorAll('.opcio').forEach(b => {
+    b.addEventListener('click', () => respondre(+b.dataset.q, +b.dataset.op));
+  });
+  document.getElementById('resultat-quiz').classList.remove('mostra');
+}
+
+function respondre(qIdx, opIdx){
+  if (respostes[qIdx] !== null) return;
+  respostes[qIdx] = opIdx;
+  const p = preguntes[qIdx];
+  const botons = document.querySelectorAll(`.opcio[data-q="${qIdx}"]`);
+  botons.forEach((b, j) => {
+    b.disabled = true;
+    if (j === p.c) b.classList.add('correcta');
+    else if (j === opIdx) b.classList.add('incorrecta');
+  });
+  const fb = document.getElementById('fb-'+qIdx);
+  if (opIdx === p.c) {
+    fb.className = 'feedback ok mostra';
+    fb.innerHTML = '✅ <strong>Correcte!</strong> ' + p.exp;
+  } else {
+    fb.className = 'feedback ko mostra';
+    fb.innerHTML = '❌ <strong>No exactament.</strong> ' + p.exp;
+  }
+  if (respostes.every(r => r !== null)) mostrarResultat();
+}
+
+function mostrarResultat(){
+  const correctes = respostes.filter((r, i) => r === preguntes[i].c).length;
+  const total = preguntes.length;
+  const pct = correctes / total;
+  let msg, com;
+  if (pct === 1) { msg = "🏆 Perfecte! Ets un autèntic arqueòleg!"; com = "Has encertat totes les preguntes! Saps moltíssim sobre la Prehistòria."; }
+  else if (pct >= 0.8) { msg = "🌟 Molt bé!"; com = "Saps moltes coses sobre la Prehistòria. Una mica més i ho saps tot!"; }
+  else if (pct >= 0.5) { msg = "👍 Bona feina!"; com = "Has après moltes coses, però encara pots descobrir-ne més. Torna a llegir les seccions!"; }
+  else { msg = "📚 Segueix aprenent!"; com = "La Prehistòria és apassionant. Llegeix una mica més i torna a provar-ho. Tu pots!"; }
+  document.getElementById('missatge-resultat').textContent = msg;
+  document.getElementById('puntuacio-final').textContent = correctes + ' / ' + total;
+  document.getElementById('comentari-resultat').textContent = com;
+  document.getElementById('resultat-quiz').classList.add('mostra');
+  document.getElementById('resultat-quiz').scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+document.getElementById('btn-reinicia').addEventListener('click', () => {
+  respostes = new Array(preguntes.length).fill(null);
+  dibuixarQuiz();
+  document.getElementById('quiz').scrollIntoView({behavior:'smooth'});
+});
+
+dibuixarQuiz();
+
+/* ============================================================
+   6. GLOSSARI
+   ============================================================ */
+const glos = [
+  ["Arqueòleg","Científic que estudia com vivien les persones del passat a través de les coses que han deixat (ossos, eines, pintures…)."],
+  ["Australopithecus","Un dels primers homínids. Caminava sobre dues cames i vivia a Àfrica fa milions d'anys."],
+  ["Bronze","Metall que es fa barrejant coure i estany. És més dur que el coure sol."],
+  ["Caçador-recol·lector","Persona que aconsegueix el menjar caçant animals i recollint plantes salvatges, sense conrear."],
+  ["Ceràmica","Objectes fets amb fang i cuits al foc. Va aparèixer al Neolític."],
+  ["Cromlec","Conjunt de pedres grans col·locades en cercle, com Stonehenge."],
+  ["Dolmen","Monument format per dues o més pedres dretes amb una de plana a sobre, fet servir com a tomba."],
+  ["Escriptura","Sistema de signes per anotar paraules. La seva invenció marca el final de la Prehistòria."],
+  ["Fòssil","Resta antiga d'un ésser viu (os, dent, petjada) que s'ha conservat dins la roca."],
+  ["Glaciació","Època molt freda en què gran part de la Terra estava coberta de gel."],
+  ["Homínid","Família animal a la qual pertany l'ésser humà i els seus avantpassats."],
+  ["Megàlit","Monument fet amb pedres molt grans. La paraula vol dir 'pedra gran'."],
+  ["Menhir","Una sola pedra molt gran, plantada dreta al terra."],
+  ["Nòmada","Persona que viu canviant de lloc constantment, sense una casa fixa."],
+  ["Paleolític","Primer i més llarg període de la Prehistòria. Vol dir 'pedra antiga'."],
+  ["Pintura rupestre","Pintura feta a les parets de les coves durant la Prehistòria."],
+  ["Prehistòria","Llarguíssim període que va des de l'aparició dels primers homínids fins a la invenció de l'escriptura."],
+  ["Sedentari","Persona que viu sempre al mateix lloc. Va aparèixer amb l'agricultura."],
+  ["Tribu","Grup petit de famílies que vivien i treballaven juntes a la Prehistòria."],
+  ["Venus prehistòrica","Petita figureta de pedra o ivori que representa una dona, com la Venus de Willendorf."]
+];
+
+const llista = document.getElementById('llistaGlossari');
+glos.forEach(([t, d]) => {
+  const det = document.createElement('details');
+  det.className = 'entrada-glos';
+  det.innerHTML = `<summary>${t}</summary><p>${d}</p>`;
+  llista.appendChild(det);
+});
+
+</script>
+</body>
+</html>
