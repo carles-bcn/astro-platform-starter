@@ -1,0 +1,58 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Calendari from './_components/Calendari.tsx';
+---
+
+<Layout title="Calendari del trimestre">
+    <h1 class="mb-4 no-imprimir">Calendari del 1r trimestre</h1>
+    <p class="mb-10 text-gray-300 no-imprimir">
+        Classes i reunions de l'horari docent, del 8 de setembre al 21 de desembre de 2026, amb els festius ja marcats. Les dades es
+        poden editar a <code>src/pages/calendari/_data/horari.ts</code>.
+    </p>
+    <Calendari client:load />
+</Layout>
+
+<style is:global>
+    @media print {
+        @page {
+            size: A4 landscape;
+            margin: 10mm;
+        }
+        body {
+            background: white !important;
+            color: black !important;
+        }
+        .bg-noise {
+            background: none !important;
+            padding: 0 !important;
+        }
+        nav,
+        footer,
+        .no-imprimir {
+            display: none !important;
+        }
+        .paper {
+            padding: 0 !important;
+            overflow: visible !important;
+        }
+        .paper > div {
+            min-width: 0 !important;
+        }
+        .pagina {
+            break-inside: avoid;
+        }
+        .pagina + .pagina {
+            break-before: page;
+            margin-top: 0;
+        }
+        * {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+    }
+    @media screen {
+        .pagina + .pagina {
+            margin-top: 2.5rem;
+        }
+    }
+</style>
