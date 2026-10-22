@@ -1,5 +1,7 @@
 # Astro on Netlify Platform Starter
 
+> **Pla Apòcrif**: a [`pla-apocrif/`](pla-apocrif/) hi ha una aplicació local independent (Vite + React + Express) que genera textos originals a la manera de Josep Pla amb l'API d'Anthropic. Instruccions al seu [README](pla-apocrif/README.md).
+
 [Live Demo](https://astro-platform-starter.netlify.app/)
 
 A modern starter based on Astro.js, Tailwind, and [Netlify Core Primitives](https://docs.netlify.com/core/overview/#develop) (Edge Functions, Image CDN, Blobs).

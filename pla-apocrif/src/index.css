@@ -1,0 +1,217 @@
+@import 'tailwindcss';
+
+@theme {
+    --font-serif: 'EB Garamond', 'Cormorant Garamond', Garamond, 'Times New Roman', serif;
+    --color-desk: #e8e1d3;
+    --color-panel: #f4efe4;
+    --color-rule: #d6ccb8;
+    --color-paper: #f8f1df;
+    --color-ink: #2b241c;
+    --color-ink-soft: #6a5d4f;
+    --color-terracotta: #9c3d25;
+    --color-terracotta-dark: #7c2e1a;
+    --color-sea: #2f5b6e;
+}
+
+html {
+    background: var(--color-desk);
+    color: var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+    background:
+        radial-gradient(1200px 600px at 80% -10%, rgb(255 255 255 / 0.45), transparent 70%),
+        var(--color-desk);
+    min-height: 100vh;
+}
+
+:focus-visible {
+    outline: 2px solid var(--color-sea);
+    outline-offset: 2px;
+}
+
+.smallcaps {
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.08em;
+}
+
+/* Pàgina de llibre */
+.paper {
+    background:
+        radial-gradient(120% 90% at 50% 40%, transparent 60%, rgb(171 140 88 / 0.14)),
+        linear-gradient(180deg, rgb(255 255 255 / 0.35), transparent 30%),
+        var(--color-paper);
+    box-shadow:
+        0 1px 1px rgb(60 40 20 / 0.08),
+        0 12px 32px -12px rgb(60 40 20 / 0.35),
+        inset 0 0 0 1px rgb(120 90 50 / 0.08);
+}
+
+.book-title {
+    font-variant-caps: small-caps;
+    letter-spacing: 0.05em;
+    text-wrap: balance;
+}
+
+.book-body {
+    font-size: 1.15rem;
+    line-height: 1.62;
+    hyphens: auto;
+    font-variant-numeric: oldstyle-nums;
+}
+
+.book-body p {
+    margin: 0;
+    text-align: justify;
+    text-indent: 1.4em;
+    white-space: pre-line;
+}
+
+.book-body > :first-child,
+.book-body h3 + p,
+.book-body ul + p,
+.book-body ol + p,
+.book-body hr + p {
+    text-indent: 0;
+}
+
+.book-body h3 {
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.1em;
+    font-size: 1.1em;
+    text-align: center;
+    margin: 1.3em 0 0.5em;
+}
+
+.book-body ul,
+.book-body ol {
+    margin: 0.6em 0 0.8em;
+    padding-left: 1.6em;
+}
+
+.book-body ul {
+    list-style: '— ';
+}
+
+.book-body ol {
+    list-style: decimal;
+}
+
+.book-body li {
+    margin: 0.15em 0;
+    text-align: left;
+}
+
+.book-body hr {
+    border: 0;
+    margin: 1.2em 0;
+    text-align: center;
+}
+
+.book-body hr::after {
+    content: '⁂';
+    color: var(--color-ink-soft);
+}
+
+.book-body.has-dropcap > p:first-child::first-letter {
+    float: left;
+    font-size: 3.6em;
+    line-height: 0.82;
+    padding: 0.06em 0.08em 0 0;
+    color: var(--color-terracotta);
+}
+
+/* Poesia: un vers per línia, sense justificar */
+.book-body.is-verse p {
+    text-align: left;
+    text-indent: 0;
+    hyphens: manual;
+    margin-bottom: 1em;
+}
+
+.caret {
+    display: inline-block;
+    width: 0.08em;
+    height: 1.05em;
+    margin-left: 0.08em;
+    vertical-align: -0.15em;
+    background: var(--color-terracotta);
+    animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+.dots::after {
+    content: '';
+    animation: dots 1.6s steps(4) infinite;
+}
+
+@keyframes dots {
+    0% {
+        content: '';
+    }
+    25% {
+        content: '.';
+    }
+    50% {
+        content: '..';
+    }
+    75% {
+        content: '...';
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .caret,
+    .dots::after {
+        animation: none;
+    }
+}
+
+/* Control lliscant del to */
+.tone-range {
+    appearance: none;
+    width: 100%;
+    height: 1.75rem;
+    background: transparent;
+    cursor: pointer;
+}
+
+.tone-range::-webkit-slider-runnable-track {
+    height: 3px;
+    border-radius: 2px;
+    background: var(--color-rule);
+}
+
+.tone-range::-moz-range-track {
+    height: 3px;
+    border-radius: 2px;
+    background: var(--color-rule);
+}
+
+.tone-range::-webkit-slider-thumb {
+    appearance: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: calc(-0.625rem + 1.5px);
+    border-radius: 50%;
+    background: var(--color-terracotta);
+    border: 3px solid var(--color-panel);
+    box-shadow: 0 0 0 1px var(--color-terracotta);
+}
+
+.tone-range::-moz-range-thumb {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: var(--color-terracotta);
+    border: 3px solid var(--color-panel);
+    box-shadow: 0 0 0 1px var(--color-terracotta);
+}

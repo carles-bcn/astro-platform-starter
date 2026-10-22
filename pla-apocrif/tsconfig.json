@@ -1,0 +1,14 @@
+{
+    "//": "Projecte en JavaScript: aquest fitxer només aïlla la carpeta del tsconfig del repositori pare i ajuda els editors.",
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "jsx": "react-jsx",
+        "allowJs": true,
+        "checkJs": false,
+        "noEmit": true,
+        "skipLibCheck": true
+    },
+    "include": ["src", "server", "shared", "scripts", "test"]
+}
